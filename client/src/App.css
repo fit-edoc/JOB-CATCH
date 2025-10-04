@@ -1,0 +1,17 @@
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer component{
+  .flex-center{
+    @apply flex items-center justify-center
+  }
+}
+
+@font-face {
+  font-family: hero;
+  src: url('./assets/BASKiT-Bold.otf')format("truetype");
+}
