@@ -29,7 +29,7 @@ export const getJobController = async(req,res)=>{
     
 
     
-      const jobs = await jobModel.find({createdBy: req.user.userId });
+      const jobs = await jobModel.find({}).sort({createdBy:-1});
       res.status(200).json({
         jobs,
         totaljobs:jobs.length
@@ -109,3 +109,5 @@ export const deleteJobcontroller = async(req,res)=>{
 res.status(200).send({success: true,message: 'job has been deleted',});
    
 }
+
+

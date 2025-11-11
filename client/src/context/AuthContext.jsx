@@ -1,9 +1,11 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 import axios from 'axios'
-import { registerApi } from "../api/api";
+import { loginApi, registerApi,createJob } from "../api/api";
 import React from "react";
 import { useContext } from "react";
+import toast from "react-hot-toast";
+import { data } from "react-router-dom";
 
 
 const AuthContext = createContext(null)
@@ -13,28 +15,100 @@ const AuthContext = createContext(null)
 export const AuthProvider = ({children})=>{
 
 
-const [user,setUser] = useState([])
+const [user, setUser] = useState([]);
+
+
+const[job,setJob] = useState([])
+
+ 
 
 
 
 
+
+const fetchJob = async()=>{
+
+ try {
+   const {data} = await axios.get("http://localhost:8000/api/job/getjobs")
+
+   setJob(data.jobs)
+  
+ } catch (error) {
+  
+  console.log(error)
+ }
+
+
+}
+
+
+useEffect(()=>{
+  fetchJob()
+},[])
+
+
+
+const createJob = async(formData)=>{
+
+
+  const token = localStorage.getItem("token")
+
+   try {
+
+
+        const res = await axios.post("http://localhost:8000/api/job/createjob", formData,{
+          headers:{
+            Authorization : `Bearer ${token}`
+          }
+        });
+        alert("Job added successfully!");
+        fetchJob()
+        console.log(res.data);
+        console.log("token" + token)
+      } catch (err) {
+        console.error(err);
+        alert(err.response?.data?.message || "Something went wrong");
+      }
+}
 
 const register = async (form) => {
   try {
-    // Send the form directly, not {form}
+    
     const { data } = await axios.post(registerApi, form);
 
-    // Optional: save user in state
     setUser(data.user);
 
 
      localStorage.setItem("user", JSON.stringify(data.user));
     localStorage.setItem("token", data.token);
-    // Always return the backend response
+   
     return data;
   } catch (error) {
     if (error.response) {
-      // Return backend error message (409, 400, etc.)
+     
+      return error.response.data;
+    }
+    return { success: false, message: "Network error" };
+  }
+};
+
+
+const login = async (form) => {
+  try {
+  
+    const { data } = await axios.post(loginApi, form);
+
+    setUser(data);
+  console.log(data)
+ console.log("Token received:", data.token); // ✅ should log actual token
+  localStorage.setItem("token", data.token);
+     localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("token", data.token);
+    
+    return data;
+  } catch (error) {
+    if (error.response) {
+     
       return error.response.data;
     }
     return { success: false, message: "Network error" };
@@ -46,12 +120,24 @@ const register = async (form) => {
 
 
 
+const logout = async()=>{
+ 
+
+  try {
+    localStorage.removeItem("token")
+    setUser(null)
+    
+  } catch (error) {
+    
+  }
+}
+
 
 
 
 
     const value =  useMemo(()=>({
-        register
+        register,login,user,logout ,createJob ,job
 
     }))
 

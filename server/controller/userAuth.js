@@ -56,7 +56,7 @@ if(!findEmail){
 
 const isMatch = await findEmail.comparePassword(password)
 if(!isMatch){
-    res.status(400).send({message:"username and password is not match",success:false})
+    res.status(400).send({message:"enter correct password",success:false})
 }
 
 const token = findEmail.createJWT()

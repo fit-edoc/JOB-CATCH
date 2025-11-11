@@ -8,7 +8,7 @@ const router = express.Router()
 
 
 router.post("/createjob",userAuth,createJobcontroller)
-router.get("/getjobs" ,userAuth,getJobController)
+router.get("/getjobs" ,getJobController)
 router.patch("/updatejob/:id",userAuth,updateJobcontroller)
 router.delete("/deletejob/:id",userAuth,deleteJobcontroller)
 

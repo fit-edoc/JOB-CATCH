@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server:{
     open:true,
+    
+    proxy:"https://c890c6f79182.ngrok-free.app",
+    allowedHosts:true
   }
 })

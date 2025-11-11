@@ -6,6 +6,7 @@ import Home from '../Pages/Home.jsx'
 import Register from '../Pages/Register.jsx'
 import { AuthProvider } from '../context/AuthContext.jsx'
 import LoginForm from '../Pages/Login.jsx'
+import JobApplicationForm from '../Pages/JobForm.jsx'
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,9 @@ const router = createBrowserRouter([
             },
             {path:"/login",
                 element:<LoginForm/>
+            },
+            {path:"/jobs",
+                element:<JobApplicationForm/>
             }
         ]
     }

@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 
 
@@ -26,9 +28,14 @@ const FormInput = ({ label, id, type = 'text', value, onChange }) => (
 );
 
 const LoginForm = () => {
-  const [form, setForm] = useState({ email: 'user@example.com', password: 'Pa$$word1' });
+
+
+  const Navigate = useNavigate()
+  const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
+
+  const {login} = useAuth()
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -40,16 +47,18 @@ const LoginForm = () => {
     setFeedback(null);
     
     try {
-      const result = await mockApi.login(form);
+      const result = await login(form);
       
       if (result.success) {
         setFeedback({ message: result.message, type: 'success' });
+        Navigate("/")
       } else {
-        // Status codes 400 (missing/mismatch), 409 (not registered)
+       
         setFeedback({ message: result.message, type: 'error' });
       }
 
     } catch (error) {
+      console.log(error)
       setFeedback({ message: "Login API not working (Client-side error)", type: 'error' });
     } finally {
       setLoading(false);
@@ -58,13 +67,13 @@ const LoginForm = () => {
 
   return (
 
-    <div className="h-screen w-screen flex-center">
+    <div className="h-[80vh] w-screen flex-center bg-[#ddf4ff]">
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-6 rounded-xl shadow-2xl max-w-md w-full"
+      className="bg-white p-6 rounded-[50px] shadow-2xl max-w-md h-[50vh] w-full"
     >
-      <h2 className="text-3xl font-bold text-center text-purple-600 mb-6">Login User</h2>
+      <h2 className="text-3xl font-bold text-center text-[#96deff] mb-6">Login User</h2>
       <form onSubmit={handleSubmit}>
         <FormInput label="Email" id="email" type="email" value={form.email} onChange={handleChange} />
         <FormInput label="Password" id="password" type="password" value={form.password} onChange={handleChange} />
@@ -84,7 +93,7 @@ const LoginForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 mt-4 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-150 ease-in-out disabled:opacity-50 flex items-center justify-center"
+          className="w-full py-2 mt-4 bg-black text-white font-semibold rounded-lg hover:bg-[#8fdcff] transition duration-150 ease-in-out disabled:opacity-50 flex items-center justify-center"
         >
           {loading ? (
             <svg className="animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" strokeDasharray="60 40" /></svg>
@@ -93,6 +102,7 @@ const LoginForm = () => {
           )}
         </button>
       </form>
+      <div className="w-full text-center mt-3 underline"><Link  to={'/register'}> Create new Account</Link></div>
     </motion.div>
     </div>
   );
