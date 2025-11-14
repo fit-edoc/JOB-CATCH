@@ -6,15 +6,20 @@ const AllJobs = () => {
   const { job } = useAuth();
   console.log(job);
 
+
+  
+
+  
+
   return (
     <>
-      <div className="min-h-screen sm:px-3 bg-gradient-to-t from-white to-purple-300 py-3 w-screen gap-6 grid grid-cols-1  md:grid-cols-2 md:gap-0">
+      <div className="min-h-screen sm:px-3 bg-gradient-to-t from-white  py-3 w-screen gap-6 grid grid-cols-1  md:grid-cols-2 md:gap-0">
         {job.map((item, index) => (
 
            
           <div
             key={index}
-            className="card min-h-[200px] w-[300px] bg-gradient-to-t from-purple-200  to-purple-300 rounded-lg mx-auto md:h-[200px] md:w-[30vw] "
+            className="card min-h-[200px] w-[300px] bg-gradient-to-t from-yellow-100  to-yellow-50 rounded-lg mx-auto md:h-[200px] md:w-[30vw] "
           >
             <div className="w-full h-[20%]  flex justify-between items-center  px-1 py-1 capitalize md:px-4">
               <h1 className="text-lg font-bold ">{item.company}</h1>{" "}
