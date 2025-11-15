@@ -21,7 +21,7 @@ const Home = () => {
                 </div>
               ))}
             </div>{" "}
-            <button className="h-[30px] w-[80px] rounded-full bg-black  mt-3 text-white md:h-[40px]">
+            <button className="h-[30px] w-[80px] rounded-full bg-black  mt-5 text-white md:h-[40px]">
               See Jobs
             </button>
           </div>

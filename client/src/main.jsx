@@ -7,10 +7,10 @@ import router from './router/Index.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  </StrictMode>
+  
 );
 
