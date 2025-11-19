@@ -103,7 +103,7 @@ const filteredJobs = job.filter(job => {
                 
                 </div>
           </div>
-        )) : <div className="flex  flex-col items-center justify-center h-[30%]  w-screen"><p> "{filters.location}"</p> <p> No jobs available in this location right now</p></div>}
+        )) : <div className="flex  flex-col items-center justify-center h-[30%]  w-screen"><p> {filters.location}</p> <p> No jobs available in this location right now</p></div>}
       </div>
     </>
   );
