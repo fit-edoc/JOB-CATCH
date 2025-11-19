@@ -15,7 +15,7 @@ dbConnect()
 const app = express()
 app.use(cors(
     {
-        origin:["http://localhost:5173"," https://b9d6875587a9.ngrok-free.app "],
+        origin:["http://localhost:5173","https://job-catch.vercel.app"],
         credentials:true
     }
 ))

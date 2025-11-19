@@ -29,7 +29,7 @@ const[job,setJob] = useState([])
 const fetchJob = async()=>{
 
  try {
-   const {data} = await axios.get("http://localhost:8000/api/job/getjobs")
+   const {data} = await axios.get("https://job-catch.onrender.com/api/job/getjobs")
 
    setJob(data.jobs)
   
@@ -56,7 +56,7 @@ const createJob = async(formData)=>{
    try {
 
 
-        const res = await axios.post("http://localhost:8000/api/job/createjob", formData,{
+        const res = await axios.post("https://job-catch.onrender.com/api/job/createjob", formData,{
           headers:{
             Authorization : `Bearer ${token}`
           }

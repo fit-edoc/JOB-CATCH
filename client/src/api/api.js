@@ -1,4 +1,4 @@
-export const hostUrl = "http://localhost:8000/api/user"
+export const hostUrl = "https://job-catch.onrender.com/api/user"
 
 
 //user apis 
