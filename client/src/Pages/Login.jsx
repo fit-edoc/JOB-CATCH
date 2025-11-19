@@ -51,7 +51,7 @@ const LoginForm = () => {
       
       if (result.success) {
         setFeedback({ message: result.message, type: 'success' });
-        Navigate("/")
+        Navigate("/postjob")
       } else {
        
         setFeedback({ message: result.message, type: 'error' });
