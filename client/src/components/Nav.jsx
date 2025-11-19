@@ -17,7 +17,7 @@ const Nav = () => {
       gsap.to(sectionRef.current, {
        
         backdropFilter: "blur(12px)",
-  WebkitBackdropFilter: "blur(12px)",
+ 
   background: "rgba(255, 255, 255, 0.25)",
   border: "1px solid rgba(255, 255, 255, 0.3)",
   boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
