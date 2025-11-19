@@ -67,12 +67,12 @@ const JobForm = () => {
   };
 
   return (
-   <div className="h-screen w-screen flex">
+   <div className="h-screen w-screen bg-white flex flex-col md:flex-row">
 
 
-<div className="h-full w-[50%] bg-lime-200"></div>
-<div className="h-full w-[50%] bg-lime-200 flex items-center justify-center">
-     <div className="max-w-lg min-h-[50vh] mx-auto  p-6 bg-white shadow-md rounded-xl">
+<div className="h-full  w-[100%]  md:w-[50%] hidden md:flex items-end justify-center"> <img src="/images/avatt.jpg" className="h-full w-full object-contain" alt="" /></div>
+<div className="h-full w-[100%]  flex items-center justify-center md:w-[50%]">
+     <div className="max-w-lg min-h-[50vh] mx-auto  p-6 bg-gradient-to-bl from-yellow-200 to-neutral-50 shadow-md rounded-xl">
       <h2 className="text-2xl font-semibold mb-4 text-center">Add New Job</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -81,7 +81,7 @@ const JobForm = () => {
           placeholder="Company Name"
           value={formData.company}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded-xl"
           required
         />
 
@@ -91,7 +91,7 @@ const JobForm = () => {
           placeholder="Position"
           value={formData.position}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded-xl"
           required
         />
 
@@ -99,7 +99,7 @@ const JobForm = () => {
           name="workType"
           value={formData.workType}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded-xl"
         >
           <option value="full-time">Full-time</option>
           <option value="part-time">Part-time</option>
@@ -111,6 +111,7 @@ const JobForm = () => {
           <label className="font-medium">Salary Disclosed:</label>
           <input
             type="checkbox"
+            className="rounded-[20px] h-[20px] w-[20px]"
             checked={formData.salary.disclosed}
             onChange={handleDisclosedToggle}
           />
@@ -124,7 +125,7 @@ const JobForm = () => {
               placeholder="Min Salary"
               value={formData.salary.min}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded-xl"
             />
             <input
               type="number"
@@ -132,7 +133,7 @@ const JobForm = () => {
               placeholder="Max Salary"
               value={formData.salary.max}
               onChange={handleChange}
-              className="border p-2 rounded"
+              className="border p-2 rounded-xl"
             />
           </div>
         )}
@@ -143,7 +144,7 @@ const JobForm = () => {
           placeholder="Work Location"
           value={formData.workLocation}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded-xl"
           required
         />
 
@@ -153,14 +154,14 @@ const JobForm = () => {
           placeholder="Apply Link"
           value={formData.applyLink}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded-xl"
           required
         />
 
     
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="w-full bg-black text-white py-2 rounded-2xl hover:bg-yellow-200 hover:text-black transition"
         >
           Submit Job
         </button>

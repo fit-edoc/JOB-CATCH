@@ -15,7 +15,7 @@ dbConnect()
 const app = express()
 app.use(cors(
     {
-        origin:"http://localhost:5173",
+        origin:["http://localhost:5173"," https://b9d6875587a9.ngrok-free.app "],
         credentials:true
     }
 ))

@@ -27,13 +27,13 @@ const jobSchema = new mongoose.Schema(
       default: "full-time",
     },
 
-    // 💰 Salary details
+    
     salary: {
       type: {
         min: { type: Number, min: 0 },
         max: { type: Number, min: 0 },
         currency: { type: String, default: "INR" },
-        disclosed: { type: Boolean, default: true }, // if false => “Not disclosed”
+        disclosed: { type: Boolean, default: true }, 
       },
       default: {
         min: 0,

@@ -8,6 +8,7 @@ import { AuthProvider } from '../context/AuthContext.jsx'
 import LoginForm from '../Pages/Login.jsx'
 import JobApplicationForm from '../Pages/JobForm.jsx'
 import { ProtectedRoute } from '../middlewareRoutes/ProtectedRoute.jsx'
+import AllJobs from '../Pages/AllJobs.jsx'
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,9 @@ const router = createBrowserRouter([
             },
             {path:"/login",
                 element:<LoginForm/>
+            },
+            {path:"alljobs",
+                element:<AllJobs/>
             },
             {path:"/postjob",
                 element: <ProtectedRoute>

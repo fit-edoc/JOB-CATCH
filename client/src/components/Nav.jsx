@@ -38,7 +38,7 @@ const Nav = () => {
   }, []);
   const { user, logout } = useAuth();
 
-  console.log(user)
+ 
 
   const token = localStorage.getItem("token")
 
@@ -47,7 +47,7 @@ const Nav = () => {
 
   
   return (
-    <div className="h-[80px] w-screen fixed z-20 mx-auto  bg-[#ffffff] rounded-t-[50px]  flex  px-5" ref={sectionRef}>
+    <div className="h-[80px] w-screen fixed z-50 mx-auto  bg-[#ffffff]   flex  px-5" ref={sectionRef}>
       <div className="flex items-center justify-start h-full w-[30%] md:justify-center font-bold">
         <Link to={"/"}>
           <h1>JobCatch</h1>

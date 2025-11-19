@@ -67,13 +67,13 @@ const LoginForm = () => {
 
   return (
 
-    <div className="h-[80vh] w-screen flex-center bg-[#ddf4ff]">
+    <div className="h-screen w-screen flex-center bg-gradient-to-bl from-white to-yellow-100">
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-6 rounded-[50px] shadow-2xl max-w-md h-[50vh] w-full"
+      className="bg-[#0000002b] backdrop-blur-xl p-6 rounded-[50px] w-[90%]  shadow-2xl max-w-md min-h-[50vh] md:w-full"
     >
-      <h2 className="text-3xl font-bold text-center text-[#96deff] mb-6">Login User</h2>
+      <h2 className="text-3xl font-bold text-center text-[#2d3900] mb-6">Login User</h2>
       <form onSubmit={handleSubmit}>
         <FormInput label="Email" id="email" type="email" value={form.email} onChange={handleChange} />
         <FormInput label="Password" id="password" type="password" value={form.password} onChange={handleChange} />
@@ -93,7 +93,7 @@ const LoginForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2 mt-4 bg-black text-white font-semibold rounded-lg hover:bg-[#8fdcff] transition duration-150 ease-in-out disabled:opacity-50 flex items-center justify-center"
+          className="w-full py-2 mt-4 bg-black text-white font-semibold rounded-lg hover:bg-[#f9ffc6] hover:text-black transition duration-150 ease-in-out disabled:opacity-50 flex items-center justify-center"
         >
           {loading ? (
             <svg className="animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" strokeDasharray="60 40" /></svg>

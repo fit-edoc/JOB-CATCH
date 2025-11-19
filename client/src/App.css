@@ -1,5 +1,8 @@
 
 
+html,body{
+  overflow-x: hidden
+}
 
 @tailwind base;
 @tailwind components;
@@ -33,4 +36,15 @@
 .ball{
   box-shadow: 0px 0px 50px #fff389;
 background-image: radial-gradient(circle at center, #faff76 0%, #ffffff 100%);
+}
+
+/* .plat {
+  background: linear-gradient(45deg, oklab(76.2% 0.174 -0.046), oklab(72.7% 0.164 0.048), oklab(81.5% 0.064 0.089), oklab(91% -0.137 0.062), oklab(81.5% -0.054 -0.09))
+} */
+.blob{
+  background: linear-gradient(45deg, oklab(76.2% 0.174 -0.046), oklab(80.782% 0.10814 0.02457), oklab(81.5% 0.064 0.089), oklab(91% -0.137 0.062), oklab(81.5% -0.054 -0.09))
+}
+
+.cardd {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 }
