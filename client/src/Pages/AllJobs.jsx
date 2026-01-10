@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { Banknote, IndianRupee, MapPin } from "lucide-react";
 import { useState } from "react";
+import {motion} from 'motion/react'
 
 const AllJobs = () => {
   const { job } = useAuth();
@@ -66,6 +67,8 @@ const filteredJobs = job.filter(job => {
  </div>
 
     </div>
+
+    {filteredJobs.length > 1 ? 
       <div className="min-h-screen sm:px-3 bg-gradient-to-t from-white  py-3 w-screen gap-6 grid grid-cols-1  md:grid-cols-3 md:gap-5">
        
        
@@ -104,7 +107,7 @@ const filteredJobs = job.filter(job => {
                 </div>
           </div>
         )) : <div className="flex  flex-col items-center justify-center h-[30%]  w-screen"><p> {filters.location}</p> <p> No jobs available in this location right now</p></div>}
-      </div>
+      </div>: <div className="h-[70vh] items-center w-full flex justify-center"> <motion.div  initial={{rotateX:0,border:"1px solid black"}} animate={{rotateZ:360,y:[10,0,20,0],border:"solid black 20px"}} transition={{repeat:Infinity,repeatType:"mirror" ,ease:"linear",duration:5}} className="h-[40px] w-[40px] border-[10px] border-black rounded-full"></motion.div> </div>}
     </>
   );
 };
