@@ -7,10 +7,14 @@ import jobModel from "../model/jobModel.js";
 export const createJobcontroller = async(req,res)=>{
 
     try {
+        if (req.user.role === 'seeker') {
+            return res.status(403).send({message: "Job seekers are not authorized to post jobs.", success: false});
+        }
+
         const {company , position} = req.body;
 
         if(!company || !position){
-            res.status(400).send({message:"provide all fields",success:false})
+            return res.status(400).send({message:"provide all fields",success:false});
         }
 
       req.body.createdBy = req.user.userId
@@ -19,7 +23,8 @@ export const createJobcontroller = async(req,res)=>{
       res.status(200).send({message:"job successfully created",job})
         
     } catch (error) {
-        
+        console.error(error);
+        res.status(500).send({message: "Error creating job", success: false});
     }
 }
 

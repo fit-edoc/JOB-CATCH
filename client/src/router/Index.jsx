@@ -1,5 +1,3 @@
-
-
 import {createBrowserRouter} from 'react-router-dom'
 import App from '../App.jsx'
 import Home from '../Pages/Home.jsx'
@@ -9,6 +7,8 @@ import LoginForm from '../Pages/Login.jsx'
 import JobApplicationForm from '../Pages/JobForm.jsx'
 import { ProtectedRoute } from '../middlewareRoutes/ProtectedRoute.jsx'
 import AllJobs from '../Pages/AllJobs.jsx'
+import Dashboard from '../Pages/Dashboard.jsx'
+import Profile from '../Pages/Profile.jsx'
 
 const router = createBrowserRouter([
     {
@@ -23,21 +23,34 @@ const router = createBrowserRouter([
                 path:"/register",
                 element:<Register/>
             },
-            {path:"/login",
+            {
+                path:"/login",
                 element:<LoginForm/>
             },
-            {path:"alljobs",
+            {
+                path:"alljobs",
                 element:<AllJobs/>
             },
-            {path:"/postjob",
+            {
+                path:"/postjob",
                 element: <ProtectedRoute>
-<JobApplicationForm/>
+                    <JobApplicationForm/>
                 </ProtectedRoute> 
+            },
+            {
+                path:"/dashboard",
+                element: <ProtectedRoute>
+                    <Dashboard/>
+                </ProtectedRoute>
+            },
+            {
+                path:"/profile",
+                element: <ProtectedRoute>
+                    <Profile/>
+                </ProtectedRoute>
             }
         ]
     }
-
-
 ])
 
 export default router

@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Star, Quote } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import React, { useState } from "react";
   
@@ -9,37 +9,29 @@ const Testimonial = () => {
     {
       name: "Priya Sharma",
       role: "Frontend Developer",
-      bg:"#b6efff",
       feedback:
         "I found my dream job within a week! The platform’s clean UI and quick filters made the process super easy.",
-      avatar: "/icons/4th.jpg",
       rating: 5,
     },
     {
       name: "Priya Verma",
       role: "HR Manager, SoftTech Co.",
-      bg:"#abffb8",
       feedback:
         "Posting jobs and managing applications has never been smoother. The dashboard saved us so much time.",
-      avatar: "/icons/2nd.jpg",
       rating: 5,
     },
     {
       name: "Rahul Nair",
       role: "UI/UX Designer",
-      bg:"#e6ffab",
       feedback:
         "The platform’s personalized job recommendations helped me discover opportunities I hadn’t even considered.",
-      avatar: "/icons/3rd.jpg",
       rating: 4,
     },
     {
       name: "Shivani Singh",
       role: "Talent Acquisition Lead",
-      bg:"#ffd089",
       feedback:
         "We hired multiple candidates through this portal. The applicant tracking system is incredibly intuitive.",
-      avatar: "/icons/4th.jpg",
       rating: 5,
     },
   ];
@@ -53,78 +45,103 @@ const Testimonial = () => {
   };
 
   return (
-    <>
-    
-  
-      <div className="flex justify-center items-end "><h1 className="text-[20px] md:text-[2vw] font-bold">What our user say</h1></div>
-    <div className="min-h-screen w-screen flex flex-col items-center justify-center">
-      {/* SLIDER BOX */}
-      <div className="group relative  h-[300px] w-[300px]  border-black border-[1px]  rounded-[30px] overflow-hidden md:h-[450px] md:w-[550px]">
-<AnimatePresence mode="wait">
+    <section className="py-24 relative overflow-hidden bg-neutral-950 text-white flex flex-col items-center justify-center">
+      {/* Background ambient glow */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-orange-600/5 blur-[120px] pointer-events-none" />
 
-
-        {data.map((item, index) => index === current && (
-
-
-          <motion.div
-        
-       initial={{ scale:1.5, opacity: 0,filter:"blur(20px)" }}
-        animate={{ scale:[1.1,1], opacity: 1,filter:"blur(0px)"}}
-        exit={{ scale:0,rotate:0,filter:"blur(20px)"  }}
-        transition={{ duration: 0.5,ease:"linear"}}
-            key={index}
-            style={{backgroundColor:item.bg}}
-            className={`absolute inset-0 transition-all  duration-500 flex flex-col items-center justify-center p-6 rounded-[30px] shadow-xl 
-            ${index === current ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"}
-            `}
-          >
-            <img
-              src={item.avatar}
-              className="h-20 w-20 rounded-full object-cover mb-4 group-hover:scale-105 transition-all duration-150"
-              alt=""
-            />
-
-            <h2 className="text-xl font-semibold">{item.name}</h2>
-            <p className="text-sm text-gray-600">{item.role}</p>
-
-            <p className="text-center mt-3 text-gray-700 bg-white rounded-3xl py-2 px-2">"{item.feedback}"</p>
-          </motion.div>
-        ))}
-</AnimatePresence>
+      <div className="text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+          What Our Users Say
+        </h2>
+        <p className="text-neutral-400 max-w-md mx-auto">
+          Hear feedback directly from successfully placed candidates and verified company HRs.
+        </p>
       </div>
 
-      {/* BUTTONS */}
-      <div className="flex gap-6 mt-5">
+      {/* Slider Container */}
+      <div className="relative h-[320px] w-full max-w-[550px] px-4 flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          {data.map((item, index) => index === current && (
+            <motion.div
+              key={index}
+              initial={{ scale: 0.95, opacity: 0, filter: "blur(10px)" }}
+              animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+              exit={{ scale: 0.95, opacity: 0, filter: "blur(10px)" }}
+              transition={{ duration: 0.4 }}
+              className="w-full bg-neutral-900 border border-neutral-850 p-8 rounded-3xl shadow-2xl relative flex flex-col justify-between"
+            >
+              {/* Quote Icon */}
+              <div className="absolute top-6 right-8 text-neutral-800">
+                <Quote size={48} className="rotate-180" />
+              </div>
+
+              <div>
+                {/* Rating stars */}
+                <div className="flex gap-1 mb-4 text-orange-400">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star 
+                      key={i} 
+                      size={16} 
+                      fill={i < item.rating ? "currentColor" : "none"} 
+                      className={i < item.rating ? "text-orange-400" : "text-neutral-700"} 
+                    />
+                  ))}
+                </div>
+
+                <p className="text-neutral-200 text-base md:text-lg italic leading-relaxed mb-6">
+                  "{item.feedback}"
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center font-bold text-orange-400 text-sm">
+                  {item.name.split(" ").map(n => n[0]).join("")}
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-white">{item.name}</h4>
+                  <p className="text-xs text-neutral-400">{item.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Slider Controls */}
+      <div className="flex items-center gap-6 mt-8">
         <button
           onClick={prevClick}
-          className="px-4 py-4 overflow-hidden  shadow-sm shadow-gray-600 z-10 relative bg-gray-500 text-white rounded-full hover:scale-110 transition-all duration-150"
+          className="p-3 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 text-neutral-300 hover:text-white rounded-full transition-all active:scale-95 shadow-lg"
         >
-          <ArrowLeft/>
-          <div className="h-[50px] w-[50px] blur-sm left-3 bottom-3 inset-0 -z-10 absolute rounded-full  bg-gradient-to-r from-gray-900"></div>
+          <ArrowLeft size={18} />
         </button>
- {data.map((_, idx) => (
+
+        {/* Indicators */}
+        <div className="flex gap-2">
+          {data.map((_, idx) => (
             <motion.div
               key={idx}
-              className="rounded-full bg-black"
+              className="rounded-full"
               initial={false}
               animate={{
-                width: idx === current ? 22 : 10,
-                height: 10,
-                opacity: idx === current ? 1 : 0.4
+                width: idx === current ? 24 : 8,
+                height: 8,
+                backgroundColor: idx === current ? "#f97316" : "#404040"
               }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
             />
           ))}
-         <button
+        </div>
+
+        <button
           onClick={nextClick}
-          className="px-4 py-4 overflow-hidden  shadow-sm shadow-gray-600 z-10 relative bg-gray-500 text-white rounded-full"
+          className="p-3 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 text-neutral-300 hover:text-white rounded-full transition-all active:scale-95 shadow-lg"
         >
-          <ArrowRight/>
-          <div className="h-[50px] w-[50px] blur-sm left-3 bottom-3 inset-0 -z-10 absolute rounded-full  bg-gradient-to-r from-gray-900"></div>
+          <ArrowRight size={18} />
         </button>
       </div>
-    </div>
-   </> );
+    </section>
+  );
 };
 
 export default Testimonial;

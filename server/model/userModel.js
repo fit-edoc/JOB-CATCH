@@ -19,6 +19,17 @@ const userSchema = new mongoose.Schema(
       select: true,
     },
     location: { type: String, default: "India" },
+    role: {
+      type: String,
+      enum: ["seeker", "employer", "admin"],
+      default: "seeker",
+    },
+    bio: { type: String, default: "" },
+    skills: { type: [String], default: [] },
+    resumeLink: { type: String, default: "" },
+    companyName: { type: String, default: "" },
+    companyDescription: { type: String, default: "" },
+    savedJobs: [{ type: mongoose.Types.ObjectId, ref: "Job" }]
   },
   { timestamps: true }
 );
@@ -37,7 +48,7 @@ userSchema.pre("save", async function () {
 
 
   userSchema.methods.createJWT =  function(){
-    return  jwt.sign({userId :this._id} , process.env.JWT_SECERET,{
+    return  jwt.sign({userId :this._id, role: this.role} , process.env.JWT_SECERET,{
         expiresIn:"1d"
     })
 

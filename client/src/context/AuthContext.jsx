@@ -1,156 +1,115 @@
 import { createContext, useEffect, useMemo, useState } from "react";
-
-import axios from 'axios'
-import { loginApi, registerApi,createJob } from "../api/api";
+import axios from 'axios';
+import { loginApi, registerApi, createJobApi, getalljobs } from "../api/api";
 import React from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { data } from "react-router-dom";
 
-
-const AuthContext = createContext(null)
-
-
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({children})=>{
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    try {
+      return storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null;
+    } catch (e) {
+      return null;
+    }
+  });
 
+  const [job, setJob] = useState([]);
 
-const [user, setUser] = useState([]);
+  const fetchJob = async()=>{
+    try {
+      const { data } = await axios.get(getalljobs);
+      setJob(data.jobs);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(()=>{
+    fetchJob();
+  },[]);
 
-const[job,setJob] = useState([])
+  const createJob = async(formData)=>{
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.post(createJobApi, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      toast.success("Job posted successfully!");
+      fetchJob();
+      return res.data;
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Something went wrong");
+      throw err;
+    }
+  };
 
- 
-
-
-
-
-
-const fetchJob = async()=>{
-
- try {
-   const {data} = await axios.get("https://job-catch.onrender.com/api/job/getjobs")
-
-   setJob(data.jobs)
-  
- } catch (error) {
-  
-  console.log(error)
- }
-
-
-}
-
-
-useEffect(()=>{
-  fetchJob()
-},[])
-
-
-
-const createJob = async(formData)=>{
-
-
-  const token = localStorage.getItem("token")
-
-   try {
-
-
-        const res = await axios.post("https://job-catch.onrender.com/api/job/createjob", formData,{
-          headers:{
-            Authorization : `Bearer ${token}`
-          }
-        });
-        alert("Job added successfully!");
-        fetchJob()
-        console.log(res.data);
-        console.log("token" + token)
-      } catch (err) {
-        console.error(err);
-        alert(err.response?.data?.message || "Something went wrong");
+  const register = async (form) => {
+    try {
+      const { data } = await axios.post(registerApi, form);
+      if (data.success) {
+        setUser(data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
       }
-}
-
-const register = async (form) => {
-  try {
-    
-    const { data } = await axios.post(registerApi, form);
-
-    setUser(data.user);
-
-
-     localStorage.setItem("user", JSON.stringify(data.user));
-    localStorage.setItem("token", data.token);
-   
-    return data;
-  } catch (error) {
-    if (error.response) {
-     
-      return error.response.data;
+      return data;
+    } catch (error) {
+      if (error.response) {
+        return error.response.data;
+      }
+      return { success: false, message: "Network error" };
     }
-    return { success: false, message: "Network error" };
-  }
-};
+  };
 
-
-const login = async (form) => {
-  try {
-  
-    const { data } = await axios.post(loginApi, form);
-
-    setUser(data);
-  console.log(data)
- console.log("Token received:", data.token); // ✅ should log actual token
-  localStorage.setItem("token", data.token);
-     localStorage.setItem("user", JSON.stringify(data));
-    localStorage.setItem("token", data.token);
-    
-    return data;
-  } catch (error) {
-    if (error.response) {
-     
-      return error.response.data;
+  const login = async (form) => {
+    try {
+      const { data } = await axios.post(loginApi, form);
+      if (data.success) {
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+      return data;
+    } catch (error) {
+      if (error.response) {
+        return error.response.data;
+      }
+      return { success: false, message: "Network error" };
     }
-    return { success: false, message: "Network error" };
-  }
-};
+  };
 
+  const logout = async()=>{
+    try {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUser(null);
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const value = useMemo(()=>({
+    register, login, user, logout, createJob, job, fetchJob
+  }), [user, job]);
 
-
-
-
-const logout = async()=>{
- 
-
-  try {
-    localStorage.removeItem("token")
-    setUser(null)
-    
-  } catch (error) {
-    
-  }
-}
-
-
-
-
-
-    const value =  useMemo(()=>({
-        register,login,user,logout ,createJob ,job
-
-    }))
-
-    return <AuthContext.Provider value={value}>
-        {children}
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
     </AuthContext.Provider>
-}
+  );
+};
 
 export const useAuth = () => {
-    const context = useContext(AuthContext); 
-    if (!context) {
-        // This check ensures the hook is only used inside the Provider
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
+  const context = useContext(AuthContext); 
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

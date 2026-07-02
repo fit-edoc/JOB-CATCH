@@ -1,75 +1,110 @@
-import React from 'react'
+import React from 'react';
+import { ShieldCheck, Zap, Briefcase, Smile, CheckCircle } from 'lucide-react';
+import { motion } from 'motion/react';
 
 const Platform = () => {
-
-    const gridItems = [
-        
-   
+  const gridItems = [
     {
-      "title": "Verified & Trusted Jobs",
-      "img":"/icons/1.png",
-      "description": "Access authentic job postings from verified companies — no spam, no fake listings.",
-      "points": [
+      id: 1,
+      title: "Verified & Trusted Jobs",
+      icon: <ShieldCheck className="w-8 h-8 text-orange-400" />,
+      description: "Access authentic job postings from verified companies — no spam, no fake listings.",
+      points: [
         "100% verified employers",
         "Transparent job details",
         "Safe application process"
       ]
     },
     {
-      "title": "Smart Job Matching",
-        "img":"/icons/2.png",
-      "description": "Get job recommendations that match your skills, experience, and preferences.",
-      "points": [
+      id: 2,
+      title: "Smart Job Matching",
+      icon: <Zap className="w-8 h-8 text-orange-400" />,
+      description: "Get job recommendations that match your skills, experience, and preferences.",
+      points: [
         "Personalized job suggestions",
         "Skill-based matching",
         "Better visibility to recruiters"
       ]
     },
     {
-      "title": "Seamless Hiring for Companies",
-        "img":"/icons/3.png",
-      "description": "Post jobs and manage applications through an intuitive recruitment dashboard.",
-      "points": [
+      id: 3,
+      title: "Seamless Hiring for Companies",
+      icon: <Briefcase className="w-8 h-8 text-orange-400" />,
+      description: "Post jobs and manage applications through an intuitive recruitment dashboard.",
+      points: [
         "Quick job posting",
         "Applicant tracking",
         "Easy candidate management"
       ]
     },
     {
-      "title": "Designed for Speed & Simplicity",
-        "img":"/icons/4.png",
-      "description": "Enjoy a smooth, fast, and modern user experience across all devices.",
-      "points": [
+      id: 4,
+      title: "Designed for Speed & Simplicity",
+      icon: <Smile className="w-8 h-8 text-orange-400" />,
+      description: "Enjoy a smooth, fast, and modern user experience across all devices.",
+      points: [
         "Clean modern interface",
         "Fast application process",
         "Mobile-friendly experience"
       ]
     }
-]
+  ];
 
-    
   return (
-    <div className='plat min-h-screen  relative w-screen flex flex-col  justify-center items-center bg-white  mb-7'>
-      <div className="flex justify-center items-center "><h1 className='text-[20px] font-bold md:text-[2vw]'>Platform Benifts</h1></div>
-        <div className="blob h-[500px]  z-0 w-[500px] absolute rounded-full blur-3xl left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="min-h-[95vh] z-20 w-[95vw] bg-[#ffffff26] rounded-[20px] shadow-sm shadow-black flex items-center justify-center">
+    <section className="py-24 relative overflow-hidden bg-black text-white">
+      {/* Ambient background glow */}
+      <div className="absolute right-0 top-1/4 w-[400px] h-[400px] rounded-full bg-orange-600/10 blur-[100px] pointer-events-none" />
+      <div className="absolute left-0 bottom-1/4 w-[350px] h-[350px] rounded-full bg-amber-500/10 blur-[100px] pointer-events-none" />
 
-<div className="min-h-[40vh]  grid grid-flow-row gap-8  grid-cols-1 md:grid-cols-2  px-2 ">
-
-            {gridItems.map((item,index)=>(
-                <div key={item.id} className="cardd   bg-[#ffffff73]  py-2 h-[250px] w-full rounded-[40px] mx-auto flex flex-col md:h-[42vh] md:w-[32vw]">
-                  <div className="h-[20%] w-full flex justify-between px-4 items-center ">  <img src={item.img} className='h-[50px]' alt="" /></div>
-                  <h1 className='font-bold px-2'>{item.title}</h1>
-                  <div className=" h-[80%] w-full flex items-center justify-center px-4"><p>{item.description}</p></div>
-                </div>
-            ))}
-</div>
-            
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+            Platform Benefits
+          </h2>
+          <p className="text-neutral-400 max-w-xl mx-auto">
+            Why job seekers and HR managers trust JobCatch as their core hiring platform.
+          </p>
         </div>
-        
-      
-    </div>
-  )
-}
 
-export default Platform
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {gridItems.map((item, index) => (
+            <motion.div
+              key={item.id}
+              whileHover={{ scale: 1.01 }}
+              className="bg-neutral-900/40 backdrop-blur-md border border-neutral-850 p-8 rounded-3xl flex flex-col justify-between hover:border-orange-500/20 transition-all shadow-xl group"
+            >
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors">
+                    {item.title}
+                  </h3>
+                </div>
+                
+                <p className="text-neutral-400 text-sm leading-relaxed mb-6">
+                  {item.description}
+                </p>
+              </div>
+
+              {/* Point checklist */}
+              <div className="border-t border-neutral-900/60 pt-5 mt-auto">
+                <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {item.points.map((point, idx) => (
+                    <li key={idx} className="flex items-center gap-1.5 text-xs text-neutral-300">
+                      <CheckCircle className="w-3.5 h-3.5 text-orange-500 shrink-0" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Platform;
