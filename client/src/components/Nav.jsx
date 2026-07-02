@@ -100,14 +100,12 @@ const Nav = () => {
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link to="/login" className="text-sm font-medium text-neutral-300 hover:text-white transition-colors">
-                log in
-              </Link>
+              
               <Link
                 to="/register"
                 className="bg-black text-white text-sm font-semibold px-6 py-2.5 rounded-full border border-neutral-850 hover:bg-neutral-900 transition-all shadow-md"
               >
-                signup
+                sign up 
               </Link>
             </div>
           )}
