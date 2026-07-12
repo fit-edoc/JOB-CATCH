@@ -66,6 +66,22 @@ const jobSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    scamAnalysis: {
+      type: {
+        isScam: { type: Boolean, default: false },
+        score: { type: Number, default: 0 },
+        reason: { type: String, default: "" }
+      },
+      default: {
+        isScam: false,
+        score: 0,
+        reason: ""
+      }
+    },
+    description: {
+      type: String,
+      default: ""
+    },
   },
   { timestamps: true }
 );

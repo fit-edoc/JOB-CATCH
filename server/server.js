@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import dbConnect from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import jobRoutes from './routes/jobRoutes.js'
+import applicationRoutes from './routes/applicationRoutes.js'
 
 dotenv.config()
 
@@ -26,6 +27,7 @@ app.use(express.json())
 
 app.use("/api/user",authRoutes)
 app.use("/api/job",jobRoutes)
+app.use("/api/application",applicationRoutes)
 
 
 const PORT = process.env.PORT || 5000

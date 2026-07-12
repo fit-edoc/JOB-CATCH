@@ -45,15 +45,15 @@ const Testimonial = () => {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden bg-neutral-950 text-white flex flex-col items-center justify-center">
+    <section className="py-24 relative overflow-hidden bg-slate-50 text-slate-900 flex flex-col items-center justify-center">
       {/* Background ambient glow */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-orange-600/5 blur-[120px] pointer-events-none" />
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-orange-100/10 blur-[120px] pointer-events-none" />
 
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+        <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-slate-900">
           What Our Users Say
         </h2>
-        <p className="text-neutral-400 max-w-md mx-auto">
+        <p className="text-slate-600 max-w-md mx-auto">
           Hear feedback directly from successfully placed candidates and verified company HRs.
         </p>
       </div>
@@ -68,38 +68,38 @@ const Testimonial = () => {
               animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
               exit={{ scale: 0.95, opacity: 0, filter: "blur(10px)" }}
               transition={{ duration: 0.4 }}
-              className="w-full bg-neutral-900 border border-neutral-850 p-8 rounded-3xl shadow-2xl relative flex flex-col justify-between"
+              className="w-full bg-white border border-slate-200 p-8 rounded-3xl shadow-lg relative flex flex-col justify-between"
             >
               {/* Quote Icon */}
-              <div className="absolute top-6 right-8 text-neutral-800">
+              <div className="absolute top-6 right-8 text-slate-100">
                 <Quote size={48} className="rotate-180" />
               </div>
 
               <div>
                 {/* Rating stars */}
-                <div className="flex gap-1 mb-4 text-orange-400">
+                <div className="flex gap-1 mb-4 text-orange-500">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star 
                       key={i} 
                       size={16} 
                       fill={i < item.rating ? "currentColor" : "none"} 
-                      className={i < item.rating ? "text-orange-400" : "text-neutral-700"} 
+                      className={i < item.rating ? "text-orange-500" : "text-slate-200"} 
                     />
                   ))}
                 </div>
 
-                <p className="text-neutral-200 text-base md:text-lg italic leading-relaxed mb-6">
+                <p className="text-slate-650 text-base md:text-lg italic leading-relaxed mb-6 text-left">
                   "{item.feedback}"
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center font-bold text-orange-400 text-sm">
+                <div className="w-12 h-12 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center font-bold text-orange-600 text-sm">
                   {item.name.split(" ").map(n => n[0]).join("")}
                 </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-white">{item.name}</h4>
-                  <p className="text-xs text-neutral-400">{item.role}</p>
+                <div className="text-left">
+                  <h4 className="text-sm font-semibold text-slate-900">{item.name}</h4>
+                  <p className="text-xs text-slate-500">{item.role}</p>
                 </div>
               </div>
             </motion.div>
@@ -111,7 +111,7 @@ const Testimonial = () => {
       <div className="flex items-center gap-6 mt-8">
         <button
           onClick={prevClick}
-          className="p-3 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 text-neutral-300 hover:text-white rounded-full transition-all active:scale-95 shadow-lg"
+          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-full transition-all active:scale-95 shadow-md"
         >
           <ArrowLeft size={18} />
         </button>
@@ -126,7 +126,7 @@ const Testimonial = () => {
               animate={{
                 width: idx === current ? 24 : 8,
                 height: 8,
-                backgroundColor: idx === current ? "#f97316" : "#404040"
+                backgroundColor: idx === current ? "#ea580c" : "#cbd5e1"
               }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             />
@@ -135,7 +135,7 @@ const Testimonial = () => {
 
         <button
           onClick={nextClick}
-          className="p-3 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 text-neutral-300 hover:text-white rounded-full transition-all active:scale-95 shadow-lg"
+          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-full transition-all active:scale-95 shadow-md"
         >
           <ArrowRight size={18} />
         </button>

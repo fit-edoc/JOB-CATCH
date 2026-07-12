@@ -1,5 +1,5 @@
 import express from 'express'
-import { createJobcontroller, deleteJobcontroller, getJobController, updateJobcontroller } from '../controller/jobController.js'
+import { createJobcontroller, deleteJobcontroller, getJobController, updateJobcontroller, generateJobDescriptionController, salaryIntelligenceController } from '../controller/jobController.js'
 import userAuth from '../middleware/authHandler.js'
 import jobModel from '../model/jobModel.js'
 
@@ -12,6 +12,8 @@ router.post("/createjob",userAuth,createJobcontroller)
 router.get("/getjobs" ,getJobController)
 router.patch("/updatejob/:id",userAuth,updateJobcontroller)
 router.delete("/deletejob/:id",userAuth,deleteJobcontroller)
+router.post("/generate-description", userAuth, generateJobDescriptionController)
+router.post("/salary-intelligence", userAuth, salaryIntelligenceController)
 
 
 router.post("/seed-jobs", async (req, res) => {

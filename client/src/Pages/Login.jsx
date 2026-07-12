@@ -2,16 +2,16 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ArrowRight, Mail, Lock } from "lucide-react";
+import { ArrowRight, Mail, KeyRound } from "lucide-react";
 import toast from "react-hot-toast";
 
-const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon }) => (
+const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon, disabled = false }) => (
   <div className="mb-5">
-    <label htmlFor={id} className="block text-sm font-medium text-neutral-300 mb-2">
+    <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-2">
       {label}
     </label>
     <div className="relative">
-      {Icon && <Icon className="absolute left-4 top-3.5 text-neutral-500 w-5 h-5" />}
+      {Icon && <Icon className="absolute left-4 top-3.5 text-slate-400 w-5 h-5" />}
       <input
         type={type}
         id={id}
@@ -19,7 +19,8 @@ const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon }) =>
         value={value}
         onChange={onChange}
         required
-        className={`w-full ${Icon ? 'pl-12' : 'pl-4'} pr-4 py-3 rounded-xl border border-neutral-800 bg-neutral-900/40 focus:bg-neutral-900 text-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all placeholder:text-neutral-600`}
+        disabled={disabled}
+        className={`w-full ${Icon ? 'pl-12' : 'pl-4'} pr-4 py-3 rounded-xl border border-slate-200 ${disabled ? 'bg-slate-100 text-slate-500' : 'bg-slate-50/50 focus:bg-white text-slate-900'} focus:ring-2 focus:ring-orange-550/15 focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm`}
         placeholder={`Enter your ${label.toLowerCase()}`}
       />
     </div>
@@ -28,26 +29,47 @@ const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon }) =>
 
 const LoginForm = () => {
   const Navigate = useNavigate();
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ email: '', otp: '' });
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const [step, setStep] = useState(1); // 1 = Email, 2 = OTP
+  const { sendOtp, verifyOtp } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSendOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
     
     try {
-      const result = await login(form);
+      const result = await sendOtp(form.email);
+      
+      if (result.success) {
+        toast.success("OTP sent to your email!");
+        setStep(2);
+      } else {
+        toast.error(result.message || "Failed to send OTP");
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const result = await verifyOtp(form.email, form.otp);
       
       if (result.success) {
         toast.success("Welcome back!");
         Navigate("/");
       } else {
-        toast.error(result.message || "Failed to sign in");
+        toast.error(result.message || "Invalid OTP");
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -57,53 +79,79 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-900 pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background decorations */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[100px] opacity-60 pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[120px] opacity-60 pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-orange-100/20 blur-[100px] opacity-60 pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-100/10 blur-[120px] opacity-60 pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-neutral-950 rounded-3xl border border-neutral-850 shadow-2xl overflow-hidden relative z-10"
+        className="w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden relative z-10"
       >
         <div className="px-8 py-10">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-display font-bold text-white mb-2">Welcome Back</h2>
-            <p className="text-neutral-400">Please enter your details to sign in.</p>
+            <h2 className="text-3xl font-display font-bold text-slate-900 mb-2">Welcome Back</h2>
+            <p className="text-slate-500">Sign in securely using an Email OTP.</p>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <FormInput label="Email" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} />
-            <FormInput label="Password" id="password" type="password" value={form.password} onChange={handleChange} icon={Lock} />
-            
-            <div className="flex items-center justify-between mb-8 mt-2">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="rounded border-neutral-800 bg-neutral-900 checked:bg-orange-500 text-orange-500 focus:ring-orange-500 w-4 h-4" />
-                <span className="text-sm text-neutral-400">Remember me</span>
-              </label>
-              <Link to="#" className="text-sm font-medium text-orange-400 hover:text-orange-350">
-                Forgot password?
-              </Link>
-            </div>
+          {step === 1 ? (
+            <form onSubmit={handleSendOtp}>
+              <FormInput label="Email" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} />
+              
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent mt-8"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>Send Login OTP <ArrowRight className="w-4 h-4" /></>
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyOtp}>
+              <FormInput label="Email" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} disabled={true} />
+              <FormInput label="Enter 6-digit OTP" id="otp" type="text" value={form.otp} onChange={handleChange} icon={KeyRound} />
+              
+              <div className="flex items-center justify-between mb-8 mt-2">
+                <button 
+                  type="button" 
+                  onClick={() => setStep(1)} 
+                  className="text-sm font-medium text-slate-500 hover:text-slate-700"
+                >
+                  Change Email
+                </button>
+                <button 
+                  type="button" 
+                  onClick={handleSendOtp} 
+                  disabled={loading}
+                  className="text-sm font-medium text-orange-600 hover:text-orange-700"
+                >
+                  Resend OTP
+                </button>
+              </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-white hover:bg-neutral-100 text-black font-semibold py-3.5 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0"
-            >
-              {loading ? (
-                <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
-              ) : (
-                <>Sign In <ArrowRight className="w-4 h-4" /></>
-              )}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={loading || form.otp.length < 6}
+                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>Verify & Sign In <ArrowRight className="w-4 h-4" /></>
+                )}
+              </button>
+            </form>
+          )}
           
           <div className="mt-8 text-center">
-            <p className="text-sm text-neutral-450">
+            <p className="text-sm text-slate-500">
               Don't have an account?{" "}
-              <Link to="/register" className="font-semibold text-orange-400 hover:text-orange-350 underline underline-offset-4">
+              <Link to="/register" className="font-semibold text-orange-600 hover:text-orange-700 underline underline-offset-4">
                 Sign up for free
               </Link>
             </p>
