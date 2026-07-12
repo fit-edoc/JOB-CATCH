@@ -742,7 +742,16 @@ export const verifyOtpController = async (req, res) => {
       return res.status(404).send({ message: "User not found", success: false });
     }
 
-    if (!user.loginOtp || user.loginOtp !== otp || Date.now() > user.loginOtpExpires) {
+    console.log("OTP Verification Debug:", {
+      savedOtp: user.loginOtp,
+      providedOtp: otp,
+      otpMatches: user.loginOtp === otp,
+      expiresAt: user.loginOtpExpires,
+      currentTime: new Date(Date.now()),
+      isExpired: user.loginOtpExpires ? Date.now() > user.loginOtpExpires.getTime() : true
+    });
+
+    if (!user.loginOtp || user.loginOtp !== otp || (user.loginOtpExpires && Date.now() > user.loginOtpExpires.getTime())) {
       return res.status(400).send({ message: "Invalid or expired OTP", success: false });
     }
 
