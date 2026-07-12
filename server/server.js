@@ -15,13 +15,25 @@ dbConnect()
 
 
 const app = express()
-app.use(cors(
-    {
-        // origin:["http://localhost:5173","https://job-catch.vercel.app"],
-        origin:"*",
-        credentials:true
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://job-catch.vercel.app"
+];
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
-))
+  },
+  credentials: true
+}));
 app.use(helmet())
 app.use(morgan())
 app.use(express.json())
