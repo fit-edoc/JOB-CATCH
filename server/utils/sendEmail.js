@@ -23,6 +23,7 @@ export const sendEmail = async ({ to, subject, html, text }) => {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
         },
+        family: 4, // Force IPv4 to prevent ENETUNREACH errors on cloud hosts that do not support IPv6 outbound
       });
 
       const info = await transporter.sendMail({
