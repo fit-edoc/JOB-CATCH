@@ -1,4 +1,4 @@
-export const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://job-catch.onrender.com';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://job-catch.onrender.com');
 
 export const hostUrl = `${API_BASE_URL}/api/user`;
 export const jobUrl = `${API_BASE_URL}/api/job`;
