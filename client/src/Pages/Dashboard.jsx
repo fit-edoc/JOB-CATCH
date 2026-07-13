@@ -177,6 +177,9 @@ const InterviewSimulator = React.memo(() => {
 
 const Dashboard = () => {
   const { user, job, deleteJob } = useAuth();
+  const token = localStorage.getItem("token");
+  const apiBase = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://job-catch.onrender.com';
+
   const [savedJobs, setSavedJobs] = useState([]);
   const [applications, setApplications] = useState([]); // Seeker applications
   const [selectedJob, setSelectedJob] = useState(null); // Recruiter selected job
@@ -213,9 +216,6 @@ const Dashboard = () => {
       setSearching(false);
     }
   }, [searchQuery, token]);
-  const token = localStorage.getItem("token");
-
-  const apiBase = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://job-catch.onrender.com';
 
   const [myReferrals, setMyReferrals] = useState([]);
 
