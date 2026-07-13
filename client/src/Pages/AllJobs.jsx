@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Banknote, MapPin, Search, Briefcase, Bookmark, BookmarkCheck, ExternalLink, Clock, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -6,6 +6,120 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { hostUrl } from "../api/api";
 import { useLocation } from "react-router-dom";
+
+// Memoized JobCard Component to avoid rendering all cards on keyword filter input keystrokes
+const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJob, handleQuickApply }) => {
+  const isVerifiedHR = item.createdBy?.recruiterVerification?.isVerified;
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.2, delay: index * 0.05 }}
+      className="bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:border-orange-550/30 hover:shadow-lg transition-all group flex flex-col justify-between text-left"
+    >
+      <div>
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-xl font-bold text-slate-900 group-hover:scale-105 transition-transform shrink-0">
+              {item.company.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-1">{item.position}</h3>
+              <p className="text-slate-650 text-sm flex items-center gap-1.5 flex-wrap">
+                {item.company}
+                {isVerifiedHR && (
+                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-green-50 text-green-700 border border-green-150 text-[9px] font-bold uppercase tracking-wider shrink-0" title="Verified HR Recruiter">
+                    Verified HR
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+          <button 
+            onClick={() => handleSaveJob(item._id)}
+            className={`p-2 rounded-full border border-slate-200 hover:bg-slate-100 transition-all ${isSaved ? 'bg-orange-50 text-orange-600 border-orange-100' : 'text-slate-400 hover:text-slate-900'}`}
+          >
+            {isSaved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
+          </button>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          <span className="px-3 py-1 bg-slate-100 border border-slate-200/50 text-slate-650 rounded-lg text-[11px] font-medium flex items-center gap-1.5 capitalize">
+            <Briefcase size={12} /> {item.workType}
+          </span>
+          <span className="px-3 py-1 bg-slate-100 border border-slate-200/50 text-slate-650 rounded-lg text-[11px] font-medium flex items-center gap-1.5">
+            <MapPin size={12} /> {item.workLocation}
+          </span>
+          {item.salary?.disclosed && (
+            <span className="px-3 py-1 bg-orange-50 border border-orange-100 text-orange-600 rounded-lg text-[11px] font-medium flex items-center gap-1.5">
+              <Banknote size={12} /> ₹{item.salary.min} - ₹{item.salary.max}
+            </span>
+          )}
+        </div>
+
+        {item.scamAnalysis?.isScam && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-650 rounded-xl text-[10px] leading-relaxed flex gap-2">
+            <span className="shrink-0 text-xs">⚠️</span>
+            <div>
+              <p className="font-bold uppercase tracking-wider">AI Scam Warning ({item.scamAnalysis.score}% risk)</p>
+              <p className="text-slate-600 mt-0.5">{item.scamAnalysis.reason}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+        <div className="flex items-center gap-1.5 text-xs text-slate-400">
+          <Clock size={12} />
+          <span>Posted recently</span>
+        </div>
+        <div className="flex gap-2">
+          {user?.role === "seeker" && (
+            <button
+              onClick={() => {
+                const refLink = `${window.location.origin}/alljobs?refJobId=${item._id}&referredBy=${user._id}`;
+                navigator.clipboard.writeText(refLink);
+                toast.success("Referral link copied to clipboard! Share it with your friends.");
+              }}
+              className="bg-orange-550/10 hover:bg-orange-100 text-orange-600 border border-orange-200 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 active:scale-95 shrink-0"
+            >
+              🔗 Refer
+            </button>
+          )}
+          {user?.role === "seeker" && (
+            isApplied ? (
+              <button
+                disabled
+                className="bg-slate-150 text-slate-400 px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-not-allowed border border-slate-200"
+              >
+                Applied
+              </button>
+            ) : (
+              <button
+                onClick={() => handleQuickApply(item._id)}
+                className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+              >
+                Quick Apply
+              </button>
+            )
+          )}
+          <a 
+            href={item.applyLink} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95 border border-transparent"
+          >
+            Apply Now
+            <ExternalLink size={12} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+});
 
 const AllJobs = () => {
   const { job, user } = useAuth();
@@ -62,7 +176,7 @@ const AllJobs = () => {
     fetchAppliedJobs();
   }, [token, user]);
 
-  const handleQuickApply = async (jobId) => {
+  const handleQuickApply = useCallback(async (jobId) => {
     if (!token) {
       toast.error("Please login to apply");
       return;
@@ -97,20 +211,22 @@ const AllJobs = () => {
       success: (msg) => msg,
       error: (err) => err
     });
-  };
+  }, [token, locationParam.search]);
 
-  const filteredJobs = job?.filter(j => {
-    return (
-      (filters.workType === "" || j.workType === filters.workType) &&
-      (filters.location === "" || j.workLocation.toLowerCase().includes(filters.location.toLowerCase())) &&
-      (filters.keyword === "" || 
-        j.position.toLowerCase().includes(filters.keyword.toLowerCase()) || 
-        j.company.toLowerCase().includes(filters.keyword.toLowerCase())
-      )
-    );
-  }) || [];
+  const filteredJobs = useMemo(() => {
+    return job?.filter(j => {
+      return (
+        (filters.workType === "" || j.workType === filters.workType) &&
+        (filters.location === "" || j.workLocation.toLowerCase().includes(filters.location.toLowerCase())) &&
+        (filters.keyword === "" || 
+          j.position.toLowerCase().includes(filters.keyword.toLowerCase()) || 
+          j.company.toLowerCase().includes(filters.keyword.toLowerCase())
+        )
+      );
+    }) || [];
+  }, [job, filters]);
 
-  const handleSaveJob = async (jobId) => {
+  const handleSaveJob = useCallback(async (jobId) => {
     if (!token) {
       toast.error("Please login to save jobs");
       return;
@@ -136,7 +252,7 @@ const AllJobs = () => {
     } catch (error) {
       toast.error("Failed to update saved jobs");
     }
-  };
+  }, [token]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20 relative overflow-hidden">
@@ -225,119 +341,18 @@ const AllJobs = () => {
             ) : filteredJobs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <AnimatePresence>
-                  {filteredJobs.map((item, index) => {
-                    const isSaved = savedJobs.includes(item._id);
-                    const isVerifiedHR = item.createdBy?.recruiterVerification?.isVerified;
-                    return (
-                      <motion.div
-                        layout
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.2, delay: index * 0.05 }}
-                        key={item._id}
-                        className="bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:border-orange-550/30 hover:shadow-lg transition-all group flex flex-col justify-between text-left"
-                      >
-                        <div>
-                          <div className="flex justify-between items-start mb-4">
-                            <div className="flex items-center gap-4">
-                              <div className="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-xl font-bold text-slate-900 group-hover:scale-105 transition-transform shrink-0">
-                                {item.company.charAt(0).toUpperCase()}
-                              </div>
-                              <div>
-                                <h3 className="font-semibold text-lg text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-1">{item.position}</h3>
-                                <p className="text-slate-650 text-sm flex items-center gap-1.5 flex-wrap">
-                                  {item.company}
-                                  {isVerifiedHR && (
-                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-green-50 text-green-700 border border-green-150 text-[9px] font-bold uppercase tracking-wider shrink-0" title="Verified HR Recruiter">
-                                      Verified HR
-                                    </span>
-                                  )}
-                                </p>
-                              </div>
-                            </div>
-                            <button 
-                              onClick={() => handleSaveJob(item._id)}
-                              className={`p-2 rounded-full border border-slate-200 hover:bg-slate-100 transition-all ${isSaved ? 'bg-orange-50 text-orange-600 border-orange-100' : 'text-slate-400 hover:text-slate-900'}`}
-                            >
-                              {isSaved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
-                            </button>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2 mb-6">
-                            <span className="px-3 py-1 bg-slate-100 border border-slate-200/50 text-slate-650 rounded-lg text-[11px] font-medium flex items-center gap-1.5 capitalize">
-                              <Briefcase size={12} /> {item.workType}
-                            </span>
-                            <span className="px-3 py-1 bg-slate-100 border border-slate-200/50 text-slate-650 rounded-lg text-[11px] font-medium flex items-center gap-1.5">
-                              <MapPin size={12} /> {item.workLocation}
-                            </span>
-                            {item.salary?.disclosed && (
-                              <span className="px-3 py-1 bg-orange-50 border border-orange-100 text-orange-600 rounded-lg text-[11px] font-medium flex items-center gap-1.5">
-                                <Banknote size={12} /> ₹{item.salary.min} - ₹{item.salary.max}
-                              </span>
-                            )}
-                          </div>
-
-                          {item.scamAnalysis?.isScam && (
-                            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-650 rounded-xl text-[10px] leading-relaxed flex gap-2">
-                              <span className="shrink-0 text-xs">⚠️</span>
-                              <div>
-                                <p className="font-bold uppercase tracking-wider">AI Scam Warning ({item.scamAnalysis.score}% risk)</p>
-                                <p className="text-slate-600 mt-0.5">{item.scamAnalysis.reason}</p>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                          <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                            <Clock size={12} />
-                            <span>Posted recently</span>
-                          </div>
-                          <div className="flex gap-2">
-                            {user?.role === "seeker" && (
-                              <button
-                                onClick={() => {
-                                  const refLink = `${window.location.origin}/alljobs?refJobId=${item._id}&referredBy=${user._id}`;
-                                  navigator.clipboard.writeText(refLink);
-                                  toast.success("Referral link copied to clipboard! Share it with your friends.");
-                                }}
-                                className="bg-orange-50 hover:bg-orange-100 text-orange-600 border border-orange-200 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 active:scale-95 shrink-0"
-                              >
-                                🔗 Refer
-                              </button>
-                            )}
-                            {user?.role === "seeker" && (
-                              appliedJobIds.includes(item._id) ? (
-                                <button
-                                  disabled
-                                  className="bg-slate-150 text-slate-400 px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-not-allowed border border-slate-200"
-                                >
-                                  Applied
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => handleQuickApply(item._id)}
-                                  className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
-                                >
-                                  Quick Apply
-                                </button>
-                              )
-                            )}
-                            <a 
-                              href={item.applyLink} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95 border border-transparent"
-                            >
-                              Apply Now
-                              <ExternalLink size={12} />
-                            </a>
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
+                  {filteredJobs.map((item, index) => (
+                    <JobCard
+                      key={item._id}
+                      item={item}
+                      index={index}
+                      isSaved={savedJobs.includes(item._id)}
+                      isApplied={appliedJobIds.includes(item._id)}
+                      user={user}
+                      handleSaveJob={handleSaveJob}
+                      handleQuickApply={handleQuickApply}
+                    />
+                  ))}
                 </AnimatePresence>
               </div>
             ) : (

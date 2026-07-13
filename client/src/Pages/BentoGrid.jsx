@@ -98,4 +98,4 @@ const BentoGrid = () => {
   );
 };
 
-export default BentoGrid;
+export default React.memo(BentoGrid);

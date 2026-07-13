@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'motion/react';
 import { Briefcase, Bookmark, User, Settings, ExternalLink, Activity, PlusCircle, CheckCircle, Clock, ArrowLeft, Sparkles, MessageSquare, Check, X, Search, Trash2 } from 'lucide-react';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { hostUrl } from '../api/api';
 
-const InterviewSimulator = () => {
+const InterviewSimulator = React.memo(() => {
   const [role, setRole] = useState("Frontend Developer");
   const [questions, setQuestions] = useState([]);
   const [loadingQuestions, setLoadingQuestions] = useState(false);
@@ -173,7 +173,7 @@ const InterviewSimulator = () => {
       )}
     </div>
   );
-};
+});
 
 const Dashboard = () => {
   const { user, job, deleteJob } = useAuth();
@@ -190,7 +190,7 @@ const Dashboard = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
 
-  const handleResumeSearch = async (e) => {
+  const handleResumeSearch = useCallback(async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) {
       toast.error("Please enter a search query");
@@ -212,7 +212,7 @@ const Dashboard = () => {
     } finally {
       setSearching(false);
     }
-  };
+  }, [searchQuery, token]);
   const token = localStorage.getItem("token");
 
   const apiBase = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://job-catch.onrender.com';
@@ -241,7 +241,7 @@ const Dashboard = () => {
   const [generatedEmail, setGeneratedEmail] = useState("");
   const [generatingEmail, setGeneratingEmail] = useState(false);
 
-  const handleGenerateEmail = async () => {
+  const handleGenerateEmail = useCallback(async () => {
     if (!emailTargetCandidate) return;
     setGeneratingEmail(true);
     setGeneratedEmail("");
@@ -265,14 +265,14 @@ const Dashboard = () => {
     } finally {
       setGeneratingEmail(false);
     }
-  };
+  }, [emailTargetCandidate, selectedJob, selectedEmailType, token]);
 
   const [isSalaryModalOpen, setIsSalaryModalOpen] = useState(false);
   const [salaryTargetJob, setSalaryTargetJob] = useState(null);
   const [salaryAnalysisData, setSalaryAnalysisData] = useState(null);
   const [loadingSalaryAnalysis, setLoadingSalaryAnalysis] = useState(false);
 
-  const handleFetchSalaryAnalysis = async (jobRecord) => {
+  const handleFetchSalaryAnalysis = useCallback(async (jobRecord) => {
     setSalaryTargetJob(jobRecord);
     setLoadingSalaryAnalysis(true);
     setSalaryAnalysisData(null);
@@ -294,7 +294,7 @@ const Dashboard = () => {
     } finally {
       setLoadingSalaryAnalysis(false);
     }
-  };
+  }, [apiBase, token]);
 
   useEffect(() => {
     const fetchSavedJobs = async () => {
@@ -329,7 +329,7 @@ const Dashboard = () => {
     fetchSeekerApplications();
   }, [token, user]);
 
-  const fetchApplicants = async (jobId) => {
+  const fetchApplicants = useCallback(async (jobId) => {
     try {
       const res = await axios.get(`${apiBase}/api/application/job-applicants/${jobId}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -341,9 +341,9 @@ const Dashboard = () => {
       console.error("Error fetching applicants", error);
       toast.error("Failed to load applicants");
     }
-  };
+  }, [apiBase, token]);
 
-  const handleUpdateStatus = async (appId, newStatus) => {
+  const handleUpdateStatus = useCallback(async (appId, newStatus) => {
     try {
       const res = await axios.patch(`${apiBase}/api/application/status/${appId}`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${token}` }
@@ -356,12 +356,14 @@ const Dashboard = () => {
       console.error("Error updating status", error);
       toast.error("Failed to update candidate status");
     }
-  };
+  }, [apiBase, token]);
 
-  const userPostedJobs = job?.filter(j => {
-    const creatorId = j.createdBy?._id || j.createdBy;
-    return creatorId === user?._id;
-  }) || [];
+  const userPostedJobs = useMemo(() => {
+    return job?.filter(j => {
+      const creatorId = j.createdBy?._id || j.createdBy;
+      return creatorId === user?._id;
+    }) || [];
+  }, [job, user?._id]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20 relative overflow-hidden">

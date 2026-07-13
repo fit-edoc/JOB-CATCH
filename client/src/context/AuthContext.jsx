@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState, useCallback } from "react";
 import axios from 'axios';
 import { loginApi, registerApi, createJobApi, getalljobs, API_BASE_URL } from "../api/api";
 import React from "react";
@@ -19,20 +19,20 @@ export const AuthProvider = ({children})=>{
 
   const [job, setJob] = useState([]);
 
-  const fetchJob = async()=>{
+  const fetchJob = useCallback(async()=>{
     try {
       const { data } = await axios.get(getalljobs);
       setJob(data.jobs);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
   useEffect(()=>{
     fetchJob();
-  },[]);
+  },[fetchJob]);
 
-  const createJob = async(formData)=>{
+  const createJob = useCallback(async(formData)=>{
     const token = localStorage.getItem("token");
     try {
       const res = await axios.post(createJobApi, formData, {
@@ -48,9 +48,9 @@ export const AuthProvider = ({children})=>{
       toast.error(err.response?.data?.message || "Something went wrong");
       throw err;
     }
-  };
+  }, [fetchJob]);
 
-  const register = async (form) => {
+  const register = useCallback(async (form) => {
     try {
       const { data } = await axios.post(registerApi, form);
       if (data.success) {
@@ -65,9 +65,9 @@ export const AuthProvider = ({children})=>{
       }
       return { success: false, message: "Network error" };
     }
-  };
+  }, []);
 
-  const login = async (form) => {
+  const login = useCallback(async (form) => {
     try {
       const { data } = await axios.post(loginApi, form);
       if (data.success) {
@@ -82,9 +82,9 @@ export const AuthProvider = ({children})=>{
       }
       return { success: false, message: "Network error" };
     }
-  };
+  }, []);
 
-  const logout = async()=>{
+  const logout = useCallback(async()=>{
     try {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
@@ -93,9 +93,9 @@ export const AuthProvider = ({children})=>{
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
-  const deleteJob = async (id) => {
+  const deleteJob = useCallback(async (id) => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.delete(`${API_BASE_URL}/api/job/deletejob/${id}`, {
@@ -111,9 +111,9 @@ export const AuthProvider = ({children})=>{
       toast.error(err.response?.data?.message || "Failed to delete job");
       return { success: false };
     }
-  };
+  }, [fetchJob]);
 
-  const sendOtp = async (email) => {
+  const sendOtp = useCallback(async (email) => {
     try {
       const { data } = await axios.post(`${API_BASE_URL}/api/user/send-otp`, { email });
       return data;
@@ -121,9 +121,9 @@ export const AuthProvider = ({children})=>{
       if (error.response) return error.response.data;
       return { success: false, message: "Network error" };
     }
-  };
+  }, []);
 
-  const verifyOtp = async (email, otp) => {
+  const verifyOtp = useCallback(async (email, otp) => {
     try {
       const { data } = await axios.post(`${API_BASE_URL}/api/user/verify-otp`, { email, otp });
       if (data.success) {
@@ -136,11 +136,11 @@ export const AuthProvider = ({children})=>{
       if (error.response) return error.response.data;
       return { success: false, message: "Network error" };
     }
-  };
+  }, []);
 
   const value = useMemo(()=>({
     register, login, user, logout, createJob, job, fetchJob, deleteJob, sendOtp, verifyOtp
-  }), [user, job]);
+  }), [user, job, register, login, logout, createJob, fetchJob, deleteJob, sendOtp, verifyOtp]);
 
   return (
     <AuthContext.Provider value={value}>

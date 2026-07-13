@@ -144,4 +144,4 @@ const Testimonial = () => {
   );
 };
 
-export default Testimonial;
+export default React.memo(Testimonial);

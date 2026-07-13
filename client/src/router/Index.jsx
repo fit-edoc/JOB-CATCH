@@ -1,19 +1,20 @@
+import React, { lazy } from 'react'
 import {createBrowserRouter} from 'react-router-dom'
 import App from '../App.jsx'
-import Home from '../Pages/Home.jsx'
-import Register from '../Pages/Register.jsx'
-import { AuthProvider } from '../context/AuthContext.jsx'
-import LoginForm from '../Pages/Login.jsx'
-import JobApplicationForm from '../Pages/JobForm.jsx'
 import { ProtectedRoute } from '../middlewareRoutes/ProtectedRoute.jsx'
-import AllJobs from '../Pages/AllJobs.jsx'
-import Dashboard from '../Pages/Dashboard.jsx'
-import Profile from '../Pages/Profile.jsx'
+
+const Home = lazy(() => import('../Pages/Home.jsx'))
+const Register = lazy(() => import('../Pages/Register.jsx'))
+const LoginForm = lazy(() => import('../Pages/Login.jsx'))
+const JobApplicationForm = lazy(() => import('../Pages/JobForm.jsx'))
+const AllJobs = lazy(() => import('../Pages/AllJobs.jsx'))
+const Dashboard = lazy(() => import('../Pages/Dashboard.jsx'))
+const Profile = lazy(() => import('../Pages/Profile.jsx'))
 
 const router = createBrowserRouter([
     {
         path:"/",
-        element:(<AuthProvider><App/></AuthProvider>),
+        element:<App/>,
         children:[
             {
                 index:true,

@@ -107,4 +107,4 @@ const Platform = () => {
   );
 };
 
-export default Platform;
+export default React.memo(Platform);
