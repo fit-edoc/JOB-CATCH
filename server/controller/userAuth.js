@@ -170,7 +170,7 @@ export const verifyPortfolioController = async (req, res) => {
             try {
                 const ghResponse = await fetch(`https://api.github.com/users/${githubUsername}`, {
                     headers: {
-                        'User-Agent': 'JobCatch-App'
+                        'User-Agent': 'WayHyre-App'
                     }
                 });
                 if (ghResponse.ok) {

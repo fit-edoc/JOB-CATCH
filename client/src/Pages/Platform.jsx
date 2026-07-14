@@ -62,7 +62,7 @@ const Platform = () => {
             Platform Benefits
           </h2>
           <p className="text-slate-600 max-w-xl mx-auto">
-            Why job seekers and HR managers trust JobCatch as their core hiring platform.
+            Why job seekers and HR managers trust WayHyre as their core hiring platform.
           </p>
         </div>
 

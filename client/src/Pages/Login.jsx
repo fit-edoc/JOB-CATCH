@@ -20,7 +20,7 @@ const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon, disa
         onChange={onChange}
         required
         disabled={disabled}
-        className={`w-full ${Icon ? 'pl-12' : 'pl-4'} pr-4 py-3 rounded-xl border border-slate-200 ${disabled ? 'bg-slate-100 text-slate-500' : 'bg-slate-50/50 focus:bg-white text-slate-900'} focus:ring-2 focus:ring-orange-550/15 focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm`}
+        className={`w-full ${Icon ? 'pl-12' : 'pl-4'} pr-4 py-3 rounded-lg border border-slate-200 ${disabled ? 'bg-slate-100 text-slate-500' : 'bg-slate-50/50 focus:bg-white text-slate-900'} focus:ring-2 focus:ring-emerald-500/15 focus:border-emerald-450 outline-none transition-all placeholder:text-slate-400 text-sm`}
         placeholder={`Enter your ${label.toLowerCase()}`}
       />
     </div>
@@ -81,17 +81,17 @@ const LoginForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-900 pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background decorations */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-orange-100/20 blur-[100px] opacity-60 pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-100/10 blur-[120px] opacity-60 pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#52b788]/5 blur-[100px] opacity-60 pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-lime-200/5 blur-[120px] opacity-60 pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden relative z-10"
+        className="w-full max-w-md bg-white rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden relative z-10"
       >
         <div className="px-8 py-10">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-display font-bold text-slate-900 mb-2">Welcome Back</h2>
+            <h2 className="text-3xl font-tall font-bold uppercase tracking-wider text-slate-900 mb-2">Welcome Back</h2>
             <p className="text-slate-500">Sign in securely using an Email OTP.</p>
           </div>
 
@@ -128,7 +128,7 @@ const LoginForm = () => {
                   type="button" 
                   onClick={handleSendOtp} 
                   disabled={loading}
-                  className="text-sm font-medium text-orange-600 hover:text-orange-700"
+                  className="text-sm font-medium text-emerald-700 hover:text-emerald-800"
                 >
                   Resend OTP
                 </button>
@@ -137,7 +137,7 @@ const LoginForm = () => {
               <button
                 type="submit"
                 disabled={loading || form.otp.length < 6}
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
+                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-lg transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
               >
                 {loading ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -151,7 +151,7 @@ const LoginForm = () => {
           <div className="mt-8 text-center">
             <p className="text-sm text-slate-500">
               Don't have an account?{" "}
-              <Link to="/register" className="font-semibold text-orange-600 hover:text-orange-700 underline underline-offset-4">
+              <Link to="/register" className="font-semibold text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
                 Sign up for free
               </Link>
             </p>

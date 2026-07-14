@@ -40,10 +40,10 @@ const Nav = () => {
         {/* Logo matching the image */}
         <Link to="/" className="flex items-center gap-2 group">
           <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md border border-slate-800 group-hover:scale-105 transition-transform">
-            JC
+            Wh
           </div>
           <div className="flex leading-none text-slate-900 select-none">
-            <span className="font-display font-bold text-lg tracking-tight">JobCatch</span>
+            <span className="font-display font-bold text-lg tracking-tight">WAYHYRE</span>
           </div>
         </Link>
 

@@ -26,10 +26,10 @@ const Footer = () => {
           <div className="col-span-2 md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-slate-800">
-                JC
+                Wh
               </div>
               <span className="font-display font-bold text-2xl text-slate-900">
-                JobCatch
+                WayHyre
               </span>
             </Link>
             <p className="text-slate-600 text-sm leading-relaxed mb-8 max-w-sm">
@@ -67,7 +67,7 @@ const Footer = () => {
 
         <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            &copy; {currentYear} JobCatch. All rights reserved.
+            &copy; {currentYear} WayHyre. All rights reserved.
           </p>
           <div className="flex gap-6">
             <span className="text-slate-500 text-sm flex items-center gap-2">

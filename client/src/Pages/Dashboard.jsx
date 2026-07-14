@@ -69,16 +69,16 @@ const InterviewSimulator = React.memo(() => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md space-y-6">
+    <div className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-6">
       {!questions.length && !evaluationResult && (
         <div className="space-y-4 max-w-md">
-          <p className="text-slate-650 text-sm">Practice technical & behavioral interviews with our real-time AI Interviewer. Choose your target role to begin:</p>
+          <p className="text-slate-600 text-sm">Practice technical & behavioral interviews with our real-time AI Interviewer. Choose your target role to begin:</p>
           <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-1.5">Target Job Role</label>
+            <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Target Job Role</label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-sm outline-none focus:border-orange-500"
+              className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-800 text-sm outline-none focus:border-emerald-455 focus:ring-1 focus:ring-emerald-455 transition-all"
             >
               <option value="Frontend Developer">Frontend Developer</option>
               <option value="Backend Developer">Backend Developer</option>
@@ -120,7 +120,7 @@ const InterviewSimulator = React.memo(() => {
                   rows="3"
                   value={answers[idx] || ""}
                   onChange={(e) => setAnswers(prev => ({ ...prev, [idx]: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 outline-none focus:border-orange-500 text-xs font-sans resize-none"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-slate-50/50 text-slate-900 outline-none focus:border-emerald-455 focus:ring-1 focus:ring-emerald-455 text-xs font-sans resize-none transition-all"
                 />
               </div>
             ))}
@@ -141,11 +141,11 @@ const InterviewSimulator = React.memo(() => {
         <div className="space-y-6">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="font-bold text-slate-855 text-sm">AI Interview Feedback ({role})</h3>
-            <button onClick={() => { setQuestions([]); setEvaluationResult(null); }} className="text-xs text-orange-600 hover:underline">Start New Test</button>
+            <button onClick={() => { setQuestions([]); setEvaluationResult(null); }} className="text-xs text-emerald-700 font-semibold hover:underline">Start New Test</button>
           </div>
 
-          <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-            <div className="w-16 h-16 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 font-extrabold text-2xl">
+          <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 font-tall font-bold text-2xl shadow-sm">
               {evaluationResult.score}%
             </div>
             <div>
@@ -368,56 +368,56 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20 relative overflow-hidden">
       {/* Background glow */}
-      <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] rounded-full bg-orange-100/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] rounded-full bg-[#52b788]/5 blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row gap-8">
           
           {/* Sidebar */}
           <div className="w-full md:w-1/4">
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-md sticky top-28">
+            <div className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] sticky top-28">
               <div className="flex flex-col items-center text-center mb-8">
-                <div className="w-24 h-24 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 font-display font-bold text-4xl mb-4 uppercase">
+                <div className="w-20 h-20 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 font-tall font-bold text-3xl mb-4 uppercase shadow-sm">
                   {user?.name?.charAt(0) || 'U'}
                 </div>
-                <h2 className="text-xl font-bold text-slate-900">{user?.name} {user?.lastname}</h2>
-                <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider mt-1 px-2.5 py-1 bg-slate-100 border border-slate-200/50 rounded-full">
+                <h2 className="text-lg font-bold text-slate-900">{user?.name} {user?.lastname}</h2>
+                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mt-2 px-2.5 py-1 bg-slate-50 border border-slate-200/50 rounded-full">
                   {user?.role === 'employer' ? 'HR / Employer' : 'Job Seeker'}
                 </p>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <button 
                   onClick={() => setActiveTab('overview')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'overview' ? 'bg-orange-550/10 text-orange-600 font-semibold border border-orange-100' : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100 border border-transparent'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all ${activeTab === 'overview' ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100/60 shadow-[inset_0_1px_rgba(255,255,255,0.8)]' : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50 border border-transparent'}`}
                 >
-                  <Activity size={18} /> Overview
+                  <Activity size={16} /> Overview
                 </button>
                 {user?.role === 'seeker' && (
                   <>
                     <button 
                       onClick={() => setActiveTab('saved')}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'saved' ? 'bg-orange-550/10 text-orange-600 font-semibold border border-orange-100' : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100 border border-transparent'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all ${activeTab === 'saved' ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100/60 shadow-[inset_0_1px_rgba(255,255,255,0.8)]' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-50 border border-transparent'}`}
                     >
-                      <Bookmark size={18} /> Saved Jobs
+                      <Bookmark size={16} /> Saved Jobs
                     </button>
                     <button 
                       onClick={() => setActiveTab('applications')}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'applications' ? 'bg-orange-555/10 text-orange-600 font-semibold border border-orange-100' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-100 border border-transparent'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all ${activeTab === 'applications' ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100/60 shadow-[inset_0_1px_rgba(255,255,255,0.8)]' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-50 border border-transparent'}`}
                     >
-                      <Briefcase size={18} /> My Applications
+                      <Briefcase size={16} /> My Applications
                     </button>
                     <button 
                       onClick={() => setActiveTab('interview')}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'interview' ? 'bg-orange-555/10 text-orange-600 font-semibold border border-orange-100' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-100 border border-transparent'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all ${activeTab === 'interview' ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100/60 shadow-[inset_0_1px_rgba(255,255,255,0.8)]' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-50 border border-transparent'}`}
                     >
-                      <Sparkles size={18} /> AI Mock Interview
+                      <Sparkles size={16} /> AI Mock Interview
                     </button>
                     <button 
                       onClick={() => setActiveTab('referrals')}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'referrals' ? 'bg-orange-555/10 text-orange-600 font-semibold border border-orange-100' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-100 border border-transparent'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all ${activeTab === 'referrals' ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100/60 shadow-[inset_0_1px_rgba(255,255,255,0.8)]' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-50 border border-transparent'}`}
                     >
-                      <User size={18} /> Referral Program
+                      <User size={16} /> Referral Program
                     </button>
                   </>
                 )}
@@ -425,20 +425,20 @@ const Dashboard = () => {
                   <>
                     <button 
                       onClick={() => { setActiveTab('posted'); setSelectedJob(null); }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'posted' ? 'bg-orange-555/10 text-orange-600 font-semibold border border-orange-100' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-100 border border-transparent'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all ${activeTab === 'posted' ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100/60 shadow-[inset_0_1px_rgba(255,255,255,0.8)]' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-50 border border-transparent'}`}
                     >
-                      <Briefcase size={18} /> Posted Jobs
+                      <Briefcase size={16} /> Posted Jobs
                     </button>
                     <button 
                       onClick={() => setActiveTab('resumesearch')}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'resumesearch' ? 'bg-orange-555/10 text-orange-600 font-semibold border border-orange-100' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-100 border border-transparent'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all ${activeTab === 'resumesearch' ? 'bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100/60 shadow-[inset_0_1px_rgba(255,255,255,0.8)]' : 'text-slate-600 hover:text-slate-955 hover:bg-slate-50 border border-transparent'}`}
                     >
-                      <Search size={18} /> AI Resume Search
+                      <Search size={16} /> AI Resume Search
                     </button>
                   </>
                 )}
-                <Link to="/profile" className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-slate-950 hover:bg-slate-100 border border-transparent transition-all">
-                  <User size={18} /> Edit Profile
+                <Link to="/profile" className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-slate-600 hover:text-slate-950 hover:bg-slate-50 border border-transparent transition-all">
+                  <User size={16} /> Edit Profile
                 </Link>
               </div>
             </div>
@@ -449,29 +449,29 @@ const Dashboard = () => {
             
             {activeTab === 'overview' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                <h1 className="text-2xl font-bold text-slate-900 mb-6">Dashboard Overview</h1>
+                <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900 mb-6">Dashboard Overview</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {user?.role === 'employer' ? (
                     <>
-                      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md flex items-center gap-4 hover:border-orange-550/30 transition-all">
-                        <div className="w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600">
-                          <Briefcase size={24} />
+                      <div className="bg-white p-6 rounded-xl border border-slate-200/85 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] flex flex-col gap-2 hover:border-emerald-500/20 transition-all text-left">
+                        <div className="flex justify-between items-center w-full">
+                          <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Active Jobs Posted</p>
+                          <Briefcase size={16} className="text-emerald-600" />
                         </div>
                         <div>
-                          <p className="text-slate-500 text-sm font-semibold">Active Jobs Posted</p>
-                          <h3 className="text-2xl font-bold text-slate-900 mt-0.5">{userPostedJobs.length}</h3>
+                          <h3 className="text-3xl font-bold font-tall tracking-tight text-slate-900 mt-1">{userPostedJobs.length}</h3>
                         </div>
                       </div>
                     </>
                   ) : (
                     <>
-                      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md flex items-center gap-4 hover:border-orange-550/30 transition-all">
-                        <div className="w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600">
-                          <Bookmark size={24} />
+                      <div className="bg-white p-6 rounded-xl border border-slate-200/85 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] flex flex-col gap-2 hover:border-emerald-500/20 transition-all text-left">
+                        <div className="flex justify-between items-center w-full">
+                          <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Saved Jobs</p>
+                          <Bookmark size={16} className="text-emerald-600" />
                         </div>
                         <div>
-                          <p className="text-slate-500 text-sm font-semibold">Saved Jobs</p>
-                          <h3 className="text-2xl font-bold text-slate-900 mt-0.5">{savedJobs.length}</h3>
+                          <h3 className="text-3xl font-bold font-tall tracking-tight text-slate-900 mt-1">{savedJobs.length}</h3>
                         </div>
                       </div>
                     </>
@@ -479,16 +479,16 @@ const Dashboard = () => {
                 </div>
 
                 {user?.role === 'seeker' && (
-                  <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md text-left space-y-4">
+                  <div className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] text-left space-y-4">
                     <div>
-                      <h3 className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                      <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm flex items-center gap-1.5">
                         <span>✨ Share Your Profile (Embeddable Badge)</span>
                       </h3>
-                      <p className="text-slate-500 text-xs mt-0.5">Embed a live, interactive profile card showing your verified skills and certifications directly on your portfolio website or personal blog.</p>
+                      <p className="text-slate-500 text-xs mt-1">Embed a live, interactive profile card showing your verified skills and certifications directly on your portfolio website or personal blog.</p>
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-6 items-start">
-                      <div className="w-full md:w-[360px] aspect-[360/220] rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-50 shrink-0">
+                      <div className="w-full md:w-[360px] aspect-[360/220] rounded-xl overflow-hidden border border-slate-200/60 shadow-sm bg-slate-50 shrink-0">
                         <iframe
                           title="Your Profile Badge Preview"
                           src={`${apiBase}/api/auth/portfolio-badge/${user._id}`}
@@ -502,14 +502,14 @@ const Dashboard = () => {
                           readOnly
                           value={`<iframe src="${apiBase}/api/auth/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`}
                           rows="3"
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-slate-650 rounded-xl text-xs outline-none focus:border-orange-500 transition-all font-mono"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200/70 text-slate-700 rounded-lg text-xs outline-none focus:border-emerald-450 focus:ring-1 focus:ring-emerald-450 transition-all font-mono"
                         />
                         <button
                           onClick={() => {
                             navigator.clipboard.writeText(`<iframe src="${apiBase}/api/auth/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`);
                             toast.success("Embed snippet copied to clipboard!");
                           }}
-                          className="bg-orange-50 hover:bg-orange-100 text-orange-600 border border-orange-200 text-xs font-bold px-4 py-2 rounded-xl transition-all"
+                          className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-250/60 text-xs font-bold px-4 py-2 rounded-lg transition-all"
                         >
                           📋 Copy Embed Code
                         </button>
@@ -522,13 +522,13 @@ const Dashboard = () => {
 
             {activeTab === 'resumesearch' && user?.role === 'employer' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h1 className="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
-                  <Sparkles className="text-orange-500" />
+                <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900 mb-2 flex items-center gap-2">
+                  <Sparkles className="text-emerald-500" />
                   Semantic AI Resume Search
                 </h1>
                 <p className="text-slate-500 text-xs">Search for matching candidates using natural language queries (e.g. "React developers with SQL experience"). Our AI ranks candidates by match score instantly.</p>
 
-                <form onSubmit={handleResumeSearch} className="flex gap-3 bg-white p-4 rounded-3xl border border-slate-200 shadow-md">
+                <form onSubmit={handleResumeSearch} className="flex gap-3 bg-white p-4 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)]">
                   <div className="relative flex-1">
                     <Search className="absolute left-4 top-3.5 text-slate-400 w-5 h-5" />
                     <input
@@ -536,7 +536,7 @@ const Dashboard = () => {
                       placeholder="Search profiles semantically..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                      className="w-full pl-12 pr-4 py-3 rounded-lg border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none transition-all placeholder:text-slate-400 text-sm"
                     />
                   </div>
                   <button
@@ -559,10 +559,10 @@ const Dashboard = () => {
                     {searchResults.map((res, index) => {
                       const cand = res.candidate;
                       return (
-                        <div key={index} className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md space-y-4 hover:border-orange-555/30 transition-all">
+                        <div key={index} className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-4 hover:border-emerald-500/20 transition-all">
                           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div className="flex items-center gap-4">
-                              <div className="w-12 h-12 rounded-full bg-orange-500/10 border border-orange-100 flex items-center justify-center text-orange-600 font-bold text-lg uppercase shrink-0">
+                              <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-lg uppercase shrink-0">
                                 {cand.name?.charAt(0) || 'C'}
                               </div>
                               <div>
@@ -572,12 +572,12 @@ const Dashboard = () => {
                             </div>
                             <div className="flex flex-col items-end shrink-0">
                               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">AI Relevance Score</span>
-                              <span className="text-xl font-extrabold text-orange-600">{res.score}%</span>
+                              <span className="text-xl font-extrabold text-emerald-700 font-tall">{res.score}%</span>
                             </div>
                           </div>
 
-                          <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-xs text-slate-600 leading-relaxed text-left">
-                            <span className="font-semibold text-orange-600 block mb-1">Match Explanation:</span>
+                          <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs text-slate-600 leading-relaxed text-left">
+                            <span className="font-semibold text-emerald-700 block mb-1">Match Explanation:</span>
                             {res.explanation}
                           </div>
 
@@ -623,21 +623,21 @@ const Dashboard = () => {
             {activeTab === 'referrals' && user?.role === 'seeker' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
                 <div>
-                  <h1 className="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <User className="text-orange-500" />
+                  <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900 mb-2 flex items-center gap-2">
+                    <User className="text-emerald-500" />
                     Referral Rewards Center
                   </h1>
                   <p className="text-slate-500 text-xs">Earn rewards by referring talented professionals. Copy referral links from any job details page, share them, and track your cash bonuses here when they are hired!</p>
                 </div>
 
-                <div className="bg-orange-50/50 border border-orange-100 rounded-3xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div className="bg-emerald-50/30 border border-emerald-100/60 rounded-xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[inset_0_1px_rgba(255,255,255,0.8)]">
                   <div>
-                    <h3 className="font-bold text-slate-900 text-sm">How does the referral bonus work?</h3>
+                    <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm">How does the referral bonus work?</h3>
                     <p className="text-slate-600 text-xs mt-1 max-w-xl">When candidates apply using your link, they are linked to your profile. Once the hiring manager marks their status as "Hired", your cash rewards are unlocked instantly!</p>
                   </div>
-                  <div className="bg-white border border-orange-100 rounded-2xl px-5 py-3 text-center shrink-0">
+                  <div className="bg-white border border-slate-200/85 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] rounded-xl px-5 py-3 text-center shrink-0">
                     <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Earned</span>
-                    <h2 className="text-2xl font-extrabold text-orange-600 mt-0.5">
+                    <h2 className="text-2xl font-extrabold text-emerald-700 font-tall mt-0.5">
                       ₹{myReferrals.filter(r => r.status === 'Hired').length * 5000}
                     </h2>
                   </div>
@@ -650,7 +650,7 @@ const Dashboard = () => {
                       const candidate = ref.candidateId;
                       if (!job || !candidate) return null;
                       return (
-                        <div key={idx} className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md space-y-4 hover:border-orange-555/30 transition-all">
+                        <div key={idx} className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-4 hover:border-emerald-500/20 transition-all">
                           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
                               <h3 className="font-bold text-slate-900 text-sm">{candidate.name} {candidate.lastname || ''}</h3>
@@ -692,13 +692,13 @@ const Dashboard = () => {
 
             {activeTab === 'saved' && user?.role === 'seeker' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                <h1 className="text-2xl font-bold text-slate-900 mb-6">Saved Jobs</h1>
+                <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900 mb-6">Saved Jobs</h1>
                 {savedJobs.length > 0 ? (
                   <div className="grid grid-cols-1 gap-4">
                     {savedJobs.map(job => (
-                      <div key={job._id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-orange-550/30 hover:shadow-lg transition-all group">
+                      <div key={job._id} className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-emerald-500/20 hover:shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_4px_16px_rgba(0,0,0,0.03)] transition-all group">
                         <div>
-                          <h3 className="font-semibold text-lg text-slate-900 group-hover:text-orange-600 transition-colors">{job.position}</h3>
+                          <h3 className="font-semibold text-lg text-slate-900 group-hover:text-emerald-700 transition-colors">{job.position}</h3>
                           <p className="text-slate-550 text-sm mt-0.5">{job.company}</p>
                         </div>
                         <a 
@@ -717,7 +717,7 @@ const Dashboard = () => {
                     <Bookmark size={48} className="mx-auto text-slate-300 mb-4" />
                     <h3 className="text-lg font-semibold text-slate-900">No saved jobs yet</h3>
                     <p className="text-slate-500 mb-6 text-sm">Jobs you save will appear here.</p>
-                    <Link to="/alljobs" className="text-orange-600 font-medium hover:underline text-sm">Browse Jobs</Link>
+                    <Link to="/alljobs" className="text-emerald-700 font-semibold hover:underline text-sm">Browse Jobs</Link>
                   </div>
                 )}
               </motion.div>
@@ -725,19 +725,19 @@ const Dashboard = () => {
 
             {activeTab === 'applications' && user?.role === 'seeker' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                <h1 className="text-2xl font-bold text-slate-900 mb-6">My Applications</h1>
+                <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900 mb-6">My Applications</h1>
                 {applications.length > 0 ? (
                   <div className="grid grid-cols-1 gap-6">
                     {applications.map(app => {
                       const j = app.jobId;
                       if (!j) return null;
                       return (
-                        <div key={app._id} className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:border-orange-550/30 transition-all text-left">
+                        <div key={app._id} className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:border-emerald-500/20 transition-all text-left">
                           <div className="space-y-2">
                             <h3 className="font-semibold text-lg text-slate-900">{j.position}</h3>
                             <p className="text-slate-500 text-sm">{j.company} • {j.workLocation}</p>
                             <div className="flex gap-4 items-center">
-                              <span className="text-[10px] font-bold px-2.5 py-0.5 bg-orange-50 border border-orange-100 text-orange-600 rounded-md capitalize">
+                              <span className="text-[10px] font-bold px-2.5 py-0.5 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-md capitalize">
                                 Status: {app.status}
                               </span>
                               <span className="text-xs text-slate-400">Applied {new Date(app.createdAt).toLocaleDateString()}</span>
@@ -770,7 +770,7 @@ const Dashboard = () => {
                               <div className="flex items-center justify-between relative max-w-xl mx-auto px-4 py-2">
                                 <div className="absolute top-[20px] left-8 right-8 h-1 bg-slate-200 -z-10 rounded" />
                                 <div 
-                                  className="absolute top-[20px] left-8 h-1 bg-orange-500 -z-10 rounded transition-all duration-500" 
+                                  className="absolute top-[20px] left-8 h-1 bg-emerald-600 -z-10 rounded transition-all duration-500" 
                                   style={{
                                     width: `${
                                       app.status === 'Applied' ? '0%' :
@@ -794,15 +794,15 @@ const Dashboard = () => {
                                     <div key={idx} className="flex flex-col items-center gap-1.5 z-10">
                                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-[10px] font-bold transition-all duration-300 ${
                                         stage === app.status
-                                          ? 'bg-orange-500 border-orange-500 text-white scale-110 shadow-md shadow-orange-500/30'
+                                          ? 'bg-emerald-600 border-emerald-600 text-white scale-110 shadow-md shadow-emerald-500/20'
                                           : isCompletedOrActive
-                                          ? 'bg-orange-50 border-orange-500 text-orange-600'
+                                          ? 'bg-emerald-50 border-emerald-650 text-emerald-700'
                                           : 'bg-white border-slate-300 text-slate-400'
                                       }`}>
                                         {idx + 1}
                                       </div>
                                       <span className={`text-[10px] font-semibold transition-all duration-300 ${
-                                        stage === app.status ? 'text-orange-600 font-extrabold' : 'text-slate-500'
+                                        stage === app.status ? 'text-emerald-700 font-extrabold' : 'text-slate-500'
                                       }`}>
                                         {stage}
                                       </span>
@@ -817,11 +817,11 @@ const Dashboard = () => {
                     })}
                   </div>
                 ) : (
-                  <div className="bg-white rounded-2xl p-12 border border-slate-200 text-center shadow-md">
+                  <div className="bg-white rounded-xl border border-slate-200/80 p-12 text-center shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)]">
                     <Briefcase size={48} className="mx-auto text-slate-300 mb-4" />
                     <h3 className="text-lg font-semibold text-slate-900">No applications yet</h3>
                     <p className="text-slate-500 mb-6 text-sm">Quick apply to jobs from the list to get AI matching scores.</p>
-                    <Link to="/alljobs" className="text-orange-600 font-medium hover:underline text-sm">Browse Jobs</Link>
+                    <Link to="/alljobs" className="text-emerald-700 font-semibold hover:underline text-sm">Browse Jobs</Link>
                   </div>
                 )}
               </motion.div>
@@ -835,21 +835,21 @@ const Dashboard = () => {
                     <div className="flex items-center gap-4 mb-8">
                       <button
                         onClick={() => setSelectedJob(null)}
-                        className="p-2 bg-slate-100 border border-slate-200 rounded-xl text-slate-500 hover:text-slate-900 transition-colors"
+                        className="p-2 bg-slate-100 border border-slate-200 rounded-lg text-slate-500 hover:text-slate-900 transition-colors"
                       >
                         <ArrowLeft size={16} />
                       </button>
                       <div>
-                        <h1 className="text-2xl font-bold text-slate-900">Applicants for {selectedJob.position}</h1>
+                        <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900">Applicants for {selectedJob.position}</h1>
                         <p className="text-slate-500 text-sm">{selectedJob.company} • {applicants.length} {applicants.length === 1 ? 'candidate' : 'candidates'}</p>
                       </div>
                     </div>
 
                     {applicants.length > 0 ? (
                       <div className="grid grid-cols-1 gap-6">
-                        <div className="flex justify-between items-center bg-slate-100 p-3 rounded-2xl border border-slate-200">
+                        <div className="flex justify-between items-center bg-slate-100 p-3 rounded-lg border border-slate-200">
                           <span className="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
-                            <Sparkles size={14} className="text-orange-500" />
+                            <Sparkles size={14} className="text-emerald-500" />
                             Smart Ranked by AI Match Score
                           </span>
                           <span className="text-xs text-slate-500 font-semibold">{applicants.length} Total Applicants</span>
@@ -858,14 +858,14 @@ const Dashboard = () => {
                           const cand = app.candidateId;
                           if (!cand) return null;
                           return (
-                            <div key={app._id} className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md space-y-4 hover:border-orange-555/30 transition-all text-left">
+                            <div key={app._id} className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-4 hover:border-emerald-500/20 transition-all text-left">
                               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div className="flex items-center gap-4">
-                                  <div className="w-12 h-12 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 font-bold text-lg uppercase shrink-0">
+                                  <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-lg uppercase shrink-0">
                                     {cand.name?.charAt(0) || 'C'}
                                   </div>
                                   <div>
-                                    <h3 className="font-bold text-slate-900 text-lg flex items-center gap-3">
+                                    <h3 className="font-semibold text-slate-900 text-lg flex items-center gap-3">
                                       {cand.name} {cand.lastname || ''}
                                     </h3>
                                     <div className="flex items-center gap-4 mt-1">
@@ -885,7 +885,7 @@ const Dashboard = () => {
                                               setCompareCandidates(prev => prev.filter(c => c._id !== app._id));
                                             }
                                           }}
-                                          className="rounded border-slate-250 text-orange-500 focus:ring-orange-500 w-3.5 h-3.5"
+                                          className="rounded border-slate-250 text-emerald-600 focus:ring-emerald-500 w-3.5 h-3.5"
                                         />
                                         <span className="font-medium hover:text-slate-700">Add to Compare</span>
                                       </label>
@@ -895,7 +895,7 @@ const Dashboard = () => {
                                 <div className="flex items-center gap-4">
                                   <div className="flex flex-col items-end">
                                     <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider">AI Match Score</span>
-                                    <span className={`text-2xl font-extrabold ${app.matchScore >= 80 ? 'text-green-400' : app.matchScore >= 50 ? 'text-orange-400' : 'text-red-400'}`}>
+                                    <span className={`text-2xl font-tall font-extrabold ${app.matchScore >= 80 ? 'text-green-600 font-bold' : app.matchScore >= 50 ? 'text-amber-500' : 'text-red-500'}`}>
                                       {app.matchScore}%
                                     </span>
                                   </div>
@@ -904,7 +904,7 @@ const Dashboard = () => {
                                     <select
                                       value={app.status}
                                       onChange={(e) => handleUpdateStatus(app._id, e.target.value)}
-                                      className="bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-3 py-2 text-xs font-semibold focus:border-orange-500 outline-none transition-all cursor-pointer"
+                                      className="bg-slate-50 border border-slate-200 text-slate-800 rounded-lg px-3 py-2 text-xs font-semibold focus:border-emerald-450 focus:ring-1 focus:ring-emerald-450 outline-none transition-all cursor-pointer"
                                     >
                                       <option value="Applied">Applied</option>
                                       <option value="Reviewed">Reviewed</option>
@@ -921,7 +921,7 @@ const Dashboard = () => {
                                         setGeneratedEmail("");
                                         setIsEmailModalOpen(true);
                                       }}
-                                      className="px-3 py-2 bg-orange-50 border border-orange-100 hover:bg-orange-100 text-orange-600 rounded-xl text-xs font-bold transition-all flex items-center gap-1"
+                                      className="px-3 py-2 bg-emerald-50 border border-emerald-100 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
                                     >
                                       ⚡ AI Email
                                     </button>
@@ -955,7 +955,7 @@ const Dashboard = () => {
                                       setPlayingVideoUrl(cand.videoIntroUrl);
                                       setIsVideoModalOpen(true);
                                     }}
-                                    className="bg-orange-50 border border-orange-200 hover:bg-orange-100 text-orange-600 px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all"
+                                    className="bg-emerald-50 border border-emerald-200/60 hover:bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all"
                                   >
                                     🎥 Play Video Introduction
                                   </button>
@@ -963,9 +963,9 @@ const Dashboard = () => {
                               )}
 
                               {/* Explanation */}
-                              {app.matchExplanation && (
-                                <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-xs text-slate-600 leading-relaxed text-left">
-                                  <span className="font-semibold text-orange-600 block mb-1">AI Match Summary:</span>
+                           {app.matchExplanation && (
+                                <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs text-slate-600 leading-relaxed text-left">
+                                  <span className="font-semibold text-emerald-700 block mb-1">AI Match Summary:</span>
                                   {app.matchExplanation}
                                 </div>
                               )}
@@ -987,11 +987,11 @@ const Dashboard = () => {
                                   <summary className="list-none flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50/50 select-none">
                                     <div className="flex items-center gap-2">
                                       <span className="text-xs font-semibold text-slate-650">ATS Resume report</span>
-                                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${app.resumeAnalysis.atsScore >= 80 ? 'bg-green-50 text-green-700 border border-green-150' : 'bg-orange-50 text-orange-600 border border-orange-150'}`}>
+                                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${app.resumeAnalysis.atsScore >= 80 ? 'bg-green-50 text-green-700 border border-green-150' : 'bg-emerald-50 text-emerald-700 border border-emerald-150'}`}>
                                         {app.resumeAnalysis.atsScore || 0}/100 Score
                                       </span>
                                     </div>
-                                    <span className="text-xs text-orange-600 transition-transform group-open:rotate-180">▼</span>
+                                    <span className="text-xs text-emerald-600 transition-transform group-open:rotate-180">▼</span>
                                   </summary>
                                   
                                   <div className="p-4 border-t border-slate-200 space-y-4 bg-slate-50/30 text-left">
@@ -1060,13 +1060,11 @@ const Dashboard = () => {
                       </div>
                     )}
                   </div>
-                ) : (
-                  <>
-                    <div className="flex items-center justify-between mb-6">
-                      <h1 className="text-2xl font-bold text-slate-900">Your Posted Jobs</h1>
+                      <div className="flex items-center justify-between mb-6">
+                      <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900">Your Posted Jobs</h1>
                       <Link 
                         to="/postjob" 
-                        className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 shadow-sm active:scale-95 border border-transparent"
+                        className="bg-[#316c50] hover:bg-[#224b37] text-white px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1 shadow-sm active:scale-95 border border-transparent"
                       >
                         <PlusCircle size={13} />
                         Post New
@@ -1075,11 +1073,11 @@ const Dashboard = () => {
                     {userPostedJobs.length > 0 ? (
                       <div className="grid grid-cols-1 gap-4">
                         {userPostedJobs.map(job => (
-                          <div key={job._id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-orange-550/30 transition-all">
+                          <div key={job._id} className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-emerald-500/20 transition-all">
                             <div>
                               <h3 className="font-semibold text-lg text-slate-900">{job.position}</h3>
                               <div className="flex gap-4 mt-2 items-center">
-                                <span className="text-[10px] font-bold px-2 py-0.5 bg-orange-50 border border-orange-100 text-orange-600 rounded-md capitalize flex items-center gap-1">
+                                <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-md capitalize flex items-center gap-1">
                                   <Clock size={10} />
                                   {job.status}
                                 </span>
@@ -1089,13 +1087,13 @@ const Dashboard = () => {
                             <div className="flex gap-2">
                               <button 
                                 onClick={() => handleFetchSalaryAnalysis(job)}
-                                className="bg-orange-50 border border-orange-200 hover:bg-orange-100 text-orange-600 px-4 py-2 rounded-xl text-xs font-bold transition-all"
+                                className="bg-emerald-50 border border-emerald-200/60 hover:bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg text-xs font-bold transition-all"
                               >
                                 📊 Salary Intel
                               </button>
                               <button 
                                 onClick={() => { setSelectedJob(job); fetchApplicants(job._id); }}
-                                className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all hover:scale-102 border border-transparent"
+                                className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all hover:scale-102 border border-transparent"
                               >
                                 View Applicants
                               </button>
@@ -1105,20 +1103,21 @@ const Dashboard = () => {
                                     deleteJob(job._id);
                                   }
                                 }}
-                                className="bg-red-50 border border-red-200 hover:bg-red-100 text-red-600 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1"
+                                className="bg-red-50 border border-red-200 hover:bg-red-100 text-red-700 px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
                               >
                                 <Trash2 size={14} />
                               </button>
                             </div>
                           </div>
                         ))}
+                      </div>            ))}
                       </div>
                     ) : (
-                      <div className="bg-white rounded-2xl p-12 border border-slate-200 text-center shadow-md">
+                      <div className="bg-white rounded-xl border border-slate-200/80 p-12 text-center shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)]">
                         <Briefcase size={48} className="mx-auto text-slate-350 mb-4" />
                         <h3 className="text-lg font-semibold text-slate-900">No jobs posted</h3>
                         <p className="text-slate-500 mb-6 text-sm">Start growing your team by posting a job.</p>
-                        <Link to="/postjob" className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-bold transition-all text-sm shadow-md border border-transparent">Post a Job</Link>
+                        <Link to="/postjob" className="bg-[#316c50] hover:bg-[#224b37] text-white px-6 py-3 rounded-lg font-bold transition-all text-sm shadow-md border border-transparent">Post a Job</Link>
                       </div>
                     )}
                   </>
@@ -1151,10 +1150,10 @@ const Dashboard = () => {
       {/* Comparison Modal Overlay */}
       {isCompareModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-4xl p-6 relative flex flex-col max-h-[85vh] overflow-hidden text-left">
+          <div className="bg-white rounded-xl border border-slate-200 shadow-2xl w-full max-w-4xl p-6 relative flex flex-col max-h-[85vh] overflow-hidden text-left">
             <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
-              <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                <Sparkles className="text-orange-500" />
+              <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-lg flex items-center gap-2">
+                <Sparkles className="text-emerald-500" />
                 Candidate Comparison Matrix
               </h3>
               <button onClick={() => setIsCompareModalOpen(false)} className="text-slate-400 hover:text-slate-600 font-bold text-lg">×</button>
@@ -1174,7 +1173,7 @@ const Dashboard = () => {
                   <tr className="border-b border-slate-100">
                     <td className="p-3 font-semibold text-slate-500">AI Match Score</td>
                     {compareCandidates.map(c => (
-                      <td key={c._id} className="p-3"><span className="text-sm font-extrabold text-orange-600">{c.matchScore}%</span></td>
+                      <td key={c._id} className="p-3"><span className="text-sm font-extrabold text-emerald-700 font-tall">{c.matchScore}%</span></td>
                     ))}
                   </tr>
                   <tr className="border-b border-slate-100">
@@ -1263,7 +1262,7 @@ const Dashboard = () => {
                 <select
                   value={selectedEmailType}
                   onChange={(e) => setSelectedEmailType(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all text-xs font-semibold"
+                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:bg-white focus:border-emerald-450 focus:ring-1 focus:ring-emerald-450 outline-none transition-all text-xs font-semibold"
                 >
                   <option value="Interview Invitation">Interview Invitation</option>
                   <option value="Job Offer">Job Offer</option>
@@ -1275,7 +1274,7 @@ const Dashboard = () => {
               <button
                 onClick={handleGenerateEmail}
                 disabled={generatingEmail}
-                className="w-full bg-slate-950 hover:bg-slate-900 text-white font-semibold py-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-70 text-xs"
+                className="w-full bg-slate-950 hover:bg-slate-900 text-white font-semibold py-2.5 rounded-lg transition-all shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-70 text-xs"
               >
                 {generatingEmail ? 'Generating Template...' : '⚡ Generate Email Template'}
               </button>
@@ -1288,7 +1287,7 @@ const Dashboard = () => {
                       readOnly
                       value={generatedEmail}
                       rows="8"
-                      className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 text-slate-800 text-xs outline-none transition-all resize-none font-sans leading-relaxed"
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-slate-50 text-slate-800 text-xs outline-none transition-all resize-none font-sans leading-relaxed"
                     />
                   </div>
                   <button
@@ -1296,7 +1295,7 @@ const Dashboard = () => {
                       navigator.clipboard.writeText(generatedEmail);
                       toast.success("Email template copied to clipboard!");
                     }}
-                    className="w-full bg-orange-50 border border-orange-200 hover:bg-orange-100 text-orange-600 font-bold py-2.5 rounded-xl text-xs transition-all shadow-xs"
+                    className="w-full bg-emerald-50 border border-emerald-200/60 hover:bg-emerald-100 text-emerald-700 font-bold py-2.5 rounded-lg text-xs transition-all shadow-xs"
                   >
                     📋 Copy to Clipboard
                   </button>
@@ -1338,22 +1337,22 @@ const Dashboard = () => {
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-slate-50 border border-slate-150 p-3 rounded-2xl text-center">
-                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Market Min</span>
+                  <div className="bg-slate-50 border border-slate-150 p-3 rounded-xl text-center">
+                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-tall tracking-widest">Market Min</span>
                     <h3 className="text-lg font-bold text-slate-805 mt-0.5">₹{salaryAnalysisData.marketMin} LPA</h3>
                   </div>
-                  <div className="bg-orange-50 border border-orange-100 p-3 rounded-2xl text-center">
-                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Market Avg</span>
-                    <h3 className="text-lg font-extrabold text-orange-600 mt-0.5">₹{salaryAnalysisData.marketAvg} LPA</h3>
+                  <div className="bg-emerald-50 border border-emerald-100 p-3 rounded-xl text-center">
+                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-tall tracking-widest">Market Avg</span>
+                    <h3 className="text-lg font-extrabold text-emerald-700 mt-0.5">₹{salaryAnalysisData.marketAvg} LPA</h3>
                   </div>
-                  <div className="bg-slate-50 border border-slate-150 p-3 rounded-2xl text-center">
-                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Market Max</span>
-                    <h3 className="text-lg font-bold text-slate-805 mt-0.5">₹{salaryAnalysisData.marketMax} LPA</h3>
+                  <div className="bg-slate-50 border border-slate-150 p-3 rounded-xl text-center">
+                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-tall tracking-widest">Market Max</span>
+                    <h3 className="text-lg font-bold text-slate-855 mt-0.5">₹{salaryAnalysisData.marketMax} LPA</h3>
                   </div>
                 </div>
 
-                <div className="bg-orange-50/50 border border-orange-100 p-4 rounded-2xl text-xs text-slate-600 leading-relaxed">
-                  <span className="font-bold text-orange-600 block mb-1">Market Compensation Summary:</span>
+                <div className="bg-emerald-50/40 border border-emerald-100/60 p-4 rounded-xl text-xs text-slate-600 leading-relaxed">
+                  <span className="font-bold text-emerald-700 block mb-1">Market Compensation Summary:</span>
                   {salaryAnalysisData.analysis}
                 </div>
 

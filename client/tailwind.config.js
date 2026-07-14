@@ -10,6 +10,7 @@ export default {
         hero: ["hero", "sans-serif"],
         sans: ["Bricolage Grotesque", "sans-serif"],
         display: ["Bricolage Grotesque", "sans-serif"],
+        tall: ["Barlow Condensed", "sans-serif"],
       },
       colors: {
         primary: {
