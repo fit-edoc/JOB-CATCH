@@ -119,9 +119,8 @@ const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJ
       </div>
     </motion.div>
   );
-});v>
-  );
 });
+  
 
 const AllJobs = () => {
   const { job, user } = useAuth();
@@ -254,7 +253,9 @@ const AllJobs = () => {
     } catch (error) {
       toast.error("Failed to update saved jobs");
     }
-  },   return (
+  }, [token]);
+  
+  return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-emerald-50/10 blur-[120px] pointer-events-none" />
@@ -373,7 +374,6 @@ const AllJobs = () => {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

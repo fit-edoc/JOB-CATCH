@@ -1060,7 +1060,9 @@ const Dashboard = () => {
                       </div>
                     )}
                   </div>
-                      <div className="flex items-center justify-between mb-6">
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between mb-6">
                       <h1 className="text-2xl font-tall font-bold uppercase tracking-wider text-slate-900">Your Posted Jobs</h1>
                       <Link 
                         to="/postjob" 
@@ -1070,6 +1072,7 @@ const Dashboard = () => {
                         Post New
                       </Link>
                     </div>
+                )
                     {userPostedJobs.length > 0 ? (
                       <div className="grid grid-cols-1 gap-4">
                         {userPostedJobs.map(job => (
@@ -1110,7 +1113,6 @@ const Dashboard = () => {
                             </div>
                           </div>
                         ))}
-                      </div>            ))}
                       </div>
                     ) : (
                       <div className="bg-white rounded-xl border border-slate-200/80 p-12 text-center shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)]">
