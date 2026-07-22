@@ -19,7 +19,7 @@ app.set('trust proxy', 1)
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://wayhyre.vercel.app/"
+  "https://wayhyre.vercel.app"
 ];
 if (process.env.CLIENT_URL) {
   allowedOrigins.push(process.env.CLIENT_URL);

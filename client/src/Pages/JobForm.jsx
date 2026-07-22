@@ -151,7 +151,7 @@ const JobForm = () => {
                         placeholder="e.g. Acme Corp"
                         value={formData.company}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-emerald-500 outline-none transition-all placeholder:text-slate-400 text-sm"
                         required
                       />
                     </div>
@@ -205,7 +205,7 @@ const JobForm = () => {
                         checked={formData.salary.disclosed}
                         onChange={handleDisclosedToggle}
                       />
-                      <div className={`block w-10 h-6 rounded-full transition-colors ${formData.salary.disclosed ? 'bg-orange-500' : 'bg-slate-200'}`}></div>
+                      <div className={`block w-10 h-6 rounded-full transition-colors ${formData.salary.disclosed ? 'bg-emerald-400' : 'bg-slate-200'}`}></div>
                       <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${formData.salary.disclosed ? 'transform translate-x-4' : ''}`}></div>
                     </div>
                   </label>
@@ -255,7 +255,7 @@ const JobForm = () => {
                     type="button"
                     onClick={generateJobDescription}
                     disabled={generatingJD}
-                    className="px-3 py-1.5 bg-orange-50 border border-orange-100 text-orange-600 hover:bg-orange-100 rounded-xl text-xs font-bold transition-all flex items-center gap-1"
+                    className="px-3 py-1.5 bg-emerald-400-50 border border-emerald-400-100 text-emerald-400 hover:bg-emerald-400-100 rounded-xl text-xs font-bold transition-all flex items-center gap-1"
                   >
                     {generatingJD ? 'Generating...' : '⚡ Generate with AI'}
                   </button>

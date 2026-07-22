@@ -613,7 +613,7 @@ const Dashboard = () => {
             {activeTab === 'interview' && user?.role === 'seeker' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
                 <h1 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                  <Sparkles className="text-orange-500" />
+                  <Sparkles className="text-emerald-300" />
                   AI Mock Interview Simulator
                 </h1>
                 <InterviewSimulator />
@@ -1072,7 +1072,7 @@ const Dashboard = () => {
                         Post New
                       </Link>
                     </div>
-                )
+        
                     {userPostedJobs.length > 0 ? (
                       <div className="grid grid-cols-1 gap-4">
                         {userPostedJobs.map(job => (
