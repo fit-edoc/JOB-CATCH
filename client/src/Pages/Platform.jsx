@@ -7,7 +7,7 @@ const Platform = () => {
     {
       id: 1,
       title: "Verified & Trusted Jobs",
-      icon: <ShieldCheck className="w-8 h-8 text-orange-600" />,
+      icon: <ShieldCheck className="w-8 h-8 text-emerald-600" />,
       description: "Access authentic job postings from verified companies — no spam, no fake listings.",
       points: [
         "100% verified employers",
@@ -18,7 +18,7 @@ const Platform = () => {
     {
       id: 2,
       title: "Smart Job Matching",
-      icon: <Zap className="w-8 h-8 text-orange-600" />,
+      icon: <Zap className="w-8 h-8 text-emerald-600" />,
       description: "Get job recommendations that match your skills, experience, and preferences.",
       points: [
         "Personalized job suggestions",
@@ -29,7 +29,7 @@ const Platform = () => {
     {
       id: 3,
       title: "Seamless Hiring for Companies",
-      icon: <Briefcase className="w-8 h-8 text-orange-600" />,
+      icon: <Briefcase className="w-8 h-8 text-emerald-600" />,
       description: "Post jobs and manage applications through an intuitive recruitment dashboard.",
       points: [
         "Quick job posting",
@@ -40,7 +40,7 @@ const Platform = () => {
     {
       id: 4,
       title: "Designed for Speed & Simplicity",
-      icon: <Smile className="w-8 h-8 text-orange-600" />,
+      icon: <Smile className="w-8 h-8 text-emerald-600" />,
       description: "Enjoy a smooth, fast, and modern user experience across all devices.",
       points: [
         "Clean modern interface",
@@ -78,7 +78,7 @@ const Platform = () => {
                   <div className="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center shrink-0">
                     {item.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
                     {item.title}
                   </h3>
                 </div>
@@ -93,7 +93,7 @@ const Platform = () => {
                 <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {item.points.map((point, idx) => (
                     <li key={idx} className="flex items-center gap-1.5 text-xs text-slate-600">
-                      <CheckCircle className="w-3.5 h-3.5 text-orange-600 shrink-0" />
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                       <span>{point}</span>
                     </li>
                   ))}

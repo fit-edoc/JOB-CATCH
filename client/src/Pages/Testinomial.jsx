@@ -77,13 +77,13 @@ const Testimonial = () => {
 
               <div>
                 {/* Rating stars */}
-                <div className="flex gap-1 mb-4 text-orange-500">
+                <div className="flex gap-1 mb-4 text-emerald-600">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star 
                       key={i} 
                       size={16} 
                       fill={i < item.rating ? "currentColor" : "none"} 
-                      className={i < item.rating ? "text-orange-500" : "text-slate-200"} 
+                      className={i < item.rating ? "text-emerald-600" : "text-slate-200"} 
                     />
                   ))}
                 </div>
@@ -94,7 +94,7 @@ const Testimonial = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center font-bold text-orange-600 text-sm">
+                <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center font-bold text-emerald-600 text-sm">
                   {item.name.split(" ").map(n => n[0]).join("")}
                 </div>
                 <div className="text-left">
@@ -111,7 +111,7 @@ const Testimonial = () => {
       <div className="flex items-center gap-6 mt-8">
         <button
           onClick={prevClick}
-          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-full transition-all active:scale-95 shadow-md"
+          className="p-3 bg-[#ffffff] border-b-4 border-black hover:bg-slate-50  text-slate-600 hover:text-slate-900 rounded-full transition-all active:scale-95 shadow-md"
         >
           <ArrowLeft size={18} />
         </button>
@@ -126,7 +126,7 @@ const Testimonial = () => {
               animate={{
                 width: idx === current ? 24 : 8,
                 height: 8,
-                backgroundColor: idx === current ? "#ea580c" : "#cbd5e1"
+                backgroundColor: idx === current ? "#53ffaf" : "#cbd5e1"
               }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             />
@@ -135,7 +135,7 @@ const Testimonial = () => {
 
         <button
           onClick={nextClick}
-          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-full transition-all active:scale-95 shadow-md"
+          className="p-3 bg-white border-b-4 border-black hover:bg-slate-50   text-slate-600 hover:text-slate-900 rounded-full transition-all active:scale-95 shadow-md"
         >
           <ArrowRight size={18} />
         </button>

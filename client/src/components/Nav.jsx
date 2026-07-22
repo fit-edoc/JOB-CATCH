@@ -53,7 +53,7 @@ const Nav = () => {
             <Link
               to="/alljobs"
               className={`text-sm font-medium transition-colors hover:text-slate-900 ${
-                location.pathname === "/alljobs" ? "text-slate-900 font-semibold" : "text-slate-600"
+                location.pathname === "/alljobs" ? "text-black font-semibold" : "text-slate-600"
               }`}
             >
               Find jobs
@@ -70,7 +70,7 @@ const Nav = () => {
           {(!user || user.role !== 'seeker') && (
             <button
               onClick={handleCreateJobClick}
-              className="bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-slate-800 transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
+              className="bg-[#e8ff83] border-t border-b-4 border-black  text-black text-xs font-semibold px-4 py-2 rounded-full hover:bg-slate-800 transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
             >
               <Briefcase size={12} />
               create job
@@ -99,17 +99,12 @@ const Nav = () => {
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link
-                to="/login"
-                className="text-slate-650 hover:text-slate-900 text-sm font-semibold transition-colors px-3 py-2"
-              >
-                log in
-              </Link>
+              
               <Link
                 to="/register"
-                className="bg-slate-900 text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-slate-800 transition-all shadow-sm border border-transparent"
+                className="bg-emerald-600 border-t border-b-4 border-black text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-slate-800 transition-all shadow-sm border border-transparent"
               >
-                sign up 
+                sign in
               </Link>
             </div>
           )}
