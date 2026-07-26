@@ -712,11 +712,44 @@ export const sendOtpController = async (req, res) => {
     user.loginOtpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
+    const emailHtml = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <!-- Replace the src URL below with the URL where your WAYHYRE image is hosted -->
+        <div style="text-align: center; background: linear-gradient(to bottom, #ffffcc, #ffffff); border-bottom: 1px solid #f0f0f0;">
+          <img src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785078173/WAY_kmpll9.png" alt="WAYHYRE Job Platform" style="width: 100%; max-width: 600px; height: auto; display: block;" />
+        </div>
+        
+        <div style="padding: 40px 30px; background-color: #ffffff; text-align: center;">
+          <h1 style="color: #1a1a1a; font-size: 28px; margin-top: 0; margin-bottom: 20px;">Hi ${user.name},</h1>
+          
+          <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+            Here is your One-Time Password (OTP) to securely access your account.
+          </p>
+          
+          <div style="margin: 30px 0;">
+            <span style="display: inline-block; font-size: 42px; font-weight: 800; color: #000000; background-color: #fdffe0; padding: 15px 40px; border-radius: 8px; border: 2px dashed #fbffa6; letter-spacing: 8px;">
+              ${otp}
+            </span>
+          </div>
+          
+          <p style="color: #64748b; font-size: 14px; margin-top: 30px; margin-bottom: 0;">
+            This code will expire in <strong>10 minutes</strong>. Please do not share it with anyone.
+          </p>
+        </div>
+        
+        <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+          <p style="color: #94a3b8; font-size: 12px; margin: 0;">
+            &copy; ${new Date().getFullYear()} Wayhyre Job Platform. All rights reserved.
+          </p>
+        </div>
+      </div>
+    `;
+
     try {
       await sendEmail({
         to: email,
-        subject: 'Your Login OTP - Job Portal',
-        html: `<p>Your login OTP is <strong>${otp}</strong>. It expires in 10 minutes.</p>`
+        subject: 'Your Login OTP - Wayhyre Job Platform',
+        html: emailHtml
       });
     } catch (emailError) {
       console.error("Failed to send OTP email:", emailError);
