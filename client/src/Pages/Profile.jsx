@@ -296,7 +296,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20 relative overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute top-[10%] left-[20%] w-[400px] h-[400px] rounded-full bg-orange-100/10 blur-[100px] pointer-events-none" />
+      <div className="absolute top-[10%] left-[20%] w-[400px] h-[400px] rounded-full bg-fuchsia-100/10 blur-[100px] pointer-events-none" />
 
       <div className="max-w-3xl mx-auto px-6 relative z-10">
         <motion.div 
@@ -310,7 +310,7 @@ const Profile = () => {
               <h2 className="text-3xl font-display font-bold mb-2 text-slate-900">Edit Profile</h2>
               <p className="text-slate-500">Update your personal and professional details.</p>
             </div>
-            <div className="w-16 h-16 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 text-2xl font-bold">
+            <div className="w-16 h-16 rounded-full bg-fuchsia-50 border border-fuchsia-100 flex items-center justify-center text-fuchsia-600 text-2xl font-bold">
               {formData.name.charAt(0).toUpperCase()}
             </div>
           </div>
@@ -331,7 +331,7 @@ const Profile = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all"
+                      className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all"
                       required
                     />
                   </div>
@@ -346,7 +346,7 @@ const Profile = () => {
                       name="lastname"
                       value={formData.lastname}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all"
+                      className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all"
                     />
                   </div>
                 </div>
@@ -362,7 +362,7 @@ const Profile = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all"
+                      className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all"
                       required
                     />
                   </div>
@@ -377,7 +377,7 @@ const Profile = () => {
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all"
+                      className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all"
                     />
                   </div>
                 </div>
@@ -388,22 +388,22 @@ const Profile = () => {
             <div className="space-y-6">
               <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-2">Account Type</h3>
               <div className="flex gap-4">
-                <label className={`flex-1 flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${formData.role === 'seeker' ? 'border-orange-500 bg-orange-50' : 'border-slate-200 bg-slate-50/50 hover:border-slate-300'}`}>
+                <label className={`flex-1 flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${formData.role === 'seeker' ? 'border-fuchsia-500 bg-fuchsia-50' : 'border-slate-200 bg-slate-50/50 hover:border-slate-300'}`}>
                   <div className="flex items-center gap-3">
-                    <Briefcase className={`w-5 h-5 ${formData.role === 'seeker' ? 'text-orange-600' : 'text-slate-400'}`} />
+                    <Briefcase className={`w-5 h-5 ${formData.role === 'seeker' ? 'text-fuchsia-600' : 'text-slate-400'}`} />
                     <span className={`font-semibold ${formData.role === 'seeker' ? 'text-slate-900' : 'text-slate-500'}`}>Job Seeker</span>
                   </div>
                   <input type="radio" name="role" value="seeker" checked={formData.role === 'seeker'} onChange={handleChange} className="sr-only" />
-                  {formData.role === 'seeker' && <Check className="w-5 h-5 text-orange-600" />}
+                  {formData.role === 'seeker' && <Check className="w-5 h-5 text-fuchsia-600" />}
                 </label>
                 
-                <label className={`flex-1 flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${formData.role === 'employer' ? 'border-orange-500 bg-orange-50' : 'border-slate-200 bg-slate-50/50 hover:border-slate-300'}`}>
+                <label className={`flex-1 flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${formData.role === 'employer' ? 'border-fuchsia-500 bg-fuchsia-50' : 'border-slate-200 bg-slate-50/50 hover:border-slate-300'}`}>
                   <div className="flex items-center gap-3">
-                    <Building className={`w-5 h-5 ${formData.role === 'employer' ? 'text-orange-600' : 'text-slate-400'}`} />
+                    <Building className={`w-5 h-5 ${formData.role === 'employer' ? 'text-fuchsia-600' : 'text-slate-400'}`} />
                     <span className={`font-semibold ${formData.role === 'employer' ? 'text-slate-900' : 'text-slate-500'}`}>Employer / HR</span>
                   </div>
                   <input type="radio" name="role" value="employer" checked={formData.role === 'employer'} onChange={handleChange} className="sr-only" />
-                  {formData.role === 'employer' && <Check className="w-5 h-5 text-orange-600" />}
+                  {formData.role === 'employer' && <Check className="w-5 h-5 text-fuchsia-600" />}
                 </label>
               </div>
             </div>
@@ -421,7 +421,7 @@ const Profile = () => {
                       onChange={handleChange}
                       placeholder="Tell us a bit about yourself..."
                       rows="4"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all resize-none placeholder:text-slate-400 text-sm font-sans"
+                      className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all resize-none placeholder:text-slate-400 text-sm font-sans"
                     ></textarea>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -432,7 +432,7 @@ const Profile = () => {
                           type="button"
                           onClick={handleExtractSkills}
                           disabled={extractingSkills}
-                          className="text-[10px] font-bold text-orange-655 hover:underline"
+                          className="text-[10px] font-bold text-fuchsia-655 hover:underline"
                         >
                           {extractingSkills ? 'Extracting...' : '⚡ AI Extract'}
                         </button>
@@ -443,7 +443,7 @@ const Profile = () => {
                         value={formData.skills}
                         onChange={handleChange}
                         placeholder="React, Node.js, Python..."
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400"
+                        className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400"
                       />
                     </div>
                     <div>
@@ -456,7 +456,7 @@ const Profile = () => {
                           value={formData.resumeLink}
                           onChange={handleChange}
                           placeholder="https://..."
-                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400"
+                          className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400"
                         />
                       </div>
                     </div>
@@ -470,7 +470,7 @@ const Profile = () => {
                           value={formData.desiredSalary}
                           onChange={handleChange}
                           placeholder="e.g. 12"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400"
+                          className="w-full pl-10 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400"
                         />
                       </div>
                     </div>
@@ -484,7 +484,7 @@ const Profile = () => {
                           value={formData.videoIntroUrl}
                           onChange={handleChange}
                           placeholder="https://youtube.com/watch?v=..."
-                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400"
+                          className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400"
                         />
                       </div>
                     </div>
@@ -498,7 +498,7 @@ const Profile = () => {
                       onChange={handleChange}
                       placeholder="Paste the raw text of your resume here to let our AI scan for ATS compliance..."
                       rows="6"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all resize-none placeholder:text-slate-400 text-sm font-sans"
+                      className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all resize-none placeholder:text-slate-400 text-sm font-sans"
                     ></textarea>
                   </div>
 
@@ -514,14 +514,14 @@ const Profile = () => {
                             placeholder="e.g. octocat"
                             value={githubUsername}
                             onChange={(e) => setGithubUsername(e.target.value)}
-                            className="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none focus:border-orange-500"
+                            className="flex-1 px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none focus:border-fuchsia-500"
                           />
                           {verificationData?.githubVerified ? (
-                            <span className="px-2.5 py-2 bg-green-50 border border-green-200 text-green-700 font-bold rounded-lg text-[10px] flex items-center gap-1 shrink-0">
+                            <span className="px-2.5 py-2 bg-green-50 border border-green-200 text-green-700 font-bold rounded-full text-[10px] flex items-center gap-1 shrink-0">
                               <Check size={12} /> Verified
                             </span>
                           ) : (
-                            <span className="px-2.5 py-2 bg-red-50 border border-red-200 text-red-650 font-bold rounded-lg text-[10px] flex items-center gap-1 shrink-0">
+                            <span className="px-2.5 py-2 bg-red-50 border border-red-200 text-red-650 font-bold rounded-full text-[10px] flex items-center gap-1 shrink-0">
                               <X size={12} /> Unverified
                             </span>
                           )}
@@ -536,14 +536,14 @@ const Profile = () => {
                             placeholder="https://myportfolio.com"
                             value={portfolioUrl}
                             onChange={(e) => setPortfolioUrl(e.target.value)}
-                            className="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none focus:border-orange-500"
+                            className="flex-1 px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none focus:border-fuchsia-500"
                           />
                           {verificationData?.websiteVerified ? (
-                            <span className="px-2.5 py-2 bg-green-50 border border-green-200 text-green-700 font-bold rounded-lg text-[10px] flex items-center gap-1 shrink-0">
+                            <span className="px-2.5 py-2 bg-green-50 border border-green-200 text-green-700 font-bold rounded-full text-[10px] flex items-center gap-1 shrink-0">
                               <Check size={12} /> Verified
                             </span>
                           ) : (
-                            <span className="px-2.5 py-2 bg-red-50 border border-red-200 text-red-650 font-bold rounded-lg text-[10px] flex items-center gap-1 shrink-0">
+                            <span className="px-2.5 py-2 bg-red-50 border border-red-200 text-red-650 font-bold rounded-full text-[10px] flex items-center gap-1 shrink-0">
                               <X size={12} /> Unverified
                             </span>
                           )}
@@ -555,7 +555,7 @@ const Profile = () => {
                           type="button"
                           onClick={handleVerifyPortfolios}
                           disabled={verifyingPortfolios}
-                          className="bg-slate-950 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-lg transition-all shadow-sm flex items-center justify-center gap-1 disabled:opacity-70 text-xs"
+                          className="bg-slate-950 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-full transition-all shadow-sm flex items-center justify-center gap-1 disabled:opacity-70 text-xs"
                         >
                           {verifyingPortfolios ? 'Verifying...' : 'Verify Portfolios'}
                         </button>
@@ -574,7 +574,7 @@ const Profile = () => {
                         {user?.verifiedSkills && user.verifiedSkills.length > 0 ? (
                           <div className="flex flex-wrap gap-2">
                             {user.verifiedSkills.map((vs, idx) => (
-                              <span key={idx} className="px-3 py-1.5 bg-green-50 border border-green-200 text-green-700 font-bold rounded-lg text-xs flex items-center gap-1.5">
+                              <span key={idx} className="px-3 py-1.5 bg-green-50 border border-green-200 text-green-700 font-bold rounded-full text-xs flex items-center gap-1.5">
                                 <Check size={12} className="text-green-600" />
                                 {vs.skillName} ({vs.score}%)
                               </span>
@@ -598,7 +598,7 @@ const Profile = () => {
                                   key={idx}
                                   type="button"
                                   onClick={() => handleStartAssessment(skill)}
-                                  className="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 hover:border-orange-500 hover:text-orange-600 rounded-lg text-xs font-medium transition-all"
+                                  className="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 hover:border-fuchsia-500 hover:text-fuchsia-600 rounded-full text-xs font-medium transition-all"
                                 >
                                   ⚡ Verify {skill}
                                 </button>
@@ -617,7 +617,7 @@ const Profile = () => {
                         <div className="flex justify-between items-center border-b border-slate-100 pb-2">
                           <h5 className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
                             <span>Assessment: {assessmentSkill}</span>
-                            <span className="text-[10px] bg-orange-50 border border-orange-100 text-orange-600 px-2 py-0.5 rounded font-normal">AI Powered</span>
+                            <span className="text-[10px] bg-fuchsia-50 border border-fuchsia-100 text-fuchsia-600 px-2 py-0.5 rounded font-normal">AI Powered</span>
                           </h5>
                           <button
                             type="button"
@@ -633,7 +633,7 @@ const Profile = () => {
                             Generating custom AI questions... please wait.
                           </div>
                         ) : assessmentResult ? (
-                          <div className="p-4 rounded-xl border text-center space-y-3 bg-slate-50 border-slate-200">
+                          <div className="p-4 rounded-2xl border text-center space-y-3 bg-slate-50 border-slate-200">
                             {assessmentResult.passed ? (
                               <>
                                 <span className="inline-block text-3xl">🎉</span>
@@ -653,7 +653,7 @@ const Profile = () => {
                                 setAssessmentSkill(null);
                                 window.location.reload();
                               }}
-                              className="px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800"
+                              className="px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-full hover:bg-slate-800"
                             >
                               Close Assessment
                             </button>
@@ -667,9 +667,9 @@ const Profile = () => {
                                   {q.options.map((opt, optIdx) => (
                                     <label
                                       key={optIdx}
-                                      className={`flex items-center gap-2 p-2.5 rounded-lg border cursor-pointer text-left transition-all ${
+                                      className={`flex items-center gap-2 p-2.5 rounded-full border cursor-pointer text-left transition-all ${
                                         selectedAnswers[qIdx] === optIdx
-                                          ? 'border-orange-500 bg-orange-50/50'
+                                          ? 'border-fuchsia-500 bg-fuchsia-50/50'
                                           : 'border-slate-200 hover:bg-slate-50'
                                       }`}
                                     >
@@ -692,7 +692,7 @@ const Profile = () => {
                                 type="button"
                                 onClick={handleSubmitAssessment}
                                 disabled={submittingAssessment}
-                                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow-sm"
+                                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2 rounded-full shadow-sm"
                               >
                                 {submittingAssessment ? 'Submitting Answers...' : 'Submit Answers'}
                               </button>
@@ -708,7 +708,7 @@ const Profile = () => {
                     <h4 className="font-semibold text-slate-900 text-md">Experience</h4>
                     <div className="space-y-2">
                       {formData.experience.map((exp, idx) => (
-                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-2xl">
                           <div>
                             <p className="font-bold text-slate-900 text-sm">{exp.role} at {exp.company}</p>
                             <p className="text-xs text-slate-550">{exp.duration}</p>
@@ -724,33 +724,33 @@ const Profile = () => {
                         placeholder="Role / Position"
                         value={newExp.role}
                         onChange={(e) => setNewExp(prev => ({ ...prev, role: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Company"
                         value={newExp.company}
                         onChange={(e) => setNewExp(prev => ({ ...prev, company: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Duration (e.g. 2022 - Present)"
                         value={newExp.duration}
                         onChange={(e) => setNewExp(prev => ({ ...prev, duration: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <textarea
                         placeholder="Description (Optional)"
                         value={newExp.description}
                         onChange={(e) => setNewExp(prev => ({ ...prev, description: e.target.value }))}
-                        className="sm:col-span-3 px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none resize-none"
+                        className="sm:col-span-3 px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none resize-none"
                         rows="2"
                       />
                       <button
                         type="button"
                         onClick={addExperience}
-                        className="sm:col-span-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-semibold transition-all"
+                        className="sm:col-span-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-2xl text-xs font-semibold transition-all"
                       >
                         Add Experience
                       </button>
@@ -762,12 +762,12 @@ const Profile = () => {
                     <h4 className="font-semibold text-slate-900 text-md">Projects</h4>
                     <div className="space-y-2">
                       {formData.projects.map((proj, idx) => (
-                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-2xl">
                           <div>
                             <p className="font-bold text-slate-900 text-sm">{proj.title}</p>
                             <p className="text-xs text-slate-550">{proj.technologies ? proj.technologies.join(', ') : ''}</p>
                             {proj.description && <p className="text-xs text-slate-600 mt-1">{proj.description}</p>}
-                            {proj.link && <a href={proj.link} target="_blank" rel="noreferrer" className="text-[10px] text-orange-600 hover:underline flex items-center gap-1 mt-1">{proj.link}</a>}
+                            {proj.link && <a href={proj.link} target="_blank" rel="noreferrer" className="text-[10px] text-fuchsia-600 hover:underline flex items-center gap-1 mt-1">{proj.link}</a>}
                           </div>
                           <button type="button" onClick={() => removeProject(idx)} className="text-red-655 hover:text-red-755 text-xs font-semibold">Remove</button>
                         </div>
@@ -779,33 +779,33 @@ const Profile = () => {
                         placeholder="Project Title"
                         value={newProj.title}
                         onChange={(e) => setNewProj(prev => ({ ...prev, title: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Technologies (comma separated)"
                         value={newProj.technologies}
                         onChange={(e) => setNewProj(prev => ({ ...prev, technologies: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="url"
                         placeholder="Project Link (Optional)"
                         value={newProj.link}
                         onChange={(e) => setNewProj(prev => ({ ...prev, link: e.target.value }))}
-                        className="sm:col-span-2 px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="sm:col-span-2 px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <textarea
                         placeholder="Description (Optional)"
                         value={newProj.description}
                         onChange={(e) => setNewProj(prev => ({ ...prev, description: e.target.value }))}
-                        className="sm:col-span-2 px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none resize-none"
+                        className="sm:col-span-2 px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none resize-none"
                         rows="2"
                       />
                       <button
                         type="button"
                         onClick={addProject}
-                        className="sm:col-span-2 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-semibold transition-all"
+                        className="sm:col-span-2 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-2xl text-xs font-semibold transition-all"
                       >
                         Add Project
                       </button>
@@ -817,7 +817,7 @@ const Profile = () => {
                     <h4 className="font-semibold text-slate-900 text-md">Education</h4>
                     <div className="space-y-2">
                       {formData.education.map((edu, idx) => (
-                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-2xl">
                           <div>
                             <p className="font-bold text-slate-900 text-sm">{edu.degree} in {edu.fieldOfStudy}</p>
                             <p className="text-xs text-slate-550">{edu.school} ({edu.year})</p>
@@ -832,33 +832,33 @@ const Profile = () => {
                         placeholder="School / University"
                         value={newEdu.school}
                         onChange={(e) => setNewEdu(prev => ({ ...prev, school: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Degree (e.g. B.Tech)"
                         value={newEdu.degree}
                         onChange={(e) => setNewEdu(prev => ({ ...prev, degree: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Field of Study (e.g. Computer Science)"
                         value={newEdu.fieldOfStudy}
                         onChange={(e) => setNewEdu(prev => ({ ...prev, fieldOfStudy: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Graduation Year"
                         value={newEdu.year}
                         onChange={(e) => setNewEdu(prev => ({ ...prev, year: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <button
                         type="button"
                         onClick={addEducation}
-                        className="sm:col-span-2 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-semibold transition-all"
+                        className="sm:col-span-2 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-2xl text-xs font-semibold transition-all"
                       >
                         Add Education
                       </button>
@@ -870,7 +870,7 @@ const Profile = () => {
                     <h4 className="font-semibold text-slate-900 text-md">Certifications</h4>
                     <div className="space-y-2">
                       {formData.certifications.map((cert, idx) => (
-                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 border border-slate-200 p-4 rounded-2xl">
                           <div>
                             <p className="font-bold text-slate-900 text-sm">{cert.name}</p>
                             <p className="text-xs text-slate-550">{cert.issuingOrganization} ({cert.issueDate})</p>
@@ -885,26 +885,26 @@ const Profile = () => {
                         placeholder="Certification Name"
                         value={newCert.name}
                         onChange={(e) => setNewCert(prev => ({ ...prev, name: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Issuing Organization"
                         value={newCert.issuingOrganization}
                         onChange={(e) => setNewCert(prev => ({ ...prev, issuingOrganization: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <input
                         type="text"
                         placeholder="Date (e.g. July 2025)"
                         value={newCert.issueDate}
                         onChange={(e) => setNewCert(prev => ({ ...prev, issueDate: e.target.value }))}
-                        className="px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 outline-none"
+                        className="px-3 py-2 text-xs rounded-full border border-slate-200 bg-white text-slate-900 outline-none"
                       />
                       <button
                         type="button"
                         onClick={addCertification}
-                        className="sm:col-span-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-semibold transition-all"
+                        className="sm:col-span-3 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-2xl text-xs font-semibold transition-all"
                       >
                         Add Certification
                       </button>
@@ -924,7 +924,7 @@ const Profile = () => {
                         value={formData.companyName}
                         onChange={handleChange}
                         placeholder="Acme Corp"
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400"
+                        className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400"
                       />
                     </div>
                   </div>
@@ -936,7 +936,7 @@ const Profile = () => {
                       onChange={handleChange}
                       placeholder="What does your company do?"
                       rows="4"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all resize-none placeholder:text-slate-400"
+                      className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all resize-none placeholder:text-slate-400"
                     ></textarea>
                   </div>
 
@@ -945,7 +945,7 @@ const Profile = () => {
                     <h4 className="font-semibold text-slate-900 text-md">Corporate Recruiter Verification</h4>
                     <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
                       {recruiterVerificationData?.isVerified ? (
-                        <div className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl flex items-center gap-2.5">
+                        <div className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-2xl flex items-center gap-2.5">
                           <Check size={18} className="bg-green-600 text-white rounded-full p-0.5 animate-pulse" />
                           <div>
                             <p className="font-bold text-xs">Verified Recruiter Status Active</p>
@@ -963,7 +963,7 @@ const Profile = () => {
                                 placeholder="https://acme.com"
                                 value={recruiterWebsite}
                                 onChange={(e) => setRecruiterWebsite(e.target.value)}
-                                className="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none focus:border-orange-500 bg-white"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-full outline-none focus:border-fuchsia-500 bg-white"
                               />
                             </div>
                             <div>
@@ -973,7 +973,7 @@ const Profile = () => {
                                 placeholder="e.g. U72200DL2021PTC123456"
                                 value={recruiterRegNo}
                                 onChange={(e) => setRecruiterRegNo(e.target.value)}
-                                className="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none focus:border-orange-500 bg-white"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-full outline-none focus:border-fuchsia-500 bg-white"
                               />
                             </div>
                           </div>
@@ -982,7 +982,7 @@ const Profile = () => {
                               type="button"
                               onClick={handleVerifyRecruiter}
                               disabled={verifyingRecruiter}
-                              className="bg-slate-950 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-lg transition-all shadow-sm flex items-center justify-center gap-1 disabled:opacity-70 text-xs"
+                              className="bg-slate-950 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-full transition-all shadow-sm flex items-center justify-center gap-1 disabled:opacity-70 text-xs"
                             >
                               {verifyingRecruiter ? 'Verifying Business...' : '⚡ Verify Employer Status'}
                             </button>
@@ -999,7 +999,7 @@ const Profile = () => {
               <button
                 type="button"
                 onClick={() => navigate('/dashboard')}
-                className="px-6 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-1.5"
+                className="px-6 py-2 rounded-2xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-1.5"
               >
                 <ArrowLeft size={16} />
                 Cancel
@@ -1007,7 +1007,7 @@ const Profile = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-70 border border-transparent"
+                className="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-8 py-2 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-70 border border-transparent"
               >
                 <Save size={16} />
                 {loading ? 'Saving...' : 'Save Profile'}

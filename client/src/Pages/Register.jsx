@@ -11,7 +11,7 @@ const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon }) =>
       {label}
     </label>
     <div className="relative">
-      {Icon && <Icon className="absolute left-4 top-3.5 text-slate-400 w-5 h-5" />}
+      {Icon && <Icon className="absolute left-4 top-2.5 text-slate-400 w-4 h-4" />}
       <input
         type={type}
         id={id}
@@ -19,7 +19,7 @@ const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon }) =>
         value={value}
         onChange={onChange}
         required
-        className={`w-full ${Icon ? 'pl-12' : 'pl-4'} pr-4 py-3 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white text-slate-900 focus:ring-2 focus:ring-emerald-500/15 focus:border-emerald-450 outline-none transition-all placeholder:text-slate-400 text-sm`}
+        className={`w-full ${Icon ? 'pl-10' : 'pl-4'} pr-4 py-2 rounded-full border border-slate-200 bg-slate-50/50 focus:bg-white text-slate-900 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-400 outline-none transition-all placeholder:text-slate-400 text-sm`}
         placeholder={`Enter your ${label.toLowerCase()}`}
       />
     </div>
@@ -56,19 +56,17 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-900 pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#52b788]/5 blur-[100px] opacity-60 pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-lime-200/5 blur-[120px] opacity-60 pointer-events-none" />
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-white rounded-xl border border-slate-200/80 shadow-[inset_0_1px_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden relative z-10"
-      >
-        <div className="px-8 py-10">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-tall font-bold uppercase tracking-wider text-slate-900 mb-2">Create an Account</h2>
+    <div className="min-h-screen w-full flex bg-white text-slate-900 relative overflow-hidden">
+      {/* Left Column - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20 pb-12 relative z-10">
+         <motion.div 
+           initial={{ opacity: 0, x: -20 }}
+           animate={{ opacity: 1, x: 0 }}
+           className="w-full max-w-md"
+         >
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-mukta font-bold text-slate-900 mb-2">Create an Account</h2>
             <p className="text-slate-500">Join WayHyre and take the next step in your career.</p>
           </div>
 
@@ -85,14 +83,14 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={() => setForm(prev => ({ ...prev, role: 'seeker' }))}
-                  className={`py-3 px-4 rounded-lg border text-sm font-semibold transition-all ${form.role === 'seeker' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/20' : 'border-slate-200 bg-slate-50 text-slate-650 hover:bg-slate-100'}`}
+                  className={`py-2 px-4 rounded-full border text-sm font-semibold transition-all ${form.role === 'seeker' ? 'border-purple-500 bg-purple-50 text-purple-700 ring-2 ring-purple-500/20' : 'border-slate-200 bg-slate-50 text-slate-650 hover:bg-slate-100'}`}
                 >
                   💼 Job Seeker
                 </button>
                 <button
                   type="button"
                   onClick={() => setForm(prev => ({ ...prev, role: 'employer' }))}
-                  className={`py-3 px-4 rounded-lg border text-sm font-semibold transition-all ${form.role === 'employer' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/20' : 'border-slate-200 bg-slate-50 text-slate-650 hover:bg-slate-100'}`}
+                  className={`py-2 px-4 rounded-full border text-sm font-semibold transition-all ${form.role === 'employer' ? 'border-purple-500 bg-purple-50 text-purple-700 ring-2 ring-purple-500/20' : 'border-slate-200 bg-slate-50 text-slate-650 hover:bg-slate-100'}`}
                 >
                   🏢 HR / Employer
                 </button>
@@ -102,10 +100,10 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-6 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-lg transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
+              className="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-full transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>Sign Up <ArrowRight className="w-4 h-4" /></>
               )}
@@ -115,13 +113,30 @@ const Register = () => {
           <div className="mt-8 text-center">
             <p className="text-sm text-slate-500">
               Already have an account?{" "}
-              <Link to="/login" className="font-semibold text-emerald-700 hover:text-emerald-800 underline underline-offset-4">
+              <Link to="/login" className="font-semibold text-purple-600 hover:text-purple-700 underline underline-offset-4">
                 Log in here
               </Link>
             </p>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Right Column - Visual */}
+      <div className="hidden lg:flex w-1/2 bg-purple-50 relative items-center justify-center overflow-hidden">
+         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-600/10 via-purple-500/5 to-fuchsia-500/10"></div>
+         <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-400/20 blur-[100px] opacity-60 pointer-events-none" />
+         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-fuchsia-300/20 blur-[120px] opacity-60 pointer-events-none" />
+         
+         <motion.div 
+           initial={{ opacity: 0, scale: 0.9 }}
+           animate={{ opacity: 1, scale: 1 }}
+           transition={{ delay: 0.2 }}
+           className="z-10 bg-white/40 backdrop-blur-md p-10 rounded-3xl border border-white/60 shadow-xl max-w-md text-center"
+         >
+           <h3 className="text-3xl font-mukta font-bold text-purple-900 mb-4">Start Your Journey</h3>
+           <p className="text-purple-800/80 leading-relaxed text-sm">Create an account in seconds and unlock access to top-tier companies and exclusive talent matching.</p>
+         </motion.div>
+      </div>
     </div>
   );
 };

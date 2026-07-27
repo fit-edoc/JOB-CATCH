@@ -28,7 +28,7 @@ const Footer = () => {
               <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-slate-800">
                 Wh
               </div>
-              <span className="font-display font-bold text-2xl text-slate-900">
+              <span className="font-mukta font-bold text-2xl text-slate-900 uppercase tracking-tight">
                 WayHyre
               </span>
             </Link>
@@ -55,7 +55,7 @@ const Footer = () => {
               <ul className="flex flex-col gap-3">
                 {items.map((item, index) => (
                   <li key={index}>
-                    <Link to="#" className="text-slate-600 text-sm hover:text-orange-600 transition-colors">
+                    <Link to="#" className="text-slate-600 text-sm hover:text-purple-600 transition-colors">
                       {item}
                     </Link>
                   </li>

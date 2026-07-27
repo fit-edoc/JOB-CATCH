@@ -10,7 +10,8 @@ const JobApplicationForm = lazy(() => import('../Pages/JobForm.jsx'))
 const AllJobs = lazy(() => import('../Pages/AllJobs.jsx'))
 const Dashboard = lazy(() => import('../Pages/Dashboard.jsx'))
 const Profile = lazy(() => import('../Pages/Profile.jsx'))
-
+const About = lazy(() => import('../Pages/About.jsx'))
+const SingleJob = lazy(() => import('../Pages/SingleJob.jsx'))
 const router = createBrowserRouter([
     {
         path:"/",
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
             {
                 path:"alljobs",
                 element:<AllJobs/>
+            },
+            {
+                path:"/jobs/:id",
+                element:<SingleJob/>
+            },
+            {
+                path:"/about",
+                element:<About/>
             },
             {
                 path:"/postjob",

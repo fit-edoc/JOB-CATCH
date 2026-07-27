@@ -61,6 +61,19 @@ const jobSchema = new mongoose.Schema(
       },
     },
 
+    jobField: {
+      type: String,
+      default: "Other"
+    },
+    experience: {
+      type: String,
+      default: "0-1 Years"
+    },
+    skills: {
+      type: [String],
+      default: []
+    },
+    
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

@@ -47,10 +47,10 @@ const Testimonial = () => {
   return (
     <section className="py-24 relative overflow-hidden bg-slate-50 text-slate-900 flex flex-col items-center justify-center">
       {/* Background ambient glow */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-orange-100/10 blur-[120px] pointer-events-none" />
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[120px] pointer-events-none" />
 
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-slate-900">
+        <h2 className="text-3xl md:text-4xl font-mukta font-bold mb-4 text-slate-900">
           What Our Users Say
         </h2>
         <p className="text-slate-600 max-w-md mx-auto">
@@ -77,13 +77,13 @@ const Testimonial = () => {
 
               <div>
                 {/* Rating stars */}
-                <div className="flex gap-1 mb-4 text-emerald-600">
+                <div className="flex gap-1 mb-4 text-purple-600">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star 
                       key={i} 
                       size={16} 
                       fill={i < item.rating ? "currentColor" : "none"} 
-                      className={i < item.rating ? "text-emerald-600" : "text-slate-200"} 
+                      className={i < item.rating ? "text-purple-600" : "text-slate-200"} 
                     />
                   ))}
                 </div>
@@ -94,7 +94,7 @@ const Testimonial = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center font-bold text-emerald-600 text-sm">
+                <div className="w-12 h-12 rounded-full bg-purple-50 border border-purple-100 flex items-center justify-center font-bold text-purple-600 text-sm">
                   {item.name.split(" ").map(n => n[0]).join("")}
                 </div>
                 <div className="text-left">
@@ -126,7 +126,7 @@ const Testimonial = () => {
               animate={{
                 width: idx === current ? 24 : 8,
                 height: 8,
-                backgroundColor: idx === current ? "#53ffaf" : "#cbd5e1"
+                backgroundColor: idx === current ? "#9333ea" : "#cbd5e1"
               }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             />

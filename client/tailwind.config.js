@@ -11,6 +11,7 @@ export default {
         sans: ["Bricolage Grotesque", "sans-serif"],
         display: ["Bricolage Grotesque", "sans-serif"],
         tall: ["Barlow Condensed", "sans-serif"],
+        mukta: ["Mukta Malar", "sans-serif"],
       },
       colors: {
         primary: {

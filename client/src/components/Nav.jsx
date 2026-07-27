@@ -58,19 +58,21 @@ const Nav = () => {
             >
               Find jobs
             </Link>
-            <a
-              href="#companies"
-              className="text-sm font-medium transition-colors hover:text-slate-900 text-slate-600"
+            <Link
+              to="/about"
+              className={`text-sm font-medium transition-colors hover:text-slate-900 ${
+                location.pathname === "/about" ? "text-black font-semibold" : "text-slate-600"
+              }`}
             >
-              companies
-            </a>
+              About Us
+            </Link>
           </nav>
 
           {/* Create Job Capsule Button */}
           {(!user || user.role !== 'seeker') && (
             <button
               onClick={handleCreateJobClick}
-              className="bg-[#e8ff83] border-t border-b-4 border-black  text-black text-xs font-semibold px-4 py-2 rounded-full hover:bg-slate-800 transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
+              className="bg-purple-100 text-purple-900 text-xs font-semibold px-4 py-2 rounded-full hover:bg-purple-200 transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
             >
               <Briefcase size={12} />
               create job
@@ -102,7 +104,7 @@ const Nav = () => {
               
               <Link
                 to="/login"
-                className="bg-emerald-600 border-t border-b-4 border-black text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-slate-800 transition-all shadow-sm border border-transparent"
+                className="bg-purple-600 text-white text-sm font-semibold px-6 py-2 rounded-full hover:bg-purple-700 transition-all shadow-sm border border-transparent"
               >
                 sign in
               </Link>
@@ -136,13 +138,13 @@ const Nav = () => {
               >
                 Find Jobs
               </Link>
-              <a
-                href="#companies"
+              <Link
+                to="/about"
                 className="text-slate-650 font-medium py-2 hover:text-slate-900"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Companies
-              </a>
+                About Us
+              </Link>
               {(!user || user.role !== 'seeker') && (
                 <button
                   onClick={(e) => {
@@ -177,14 +179,14 @@ const Nav = () => {
                 <div className="flex flex-col gap-3 mt-2 pt-4 border-t border-slate-200">
                   <Link
                     to="/login"
-                    className="w-full text-center py-2.5 rounded-xl border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 transition-colors"
+                    className="w-full text-center py-2 rounded-full border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Log in
                   </Link>
                   <Link
                     to="/register"
-                    className="w-full text-center py-2.5 rounded-xl bg-slate-900 text-white font-semibold shadow-sm hover:bg-slate-800 transition-colors"
+                    className="w-full text-center py-2 rounded-full bg-purple-600 text-white font-semibold shadow-sm hover:bg-purple-700 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Sign up

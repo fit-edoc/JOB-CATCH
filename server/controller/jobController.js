@@ -30,6 +30,7 @@ Work Location: "${req.body.workLocation || 'Delhi'}"
 Apply Link: "${req.body.applyLink || ''}"
 
 Analyze if this is a potential scam (e.g. suspiciously high salary for low experience, fake company name, generic links).
+IMPORTANT: Do not flag a company as a scam just because it is a new startup or lacks a website/apply domain match. Only flag if the company does not exist at all or is historically known for fraud.
 Return ONLY a JSON object with these exact keys: "isScam" (boolean), "score" (number, 0-100), "reason" (string).`;
             
             const aiResult = await generateJSON(prompt);
@@ -83,6 +84,19 @@ export const getJobController = async(req,res)=>{
 
     };
     
+export const getSingleJobController = async(req, res) => {
+  try {
+    const { id } = req.params;
+    const job = await jobModel.findById(id).populate("createdBy");
+    if (!job) {
+      return res.status(404).send({ success: false, message: "Job not found" });
+    }
+    res.status(200).json({ success: true, job });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Error fetching single job", success: false });
+  }
+};
 
 export const updateJobcontroller = async(req,res,next)=>{
 

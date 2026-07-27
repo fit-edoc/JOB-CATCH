@@ -34,6 +34,9 @@ const JobForm = () => {
     workLocation: "",
     applyLink: "",
     description: "",
+    jobField: "Engineering",
+    experience: "0-1 Years",
+    skills: "",
     createdBy: user?._id || ""
   });
 
@@ -93,7 +96,13 @@ const JobForm = () => {
     }
     
     try {
-      await createJob(formData);
+      const submissionData = {
+        ...formData,
+        skills: typeof formData.skills === 'string' 
+          ? formData.skills.split(',').map(s => s.trim()).filter(Boolean) 
+          : formData.skills
+      };
+      await createJob(submissionData);
       Navigate("/alljobs");
     } catch (err) {
       console.error(err);
@@ -103,7 +112,7 @@ const JobForm = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20 relative overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute top-[10%] right-[10%] w-[450px] h-[450px] rounded-full bg-orange-100/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[10%] right-[10%] w-[450px] h-[450px] rounded-full bg-fuchsia-100/10 blur-[120px] pointer-events-none" />
 
       <div className="max-w-3xl mx-auto px-6 relative z-10">
         <motion.div 
@@ -135,7 +144,7 @@ const JobForm = () => {
                         placeholder="e.g. Senior Frontend Developer"
                         value={formData.position}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                        className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400 text-sm"
                         required
                       />
                     </div>
@@ -151,7 +160,7 @@ const JobForm = () => {
                         placeholder="e.g. Acme Corp"
                         value={formData.company}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-emerald-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                        className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-500 outline-none transition-all placeholder:text-slate-400 text-sm"
                         required
                       />
                     </div>
@@ -165,7 +174,7 @@ const JobForm = () => {
                       name="workType"
                       value={formData.workType}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all appearance-none text-sm"
+                      className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all appearance-none text-sm"
                     >
                       <option value="full-time">Full-time</option>
                       <option value="part-time">Part-time</option>
@@ -184,11 +193,61 @@ const JobForm = () => {
                         placeholder="e.g. New York or 'Remote'"
                         value={formData.workLocation}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                        className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400 text-sm"
                         required
                       />
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Requirements Section */}
+              <div className="space-y-6 pt-2">
+                <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-2">Requirements</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Job Field</label>
+                    <select
+                      name="jobField"
+                      value={formData.jobField}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-500 outline-none transition-all appearance-none text-sm"
+                    >
+                      <option value="Engineering">Engineering</option>
+                      <option value="Design">Design</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Sales">Sales</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Experience</label>
+                    <select
+                      name="experience"
+                      value={formData.experience}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-500 outline-none transition-all appearance-none text-sm"
+                    >
+                      <option value="Fresher">Fresher (0 Years)</option>
+                      <option value="0-1 Years">0-1 Years</option>
+                      <option value="1-3 Years">1-3 Years</option>
+                      <option value="3-5 Years">3-5 Years</option>
+                      <option value="5+ Years">5+ Years</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Skills (Comma Separated)</label>
+                  <input
+                    type="text"
+                    name="skills"
+                    placeholder="e.g. React, Node.js, TypeScript"
+                    value={formData.skills}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                  />
                 </div>
               </div>
 
@@ -205,7 +264,7 @@ const JobForm = () => {
                         checked={formData.salary.disclosed}
                         onChange={handleDisclosedToggle}
                       />
-                      <div className={`block w-10 h-6 rounded-full transition-colors ${formData.salary.disclosed ? 'bg-emerald-400' : 'bg-slate-200'}`}></div>
+                      <div className={`block w-10 h-6 rounded-full transition-colors ${formData.salary.disclosed ? 'bg-purple-400' : 'bg-slate-200'}`}></div>
                       <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${formData.salary.disclosed ? 'transform translate-x-4' : ''}`}></div>
                     </div>
                   </label>
@@ -223,7 +282,7 @@ const JobForm = () => {
                           placeholder="e.g. 500000"
                           value={formData.salary.min}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                          className="w-full pl-10 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400 text-sm"
                           required={formData.salary.disclosed}
                         />
                       </div>
@@ -238,7 +297,7 @@ const JobForm = () => {
                           placeholder="e.g. 1000000"
                           value={formData.salary.max}
                           onChange={handleChange}
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                          className="w-full pl-10 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400 text-sm"
                           required={formData.salary.disclosed}
                         />
                       </div>
@@ -255,7 +314,7 @@ const JobForm = () => {
                     type="button"
                     onClick={generateJobDescription}
                     disabled={generatingJD}
-                    className="px-3 py-1.5 bg-emerald-400-50 border border-emerald-400-100 text-emerald-400 hover:bg-emerald-400-100 rounded-xl text-xs font-bold transition-all flex items-center gap-1"
+                    className="px-3 py-1.5 bg-purple-400-50 border border-purple-400-100 text-purple-400 hover:bg-purple-400-100 rounded-2xl text-xs font-bold transition-all flex items-center gap-1"
                   >
                     {generatingJD ? 'Generating...' : '⚡ Generate with AI'}
                   </button>
@@ -266,7 +325,7 @@ const JobForm = () => {
                   value={formData.description}
                   onChange={handleChange}
                   rows="6"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all resize-none placeholder:text-slate-400 text-sm font-sans"
+                  className="w-full px-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all resize-none placeholder:text-slate-400 text-sm font-sans"
                 />
               </div>
 
@@ -283,7 +342,7 @@ const JobForm = () => {
                       placeholder="https://yourcompany.com/careers/..."
                       value={formData.applyLink}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-orange-500 outline-none transition-all placeholder:text-slate-400 text-sm"
+                      className="w-full pl-12 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-fuchsia-500 outline-none transition-all placeholder:text-slate-400 text-sm"
                       required
                     />
                   </div>
@@ -295,14 +354,14 @@ const JobForm = () => {
                 <button
                   type="button"
                   onClick={() => Navigate('/dashboard')}
-                  className="w-1/3 border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 font-medium py-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                  className="w-1/3 border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 font-medium py-4 rounded-2xl transition-all flex items-center justify-center gap-1.5"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="w-2/3 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-4 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 border border-transparent"
+                  className="w-2/3 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-4 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 border border-transparent"
                 >
                   <Send className="w-5 h-5" />
                   Publish Job Posting

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Briefcase, MapPin, ArrowRight, Sparkles, Building, Star, Award, Zap } from "lucide-react";
-import BentoGrid from "./BentoGrid";
 import Platform from "./Platform";
 import Testimonial from "./Testinomial";
 
@@ -18,15 +17,15 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fffefe] via-[#ebfe9d] to-[#ffffff] text-slate-900 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-white via-purple-50 to-white text-slate-900 overflow-x-hidden">
       
       
       {/* Hero Section with Soft Glowing Radial Gradient */}
       <section className="relative pt-32 pb-24 flex flex-col items-center justify-center text-center overflow-hidden">
         {/* Glow Effects */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none z-0">
-          <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] rounded-full bg-[#52b788]/15 blur-[140px] opacity-75 animate-pulse" />
-          <div className="absolute top-[-10%] right-[20%] w-[500px] h-[500px] rounded-full bg-lime-200/10 blur-[120px] opacity-60" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] rounded-full bg-purple-500/15 blur-[140px] opacity-75 animate-pulse" />
+          <div className="absolute top-[-10%] right-[20%] w-[500px] h-[500px] rounded-full bg-fuchsia-300/10 blur-[120px] opacity-60" style={{ animationDelay: '2s' }} />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
@@ -35,10 +34,9 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight leading-[1.1] mb-6 text-black"
+            className="text-6xl sm:text-7xl md:text-8xl font-mukta font-bold tracking-tight leading-[1.1] mb-6 text-black uppercase"
           >
-            The smarter way to <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#52b788] to-[#285942]">hire & get hired</span> <br />
-            with WayHyre
+            Wayhyre
           </motion.h1>
 
           {/* Subtext */}
@@ -46,9 +44,9 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-slate-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
+            className="text-slate-600 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 font-medium"
           >
-            A premium role-based platform designed for elite developers and forward-thinking recruiters. Discover fully verified positions and hire top talent seamlessly.
+            The smarter way to hire & get hired.
           </motion.p>
 
           {/* Search bar styled to look cohesive */}
@@ -57,7 +55,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             onSubmit={handleSearch}
-            className="max-w-3xl mx-auto bg-white border border-slate-200 p-2 rounded-2xl md:rounded-full shadow-lg flex flex-col md:flex-row gap-2 relative z-20 mb-16"
+            className="max-w-3xl mx-auto bg-white border border-slate-200 p-2 rounded-full shadow-lg flex flex-col md:flex-row gap-2 relative z-20 mb-16"
           >
             <div className="flex-1 flex items-center px-4 py-3 md:py-0 md:border-r border-slate-200">
               <Search className="text-slate-400 w-4 h-4 mr-3 shrink-0" />
@@ -81,7 +79,7 @@ const Home = () => {
             </div>
             <button 
               type="submit" 
-              className="bg-[#316c50] hover:bg-slate-800 text-white px-6 py-3.5 rounded-xl md:rounded-full font-semibold text-sm transition-all flex items-center justify-center gap-1.5 shrink-0"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full font-semibold text-sm transition-all flex items-center justify-center gap-1.5 shrink-0"
             >
               Search Jobs
               <ArrowRight className="w-4 h-4" />
@@ -98,7 +96,7 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_4px_16px_rgba(0,0,0,0.03)] text-left hover:bg-slate-50/50 transition-all group relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#52b788]/5 rounded-full blur-2xl group-hover:bg-[#52b788]/10 transition-all pointer-events-none" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/10 transition-all pointer-events-none" />
               <div className="flex justify-between items-start mb-4">
                 <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg group-hover:scale-105 transition-transform">
                   Wh
@@ -107,7 +105,7 @@ const Home = () => {
                   Full-time
                 </span>
               </div>
-              <h3 className="font-semibold text-lg text-slate-900 mb-1 group-hover:text-[#316c50] transition-colors">Senior React Developer</h3>
+              <h3 className="font-semibold text-lg text-slate-900 mb-1 group-hover:text-purple-700 transition-colors">Senior React Developer</h3>
               <p className="text-slate-500 text-sm mb-4">WayHyre • Remote</p>
               
               <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200/60 rounded-xl p-3 mb-5 leading-relaxed">
@@ -115,10 +113,10 @@ const Home = () => {
               </div>
               
               <div className="flex justify-between items-center">
-                <span className="text-[#52b788] text-sm font-semibold">₹15 - ₹22 LPA</span>
+                <span className="text-purple-600 text-sm font-semibold">₹15 - ₹22 LPA</span>
                 <Link 
                   to="/alljobs" 
-                  className="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors"
+                  className="bg-slate-900 text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-slate-800 transition-colors"
                 >
                   Apply Now
                 </Link>
@@ -139,7 +137,7 @@ const Home = () => {
 
               {/* Orbiting Card 1 (Top Left) */}
               <div className="absolute top-2 left-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 -rotate-6 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
-                <div className="text-[#52b788]"><Briefcase size={16} /></div>
+                <div className="text-purple-600"><Briefcase size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Active Jobs</p>
                   <p className="text-xs font-bold text-slate-900">12,000+</p>
@@ -148,7 +146,7 @@ const Home = () => {
 
               {/* Orbiting Card 2 (Top Right) */}
               <div className="absolute top-2 right-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 rotate-6 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
-                <div className="text-[#52b788]"><Building size={16} /></div>
+                <div className="text-purple-600"><Building size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Companies</p>
                   <p className="text-xs font-bold text-slate-900">500+</p>
@@ -157,7 +155,7 @@ const Home = () => {
 
               {/* Orbiting Card 3 (Bottom Left) */}
               <div className="absolute bottom-2 left-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 rotate-3 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
-                <div className="text-[#52b788]"><Award size={16} /></div>
+                <div className="text-purple-600"><Award size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Placed</p>
                   <p className="text-xs font-bold text-slate-900">15,000+</p>
@@ -166,7 +164,7 @@ const Home = () => {
 
               {/* Orbiting Card 4 (Bottom Right) */}
               <div className="absolute bottom-2 right-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 -rotate-3 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
-                <div className="text-[352b788]"><Zap size={16} /></div>
+                <div className="text-purple-600"><Zap size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Success Rate</p>
                   <p className="text-xs font-bold text-slate-900">98%</p>
@@ -181,7 +179,7 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_4px_16px_rgba(0,0,0,0.03)] text-left hover:bg-slate-50/50 transition-all group relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#52b788]/5 rounded-full blur-2xl group-hover:bg-[#52b788]/10 transition-all pointer-events-none" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/10 transition-all pointer-events-none" />
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-650">
                   PS
@@ -196,7 +194,7 @@ const Home = () => {
                 "I found my dream job within a week! The platform's clean UI and quick filters made the process super easy."
               </p>
               
-              <div className="flex gap-1 text-[#52b788]">
+              <div className="flex gap-1 text-purple-600">
                 <Star size={14} fill="currentColor" />
                 <Star size={14} fill="currentColor" />
                 <Star size={14} fill="currentColor" />
@@ -224,9 +222,6 @@ const Home = () => {
       </section>
 
       {/* Additional landing page content sections styled cohesively */}
-      <div className="py-20 bg-slate-50">
-        <BentoGrid />
-      </div>
 
       <div className="bg-white">
         <Platform />

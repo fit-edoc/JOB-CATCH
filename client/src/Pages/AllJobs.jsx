@@ -5,11 +5,12 @@ import { motion, AnimatePresence } from "motion/react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { hostUrl } from "../api/api";
-import { useLocation } from "react-router-dom";
 
+import { useLocation, Link } from "react-router-dom";
 // Memoized JobCard Component to avoid rendering all cards on keyword filter input keystrokes
 const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJob, handleQuickApply }) => {
   const isVerifiedHR = item.createdBy?.recruiterVerification?.isVerified;
+  const isRecentlyPosted = item.createdAt ? (new Date() - new Date(item.createdAt)) / (1000 * 60 * 60 * 24) <= 3 : false;
 
   return (
     <motion.div
@@ -18,16 +19,18 @@ const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJ
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.2, delay: index * 0.05 }}
-      className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_4px_16px_rgba(0,0,0,0.03)] hover:border-emerald-500/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_8px_24px_rgba(0,0,0,0.05)] transition-all group flex flex-col justify-between text-left"
+      className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_4px_16px_rgba(0,0,0,0.03)] hover:border-purple-500/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_8px_24px_rgba(0,0,0,0.05)] transition-all group flex flex-col justify-between text-left"
     >
       <div>
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center justify-center text-xl font-bold text-slate-800 group-hover:scale-105 transition-transform shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-200/60 flex items-center justify-center text-xl font-bold text-slate-800 group-hover:scale-105 transition-transform shrink-0">
               {item.company.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 className="font-semibold text-lg text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-1">{item.position}</h3>
+              <Link to={`/jobs/${item._id}`}>
+                <h3 className="font-semibold text-lg text-slate-900 group-hover:text-purple-700 transition-colors line-clamp-1 hover:underline">{item.position}</h3>
+              </Link>
               <p className="text-slate-655 text-sm flex items-center gap-1.5 flex-wrap">
                 {item.company}
                 {isVerifiedHR && (
@@ -40,28 +43,34 @@ const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJ
           </div>
           <button 
             onClick={() => handleSaveJob(item._id)}
-            className={`p-2 rounded-full border border-slate-200 hover:bg-slate-100 transition-all ${isSaved ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'text-slate-400 hover:text-slate-900'}`}
+            className={`p-2 rounded-full border border-slate-200 hover:bg-slate-100 transition-all ${isSaved ? 'bg-purple-50 text-purple-700 border-purple-100' : 'text-slate-400 hover:text-slate-900'}`}
           >
-            {isSaved ? <BookmarkCheck size={20} className="text-emerald-600" /> : <Bookmark size={20} />}
+            {isSaved ? <BookmarkCheck size={20} className="text-purple-600" /> : <Bookmark size={20} />}
           </button>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-6">
-          <span className="px-3 py-1 bg-slate-50 border border-slate-200/50 text-slate-655 rounded-lg text-[11px] font-medium flex items-center gap-1.5 capitalize">
+          <span className="px-3 py-1 bg-slate-50 border border-slate-200/50 text-slate-655 rounded-full text-[11px] font-medium flex items-center gap-1.5 capitalize">
             <Briefcase size={12} /> {item.workType}
           </span>
-          <span className="px-3 py-1 bg-slate-50 border border-slate-200/50 text-slate-655 rounded-lg text-[11px] font-medium flex items-center gap-1.5">
+          <span className="px-3 py-1 bg-slate-50 border border-slate-200/50 text-slate-655 rounded-full text-[11px] font-medium flex items-center gap-1.5">
             <MapPin size={12} /> {item.workLocation}
           </span>
           {item.salary?.disclosed && (
-            <span className="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-lg text-[11px] font-medium flex items-center gap-1.5">
+            <span className="px-3 py-1 bg-purple-50 border border-purple-100 text-purple-700 rounded-full text-[11px] font-medium flex items-center gap-1.5">
               <Banknote size={12} /> ₹{item.salary.min} - ₹{item.salary.max}
             </span>
           )}
         </div>
 
+        {item.description && (
+          <p className="text-sm text-slate-500 line-clamp-2 mb-4 leading-relaxed pr-4">
+            {item.description}
+          </p>
+        )}
+
         {item.scamAnalysis?.isScam && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-655 rounded-xl text-[10px] leading-relaxed flex gap-2">
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-655 rounded-2xl text-[10px] leading-relaxed flex gap-2">
             <span className="shrink-0 text-xs">⚠️</span>
             <div>
               <p className="font-bold uppercase tracking-wider">AI Scam Warning ({item.scamAnalysis.score}% risk)</p>
@@ -71,10 +80,14 @@ const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJ
         )}
       </div>
 
-      <div className="flex items-center justify-between pt-4 border-t border-slate-150/60">
+      <div className="flex items-center justify-between pt-4 border-t border-slate-150/60 mt-auto">
         <div className="flex items-center gap-1.5 text-xs text-slate-400">
           <Clock size={12} />
-          <span>Posted recently</span>
+          {isRecentlyPosted ? (
+            <span className="text-purple-600 font-bold bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">Currently Hiring</span>
+          ) : (
+            <span>Posted {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'recently'}</span>
+          )}
         </div>
         <div className="flex gap-2">
           {user?.role === "seeker" && (
@@ -84,7 +97,7 @@ const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJ
                 navigator.clipboard.writeText(refLink);
                 toast.success("Referral link copied to clipboard! Share it with your friends.");
               }}
-              className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200/60 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 active:scale-95 shrink-0"
+              className="bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200/60 px-3.5 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1 active:scale-95 shrink-0"
             >
               🔗 Refer
             </button>
@@ -93,14 +106,14 @@ const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJ
             isApplied ? (
               <button
                 disabled
-                className="bg-slate-100 text-slate-400 px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-not-allowed border border-slate-200"
+                className="bg-slate-100 text-slate-400 px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-not-allowed border border-slate-200"
               >
                 Applied
               </button>
             ) : (
               <button
                 onClick={() => handleQuickApply(item._id)}
-                className="bg-gradient-to-r from-emerald-600 to-[#316c50] hover:from-emerald-700 hover:to-[#224b37] text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+                className="bg-gradient-to-r from-purple-600 to-[#316c50] hover:from-purple-700 hover:to-[#224b37] text-white px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
               >
                 Quick Apply
               </button>
@@ -110,7 +123,7 @@ const JobCard = React.memo(({ item, index, isSaved, isApplied, user, handleSaveJ
             href={item.applyLink} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95 border border-transparent"
+            className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95 border border-transparent"
           >
             Apply Now
             <ExternalLink size={12} />
@@ -135,6 +148,7 @@ const AllJobs = () => {
     keyword: queryKeyword,
     workType: "",
     location: queryLocation,
+    jobField: ""
   });
 
   // Keep filters sync'd if query parameters change
@@ -143,6 +157,7 @@ const AllJobs = () => {
       keyword: queryKeyword,
       workType: "",
       location: queryLocation,
+      jobField: ""
     });
   }, [queryKeyword, queryLocation]);
   
@@ -218,6 +233,7 @@ const AllJobs = () => {
     return job?.filter(j => {
       return (
         (filters.workType === "" || j.workType === filters.workType) &&
+        (filters.jobField === "" || j.jobField === filters.jobField) &&
         (filters.location === "" || j.workLocation.toLowerCase().includes(filters.location.toLowerCase())) &&
         (filters.keyword === "" || 
           j.position.toLowerCase().includes(filters.keyword.toLowerCase()) || 
@@ -258,7 +274,7 @@ const AllJobs = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-28 pb-20 relative overflow-hidden">
       {/* Background glow */}
-      <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-emerald-50/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-purple-50/10 blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -272,7 +288,7 @@ const AllJobs = () => {
           
           {/* Sidebar Filters */}
           <div className="w-full lg:w-1/4">
-            <div className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] sticky top-28 text-left">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] sticky top-28 text-left">
               <h2 className="text-xs font-bold font-tall text-slate-500 uppercase tracking-widest mb-6">Filters</h2>
               
               <div className="space-y-6">
@@ -282,7 +298,7 @@ const AllJobs = () => {
                     <Search className="absolute left-3 top-3.5 text-slate-400 w-4 h-4" />
                     <input
                       type="text"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none transition-all text-sm placeholder:text-slate-400"
+                      className="w-full pl-10 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-400 focus:ring-1 focus:ring-purple-400 outline-none transition-all text-sm placeholder:text-slate-400"
                       placeholder="Title or company"
                       value={filters.keyword}
                       onChange={(e) => setFilters({ ...filters, keyword: e.target.value })}
@@ -296,7 +312,7 @@ const AllJobs = () => {
                     <MapPin className="absolute left-3 top-3.5 text-slate-400 w-4 h-4" />
                     <input
                       type="text"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none transition-all text-sm placeholder:text-slate-400"
+                      className="w-full pl-10 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-400 focus:ring-1 focus:ring-purple-400 outline-none transition-all text-sm placeholder:text-slate-400"
                       placeholder="City or 'Remote'"
                       value={filters.location}
                       onChange={(e) => setFilters({ ...filters, location: e.target.value })}
@@ -309,7 +325,7 @@ const AllJobs = () => {
                   <div className="relative">
                     <Briefcase className="absolute left-3 top-3.5 text-slate-400 w-4 h-4" />
                     <select
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none transition-all text-sm appearance-none"
+                      className="w-full pl-10 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-400 focus:ring-1 focus:ring-purple-400 outline-none transition-all text-sm appearance-none"
                       value={filters.workType}
                       onChange={(e) => setFilters({ ...filters, workType: e.target.value })}
                     >
@@ -322,9 +338,29 @@ const AllJobs = () => {
                   </div>
                 </div>
 
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider">Job Field</label>
+                  <div className="relative">
+                    <Briefcase className="absolute left-3 top-3.5 text-slate-400 w-4 h-4" />
+                    <select
+                      className="w-full pl-10 pr-4 py-2 rounded-2xl border border-slate-200 bg-slate-50/50 text-slate-900 focus:bg-white focus:border-purple-400 focus:ring-1 focus:ring-purple-400 outline-none transition-all text-sm appearance-none"
+                      value={filters.jobField}
+                      onChange={(e) => setFilters({ ...filters, jobField: e.target.value })}
+                    >
+                      <option value="">All Fields</option>
+                      <option value="Engineering">Engineering</option>
+                      <option value="Design">Design</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Sales">Sales</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
                 <button 
                   onClick={() => setFilters({ keyword: "", workType: "", location: "" })}
-                  className="w-full py-3 text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 border border-slate-200 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                  className="w-full py-2 text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 border border-slate-200 rounded-2xl transition-all flex items-center justify-center gap-1.5"
                 >
                   <RefreshCw size={13} />
                   Clear Filters
@@ -337,7 +373,7 @@ const AllJobs = () => {
           <div className="w-full lg:w-3/4">
             {!job ? (
               <div className="flex justify-center items-center h-64">
-                <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-600 rounded-full animate-spin"></div>
+                <div className="w-10 h-10 border-4 border-purple-500/20 border-t-purple-600 rounded-full animate-spin"></div>
               </div>
             ) : filteredJobs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -356,8 +392,16 @@ const AllJobs = () => {
                   ))}
                 </AnimatePresence>
               </div>
+            ) : job.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center flex flex-col items-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)]">
+                <div className="w-16 h-16 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-slate-400 mb-4">
+                  <Briefcase size={24} />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">No jobs available</h3>
+                <p className="text-slate-500 max-w-sm text-sm">There are currently no jobs posted on the platform. Check back later!</p>
+              </div>
             ) : (
-              <div className="bg-white rounded-xl border border-slate-200/80 p-12 text-center flex flex-col items-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)]">
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center flex flex-col items-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)]">
                 <div className="w-16 h-16 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-slate-400 mb-4">
                   <Search size={24} />
                 </div>
@@ -365,7 +409,7 @@ const AllJobs = () => {
                 <p className="text-slate-500 max-w-sm text-sm">We couldn't find any jobs matching your current filters. Try adjusting your search criteria.</p>
                 <button 
                   onClick={() => setFilters({ keyword: "", workType: "", location: "" })}
-                  className="mt-6 text-emerald-600 font-semibold hover:text-emerald-700 text-sm"
+                  className="mt-6 text-purple-600 font-semibold hover:text-purple-700 text-sm"
                 >
                   Clear all filters
                 </button>
