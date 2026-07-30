@@ -716,7 +716,7 @@ export const sendOtpController = async (req, res) => {
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
         <!-- Replace the src URL below with the URL where your WAYHYRE image is hosted -->
         <div style="text-align: center; background: linear-gradient(to bottom, #ffffcc, #ffffff); border-bottom: 1px solid #f0f0f0;">
-          <img src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785078173/WAY_kmpll9.png" alt="WAYHYRE Job Platform" style="width: 100%; max-width: 600px; height: auto; display: block;" />
+          <img src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785406542/wayhyre_u7bxas.png" alt="WAYHYRE Job Platform" style="width: 100%; max-width: 600px; height: auto; display: block;" />
         </div>
         
         <div style="padding: 40px 30px; background-color: #ffffff; text-align: center;">
@@ -727,7 +727,7 @@ export const sendOtpController = async (req, res) => {
           </p>
           
           <div style="margin: 30px 0;">
-            <span style="display: inline-block; font-size: 42px; font-weight: 800; color: #000000; background-color: #fdffe0; padding: 15px 40px; border-radius: 8px; border: 2px dashed #fbffa6; letter-spacing: 8px;">
+            <span style="display: inline-block; font-size: 42px; font-weight: 800; color: #000000; background-color: #df6eff; padding: 15px 40px; border-radius: 8px; border: 2px dashed #df6eff; letter-spacing: 8px;">
               ${otp}
             </span>
           </div>
