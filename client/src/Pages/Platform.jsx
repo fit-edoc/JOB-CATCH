@@ -7,7 +7,7 @@ const Platform = () => {
     {
       id: 1,
       title: "Verified & Trusted Jobs",
-      icon: <ShieldCheck className="w-8 h-8 text-purple-600" />,
+      icon: <ShieldCheck className="w-8 h-8 text-white" />,
       description: "Access authentic job postings from verified companies — no spam, no fake listings.",
       points: [
         "100% verified employers",
@@ -18,7 +18,7 @@ const Platform = () => {
     {
       id: 2,
       title: "Smart Job Matching",
-      icon: <Zap className="w-8 h-8 text-purple-600" />,
+      icon: <Zap className="w-8 h-8 text-white" />,
       description: "Get job recommendations that match your skills, experience, and preferences.",
       points: [
         "Personalized job suggestions",
@@ -29,7 +29,7 @@ const Platform = () => {
     {
       id: 3,
       title: "Seamless Hiring for Companies",
-      icon: <Briefcase className="w-8 h-8 text-purple-600" />,
+      icon: <Briefcase className="w-8 h-8 text-white" />,
       description: "Post jobs and manage applications through an intuitive recruitment dashboard.",
       points: [
         "Quick job posting",
@@ -40,7 +40,7 @@ const Platform = () => {
     {
       id: 4,
       title: "Designed for Speed & Simplicity",
-      icon: <Smile className="w-8 h-8 text-purple-600" />,
+      icon: <Smile className="w-8 h-8 text-white" />,
       description: "Enjoy a smooth, fast, and modern user experience across all devices.",
       points: [
         "Clean modern interface",
@@ -75,7 +75,7 @@ const Platform = () => {
             >
               <div>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center shrink-0">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-300 to-purple-500 text-white border border-black/20 flex items-center justify-center shrink-0">
                     {item.icon}
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 group-hover:text-purple-600 transition-colors">
