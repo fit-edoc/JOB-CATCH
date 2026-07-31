@@ -35,20 +35,22 @@ const Nav = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 py-5 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm' : ''}`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+    <header className={`fixed top-5 left-0 right-0 mx-auto w-[85%] h-[60px] z-50 rounded-full flex items-center transition-all duration-300 shadow-[0_0_5px_0_rgba(0,0,0,0.1),0_0_1px_0_rgba(0,0,0,0.1)] ${isScrolled ? 'bg-white/90 backdrop-blur-md' : 'bg-white/50 backdrop-blur-sm'}`}>
+      <div className="w-full mx-auto px-6 flex items-center justify-between">
         {/* Logo matching the image */}
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md border border-slate-800 group-hover:scale-105 transition-transform">
-            Wh
-          </div>
+          <img 
+            src="/images/logo.png" 
+            alt="WayHyre Logo" 
+            className="w-10 h-10 rounded-xl shadow-md border border-slate-800 group-hover:scale-105 transition-transform object-cover bg-slate-900"
+          />
           <div className="flex leading-none text-slate-900 select-none">
             <span className="font-display font-bold text-lg tracking-tight">WAYHYRE</span>
           </div>
         </Link>
 
         {/* Desktop Nav - Translucent Glassmorphic Capsule */}
-        <div className="hidden md:flex items-center bg-slate-100/80 backdrop-blur-md border border-slate-200/60 px-6 py-2 rounded-full shadow-sm">
+        <div className="hidden md:flex items-center bg-white backdrop-blur-md border border-slate-200/60 px-6 py-2 rounded-full shadow-sm">
           <nav className="flex items-center gap-8 mr-6">
             <Link
               to="/alljobs"
@@ -72,7 +74,7 @@ const Nav = () => {
           {(!user || user.role !== 'seeker') && (
             <button
               onClick={handleCreateJobClick}
-              className="bg-purple-100 text-purple-900 text-xs font-semibold px-4 py-2 rounded-full hover:bg-purple-200 transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
+              className="bg-lime-300 text-black border-t-2 border-black text-xs font-semibold px-4 py-2 rounded-full hover:bg-purple-200 transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
             >
               <Briefcase size={12} />
               create job
@@ -104,7 +106,7 @@ const Nav = () => {
               
               <Link
                 to="/login"
-                className="bg-purple-600 text-white text-sm font-semibold px-6 py-2 rounded-full hover:bg-purple-700 transition-all shadow-sm border border-transparent"
+                className="bg-purple-600 text-white border-t-2 border-black text-sm font-semibold px-6 py-2 rounded-full hover:bg-purple-700 transition-all shadow-sm"
               >
                 sign in
               </Link>
