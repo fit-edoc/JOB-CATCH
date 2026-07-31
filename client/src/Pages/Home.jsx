@@ -23,10 +23,10 @@ const Home = () => {
       {/* Hero Section with Soft Glowing Radial Gradient */}
       <section className="relative pt-32 pb-24 flex flex-col items-center justify-center text-center overflow-hidden">
         {/* Glow Effects */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none z-0">
+        {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none z-0">
           <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] rounded-full bg-purple-500/15 blur-[140px] opacity-75 animate-pulse" />
           <div className="absolute top-[-10%] right-[20%] w-[500px] h-[500px] rounded-full bg-fuchsia-300/10 blur-[120px] opacity-60" style={{ animationDelay: '2s' }} />
-        </div>
+        </div> */}
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
           {/* Heading with Accent Colors */}
@@ -34,9 +34,9 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-6xl sm:text-7xl md:text-8xl font-mukta font-bold tracking-tight leading-[1.1] mb-6 text-black uppercase"
+            className="text-4xl sm:text-6xl md:text-7xl font-medium tracking-tight leading-[1.2] mb-6 text-black capitalize"
           >
-            Wayhyre
+            Discover Your Next <br /> <span className="text-purple-600">Great</span> Opportunity
           </motion.h1>
 
           {/* Subtext */}
@@ -46,7 +46,7 @@ const Home = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-slate-600 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 font-medium"
           >
-            The smarter way to hire & get hired.
+            Join thousands of professionals and top companies connecting on WayHyre to shape the future of work.
           </motion.p>
 
           {/* Search bar styled to look cohesive */}
@@ -55,31 +55,31 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             onSubmit={handleSearch}
-            className="max-w-3xl mx-auto bg-white border border-slate-200 p-2 rounded-full shadow-lg flex flex-col md:flex-row gap-2 relative z-20 mb-16"
+            className="max-w-3xl mx-auto bg-black border border-slate-200 p-2 rounded-2xl md:rounded-full shadow-lg flex flex-col md:flex-row gap-3 md:gap-2 relative z-20 mb-16"
           >
             <div className="flex-1 flex items-center px-4 py-3 md:py-0 md:border-r border-slate-200">
-              <Search className="text-slate-400 w-4 h-4 mr-3 shrink-0" />
+              <Search className="text-white w-5 h-5 mr-3 shrink-0" />
               <input 
                 type="text" 
                 placeholder="Job title, keyword, or company" 
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                className="w-full outline-none text-slate-900 bg-transparent placeholder:text-slate-450 text-sm" 
+                className="w-full h-full outline-none text-white bg-transparent placeholder:text-slate-450 text-[15px]" 
               />
             </div>
-            <div className="flex-1 flex items-center px-4 py-3 md:py-0">
-              <MapPin className="text-slate-400 w-4 h-4 mr-3 shrink-0" />
+            <div className="flex-1 flex items-center px-4 py-3 md:py-0 border-t border-slate-100 md:border-t-0">
+              <MapPin className="text-slate-400 w-5 h-5 mr-3 shrink-0" />
               <input 
                 type="text" 
                 placeholder="Location or 'Remote'" 
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full outline-none text-slate-900 bg-transparent placeholder:text-slate-450 text-sm" 
+                className="w-full h-full outline-none text-white bg-transparent placeholder:text-slate-450 text-[15px]" 
               />
             </div>
             <button 
               type="submit" 
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full font-semibold text-sm transition-all flex items-center justify-center gap-1.5 shrink-0"
+              className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white px-8 py-3.5 md:py-2 rounded-xl md:rounded-full font-semibold text-[15px] transition-all flex items-center justify-center gap-2 shrink-0 shadow-sm"
             >
               Search Jobs
               <ArrowRight className="w-4 h-4" />
@@ -94,21 +94,21 @@ const Home = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_4px_16px_rgba(0,0,0,0.03)] text-left hover:bg-slate-50/50 transition-all group relative overflow-hidden"
+              className="bg-white border border-slate-200/80 p-6 rounded-2xl  shadow-[0_0_5px_0_rgba(0,0,0,0.1),0_0_1px_0_rgba(0,0,0,0.1)] text-left hover:bg-slate-50/50 transition-all group relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/10 transition-all pointer-events-none" />
               <div className="flex justify-between items-start mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg group-hover:scale-105 transition-transform">
-                  Wh
+                <div className="w-12 h-12 rounded-2xl bg-white   flex items-center justify-center font-bold text-lg group-hover:scale-105 transition-transform">
+                  <img src="/images/logo.png" alt="logo" srcset="" />
                 </div>
-                <span className="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-600 rounded-full text-xs font-medium">
+                <span className="px-2.5 py-1 bg-lime-300 border-b-2 border-black text-black rounded-full text-xs font-medium">
                   Full-time
                 </span>
               </div>
               <h3 className="font-semibold text-lg text-slate-900 mb-1 group-hover:text-purple-700 transition-colors">Senior React Developer</h3>
               <p className="text-slate-500 text-sm mb-4">WayHyre • Remote</p>
               
-              <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200/60 rounded-xl p-3 mb-5 leading-relaxed">
+              <div className="text-xs text-white bg-slate-900/90 border border-slate-200/60 rounded-xl p-3 mb-5 leading-relaxed">
                 Build premium user interfaces, iterate on high-end design assets, and drive standard frontend architectures.
               </div>
               
@@ -131,12 +131,12 @@ const Home = () => {
               className="relative w-full h-[280px] flex items-center justify-center mx-auto"
             >
               {/* Central JC logo square */}
-              <div className="z-10 w-16 h-16 bg-white rounded-2xl flex items-center justify-center border border-slate-200 text-slate-900 font-bold text-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] animate-pulse">
+              <div className="z-10 w-16 h-16 bg-white rounded-2xl border-b-2 border-black flex items-center justify-center border text-slate-900 font-bold text-xl shadow-[0_0_5px_0_rgba(0,0,0,0.1),0_0_1px_0_rgba(0,0,0,0.1)] animate-pulse">
                 Wh
               </div>
 
               {/* Orbiting Card 1 (Top Left) */}
-              <div className="absolute top-2 left-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 -rotate-6 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
+              <div className="absolute top-2 left-6 w-[125px] h-[95px] bg-white  border-b-4 border-black/20 rounded-2xl p-2.5 -rotate-6 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
                 <div className="text-purple-600"><Briefcase size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Active Jobs</p>
@@ -145,7 +145,7 @@ const Home = () => {
               </div>
 
               {/* Orbiting Card 2 (Top Right) */}
-              <div className="absolute top-2 right-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 rotate-6 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
+              <div className="absolute top-2 right-6 w-[125px] h-[95px] bg-white border-b-4 border-black/20 rounded-2xl p-2.5 rotate-6 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
                 <div className="text-purple-600"><Building size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Companies</p>
@@ -154,7 +154,7 @@ const Home = () => {
               </div>
 
               {/* Orbiting Card 3 (Bottom Left) */}
-              <div className="absolute bottom-2 left-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 rotate-3 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
+              <div className="absolute bottom-2 left-6 w-[125px] h-[95px] bg-white border-b-4 border-black/20 rounded-2xl p-2.5 rotate-3 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
                 <div className="text-purple-600"><Award size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Placed</p>
@@ -163,7 +163,7 @@ const Home = () => {
               </div>
 
               {/* Orbiting Card 4 (Bottom Right) */}
-              <div className="absolute bottom-2 right-6 w-[125px] h-[95px] bg-white border border-slate-200 rounded-2xl p-2.5 -rotate-3 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
+              <div className="absolute bottom-2 right-6 w-[125px] h-[95px] bg-white  border-b-4 border-black/20 rounded-2xl p-2.5 -rotate-3 flex flex-col justify-between hover:rotate-0 hover:scale-105 transition-all shadow-md text-left">
                 <div className="text-purple-600"><Zap size={16} /></div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-medium">Success Rate</p>
@@ -181,7 +181,7 @@ const Home = () => {
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/10 transition-all pointer-events-none" />
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-650">
+                <div className="w-10 h-10 rounded-full bg-purple-500 border border-black border-b-4 flex items-center justify-center font-bold text-slate-650">
                   PS
                 </div>
                 <div>
