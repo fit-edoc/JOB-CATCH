@@ -25,9 +25,11 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-16">
           <div className="col-span-2 md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-slate-800">
-                Wh
-              </div>
+              <img 
+                src="/images/logo.png" 
+                alt="WayHyre Logo" 
+                className="w-10 h-10 rounded-xl border border-slate-800 object-cover bg-slate-900"
+              />
               <span className="font-mukta font-bold text-2xl text-slate-900 uppercase tracking-tight">
                 WayHyre
               </span>
@@ -41,7 +43,7 @@ const Footer = () => {
                 <a 
                   key={index} 
                   href={social.href}
-                  className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-900 hover:text-white transition-all hover:-translate-y-1 shadow-sm"
+                  className="w-10 h-10 rounded-full bg-lime-300  border border-slate-200 flex items-center justify-center text-black hover:bg-slate-900 hover:text-white transition-all hover:-translate-y-1 shadow-sm"
                 >
                   {social.icon}
                 </a>
