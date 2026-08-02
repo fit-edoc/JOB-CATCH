@@ -713,36 +713,139 @@ export const sendOtpController = async (req, res) => {
     await user.save();
 
     const emailHtml = `
-      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-        <!-- Replace the src URL below with the URL where your WAYHYRE image is hosted -->
-        <div style="text-align: center; background: linear-gradient(to bottom, #ffffcc, #ffffff); border-bottom: 1px solid #f0f0f0;">
-          <img src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785688923/wayhyreemail_eannap.png" alt="WAYHYRE Job Platform" style="width: 100%; max-width: 600px; height: auto; display: block;" />
+     <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAYHYRE OTP</title>
+</head>
+
+<body style="margin:0;padding:40px 16px;background:#f4f4f5;">
+
+<div style="
+max-width:600px;
+margin:auto;
+background:#ffffff;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 20px 50px rgba(15,23,42,.08);
+border:1px solid #ececec;
+font-family:Inter,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+">
+
+    <!-- Banner -->
+    <div style="margin:0;padding:0;line-height:0;">
+        <img
+            src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785689678/wayone_itlcrd.png"
+            alt="WAYHYRE"
+            style="display:block;width:100%;height:auto;border:0;"
+        >
+    </div>
+
+    <!-- Content -->
+    <div style="padding:52px 42px;text-align:center;">
+
+        <h1 style="
+        margin:0;
+        color:#111827;
+        font-size:34px;
+        font-weight:700;
+        letter-spacing:-0.8px;
+        ">
+            Hi ${user.name},
+        </h1>
+
+        <p style="
+        margin:18px auto 38px;
+        max-width:420px;
+        color:#6b7280;
+        font-size:16px;
+        line-height:1.75;
+        ">
+            Use the verification code below to securely access your WAYHYRE account.
+        </p>
+
+        <!-- OTP -->
+        <div style="margin:40px 0;">
+
+            <div style="
+            display:inline-block;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            padding:20px 46px;
+            border-radius:18px;
+            box-shadow:0 14px 35px rgba(124,58,237,.25);
+            ">
+
+                <span style="
+                color:#ffffff;
+                font-size:42px;
+                font-weight:800;
+                letter-spacing:10px;
+                font-family:monospace;
+                ">
+                    ${otp}
+                </span>
+
+            </div>
+
         </div>
-        
-        <div style="padding: 40px 30px; background-color: #ffffff; text-align: center;">
-          <h1 style="color: #1a1a1a; font-size: 28px; margin-top: 0; margin-bottom: 20px;">Hi ${user.name},</h1>
-          
-          <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
-            Here is your One-Time Password (OTP) to securely access your account.
-          </p>
-          
-          <div style="margin: 30px 0;">
-            <span style="display: inline-block; font-size: 42px; font-weight: 800; color: #000000; background-color: #df6eff; padding: 15px 40px; border-radius: 8px; border: 2px dashed #df6eff; letter-spacing: 8px;">
-              ${otp}
-            </span>
-          </div>
-          
-          <p style="color: #64748b; font-size: 14px; margin-top: 30px; margin-bottom: 0;">
-            This code will expire in <strong>10 minutes</strong>. Please do not share it with anyone.
-          </p>
+
+        <!-- Notice -->
+        <div style="
+        background:#faf7ff;
+        border:1px solid #ede9fe;
+        border-radius:14px;
+        padding:18px 20px;
+        margin-top:12px;
+        ">
+
+            <p style="
+            margin:0;
+            color:#5b21b6;
+            font-size:14px;
+            line-height:1.7;
+            ">
+                This verification code expires in
+                <strong>10 minutes</strong>.
+                Never share your OTP with anyone, including the WAYHYRE team.
+            </p>
+
         </div>
-        
-        <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0;">
-          <p style="color: #94a3b8; font-size: 12px; margin: 0;">
-            &copy; ${new Date().getFullYear()} Wayhyre Job Platform. All rights reserved.
-          </p>
-        </div>
-      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="
+    background:#fafafa;
+    border-top:1px solid #ececec;
+    padding:26px;
+    text-align:center;
+    ">
+
+        <p style="
+        margin:0;
+        color:#9ca3af;
+        font-size:13px;
+        line-height:1.7;
+        ">
+            If you didn't request this code, you can safely ignore this email.
+        </p>
+
+        <p style="
+        margin:14px 0 0;
+        color:#c0c4cc;
+        font-size:12px;
+        ">
+            © ${new Date().getFullYear()} <strong style="color:#6b7280;">WAYHYRE</strong>. All rights reserved.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
     `;
 
     try {
