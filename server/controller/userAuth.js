@@ -716,7 +716,7 @@ export const sendOtpController = async (req, res) => {
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
         <!-- Replace the src URL below with the URL where your WAYHYRE image is hosted -->
         <div style="text-align: center; background: linear-gradient(to bottom, #ffffcc, #ffffff); border-bottom: 1px solid #f0f0f0;">
-          <img src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785406542/wayhyre_u7bxas.png" alt="WAYHYRE Job Platform" style="width: 100%; max-width: 600px; height: auto; display: block;" />
+          <img src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785688923/wayhyreemail_eannap.png" alt="WAYHYRE Job Platform" style="width: 100%; max-width: 600px; height: auto; display: block;" />
         </div>
         
         <div style="padding: 40px 30px; background-color: #ffffff; text-align: center;">
