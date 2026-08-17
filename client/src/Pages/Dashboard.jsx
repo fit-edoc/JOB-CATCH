@@ -175,6 +175,34 @@ const InterviewSimulator = React.memo(() => {
   );
 });
 
+const BadgePreviewFrame = ({ apiBase, userId }) => {
+  const [htmlContent, setHtmlContent] = useState('');
+  
+  useEffect(() => {
+    const fetchBadge = async () => {
+      try {
+        const res = await axios.get(`${apiBase}/api/user/portfolio-badge/${userId}`);
+        setHtmlContent(res.data);
+      } catch (err) {
+        console.error("Failed to fetch badge HTML:", err);
+      }
+    };
+    if (userId) fetchBadge();
+  }, [apiBase, userId]);
+
+  if (!htmlContent) {
+    return <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs bg-white">Loading badge preview...</div>;
+  }
+
+  return (
+    <iframe
+      title="Your Profile Badge Preview"
+      srcDoc={htmlContent}
+      className="w-full h-full border-none"
+    />
+  );
+};
+
 const Dashboard = () => {
   const { user, job, deleteJob } = useAuth();
   const token = localStorage.getItem("token");
@@ -489,11 +517,11 @@ const Dashboard = () => {
 
                     <div className="flex flex-col md:flex-row gap-6 items-start">
                       <div className="w-full md:w-[360px] aspect-[360/220] rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm bg-slate-50 shrink-0">
-                        <iframe
-                          title="Your Profile Badge Preview"
-                          src={`${apiBase}/api/user/portfolio-badge/${user._id}`}
-                          className="w-full h-full border-none"
-                        />
+                        {user?._id ? (
+                          <BadgePreviewFrame apiBase={apiBase} userId={user._id} />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">Loading badge...</div>
+                        )}
                       </div>
 
                       <div className="flex-1 space-y-3 w-full">
