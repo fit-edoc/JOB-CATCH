@@ -5,7 +5,7 @@ import { Briefcase, Bookmark, User, Settings, ExternalLink, Activity, PlusCircle
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { hostUrl } from '../api/api';
+import { hostUrl, API_BASE_URL } from '../api/api';
 
 const InterviewSimulator = React.memo(() => {
   const [role, setRole] = useState("Frontend Developer");
@@ -178,7 +178,7 @@ const InterviewSimulator = React.memo(() => {
 const Dashboard = () => {
   const { user, job, deleteJob } = useAuth();
   const token = localStorage.getItem("token");
-  const apiBase = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://job-catch.onrender.com';
+  const apiBase = API_BASE_URL;
 
   const [savedJobs, setSavedJobs] = useState([]);
   const [applications, setApplications] = useState([]); // Seeker applications
@@ -491,7 +491,7 @@ const Dashboard = () => {
                       <div className="w-full md:w-[360px] aspect-[360/220] rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm bg-slate-50 shrink-0">
                         <iframe
                           title="Your Profile Badge Preview"
-                          src={`${apiBase}/api/auth/portfolio-badge/${user._id}`}
+                          src={`${apiBase}/api/user/portfolio-badge/${user._id}`}
                           className="w-full h-full border-none"
                         />
                       </div>
@@ -500,13 +500,13 @@ const Dashboard = () => {
                         <label className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider">Embed HTML Snippet</label>
                         <textarea
                           readOnly
-                          value={`<iframe src="${apiBase}/api/auth/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`}
+                          value={`<iframe src="${apiBase}/api/user/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`}
                           rows="3"
                           className="w-full px-3 py-2 bg-slate-50 border border-slate-200/70 text-slate-700 rounded-full text-xs outline-none focus:border-purple-450 focus:ring-1 focus:ring-purple-450 transition-all font-mono"
                         />
                         <button
                           onClick={() => {
-                            navigator.clipboard.writeText(`<iframe src="${apiBase}/api/auth/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`);
+                            navigator.clipboard.writeText(`<iframe src="${apiBase}/api/user/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`);
                             toast.success("Embed snippet copied to clipboard!");
                           }}
                           className="bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-250/60 text-xs font-bold px-4 py-2 rounded-full transition-all"
