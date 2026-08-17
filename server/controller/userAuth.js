@@ -849,14 +849,14 @@ font-family:Inter,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     `;
 
     try {
-      await sendEmail({
+      // Sending email asynchronously (without await) so the UI doesn't hang for 8 seconds
+      sendEmail({
         to: email,
         subject: 'Your Login OTP - Wayhyre Job Platform',
         html: emailHtml
-      });
+      }).catch(err => console.error("Async email send failed:", err));
     } catch (emailError) {
-      console.error("Failed to send OTP email:", emailError);
-      return res.status(500).send({ message: `Failed to send OTP: ${emailError.message}`, success: false });
+      console.error("Failed to initiate OTP email:", emailError);
     }
 
     res.status(200).send({ message: "OTP sent successfully", success: true });
