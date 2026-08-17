@@ -39,7 +39,8 @@ app.use(cors({
 app.use(helmet({
   crossOriginResourcePolicy: false,
   crossOriginOpenerPolicy: false,
-  frameguard: false
+  frameguard: false,
+  contentSecurityPolicy: false
 }))
 app.use(morgan())
 app.use(express.json())
