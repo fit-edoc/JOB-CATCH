@@ -1,17 +1,16 @@
 import express from 'express'
-import {loginController, registerController, updateUserController, saveJobController, getSavedJobsController, verifyPortfolioController, generateSkillAssessmentController, submitSkillAssessmentController, startAIInterviewController, evaluateAIInterviewController, verifyRecruiterController, recruiterResumeSearchController, extractSkillsController, getMyReferralsController, recruiterGenerateEmailController, getPortfolioBadgeController, sendOtpController, verifyOtpController}  from '../controller/userAuth.js'
+import {loginController, registerController, updateUserController, saveJobController, getSavedJobsController, verifyPortfolioController, generateSkillAssessmentController, submitSkillAssessmentController, startAIInterviewController, evaluateAIInterviewController, verifyRecruiterController, recruiterResumeSearchController, extractSkillsController, getMyReferralsController, recruiterGenerateEmailController, getPortfolioBadgeController, sendOtpController, verifyOtpController, uploadResumeController}  from '../controller/userAuth.js'
 import userAuth from '../middleware/authHandler.js'
-
+import { upload } from '../utils/cloudinary.js'
 
 const router = express.Router()
-
-
 
 router.post("/register",registerController)
 router.post("/login",loginController)
 router.post("/send-otp",sendOtpController)
 router.post("/verify-otp",verifyOtpController)
 router.put("/update",userAuth,updateUserController)
+router.post("/upload-resume", userAuth, upload.single('resume'), uploadResumeController)
 router.post("/save-job", userAuth, saveJobController)
 router.get("/saved-jobs", userAuth, getSavedJobsController)
 router.post("/verify-portfolio", userAuth, verifyPortfolioController)
@@ -25,7 +24,5 @@ router.post("/extract-skills", userAuth, extractSkillsController)
 router.get("/my-referrals", userAuth, getMyReferralsController)
 router.post("/recruiter/generate-email", userAuth, recruiterGenerateEmailController)
 router.get("/portfolio-badge/:userId", getPortfolioBadgeController)
-
-
 
 export default router

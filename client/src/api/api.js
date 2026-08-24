@@ -7,6 +7,7 @@ export const jobUrl = `${API_BASE_URL}/api/job`;
 export const registerApi = `${hostUrl}/register`
 export const loginApi = `${hostUrl}/login`
 export const updateUser = `${hostUrl}/update`
+export const uploadResumeApi = `${hostUrl}/upload-resume`
 
 // jobs apis
 export const createJobApi = `${jobUrl}/createjob`

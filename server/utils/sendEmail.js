@@ -10,9 +10,10 @@ import nodemailer from 'nodemailer';
  */
 export const sendEmail = async ({ to, subject, html, text }) => {
   const senderEmail = process.env.SENDER_EMAIL || process.env.SMTP_USER || 'no-reply@example.com';
+  const isGenericDomain = ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com"].some(d => senderEmail.toLowerCase().includes(d));
 
-  // 1. Try Resend HTTP API if configured (Highly recommended for cloud hosts to bypass port blocks)
-  if (process.env.RESEND_API_KEY) {
+  // 1. Try Resend HTTP API if configured and not using a generic domain (Resend rejects generic domains)
+  if (process.env.RESEND_API_KEY && !isGenericDomain) {
     try {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',

@@ -904,3 +904,30 @@ export const verifyOtpController = async (req, res) => {
     res.status(500).send({ message: "Error verifying OTP", success: false });
   }
 };
+
+export const uploadResumeController = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send({ success: false, message: "No file uploaded" });
+    }
+
+    const user = await userModel.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).send({ success: false, message: "User not found" });
+    }
+
+    // req.file.path is the Cloudinary URL because of multer-storage-cloudinary
+    user.resumeLink = req.file.path;
+    await user.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Resume uploaded successfully",
+      resumeLink: user.resumeLink,
+      user
+    });
+  } catch (error) {
+    console.error("uploadResumeController error:", error);
+    res.status(500).send({ success: false, message: "Error uploading resume" });
+  }
+};

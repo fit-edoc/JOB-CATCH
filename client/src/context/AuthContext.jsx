@@ -139,7 +139,7 @@ export const AuthProvider = ({children})=>{
   }, []);
 
   const value = useMemo(()=>({
-    register, login, user, logout, createJob, job, fetchJob, deleteJob, sendOtp, verifyOtp
+    register, login, user, setUser, logout, createJob, job, fetchJob, deleteJob, sendOtp, verifyOtp
   }), [user, job, register, login, logout, createJob, fetchJob, deleteJob, sendOtp, verifyOtp]);
 
   return (

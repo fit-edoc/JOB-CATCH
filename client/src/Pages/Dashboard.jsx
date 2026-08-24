@@ -175,34 +175,6 @@ const InterviewSimulator = React.memo(() => {
   );
 });
 
-const BadgePreviewFrame = ({ apiBase, userId }) => {
-  const [htmlContent, setHtmlContent] = useState('');
-  
-  useEffect(() => {
-    const fetchBadge = async () => {
-      try {
-        const res = await axios.get(`${apiBase}/api/user/portfolio-badge/${userId}`);
-        setHtmlContent(res.data);
-      } catch (err) {
-        console.error("Failed to fetch badge HTML:", err);
-      }
-    };
-    if (userId) fetchBadge();
-  }, [apiBase, userId]);
-
-  if (!htmlContent) {
-    return <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs bg-white">Loading badge preview...</div>;
-  }
-
-  return (
-    <iframe
-      title="Your Profile Badge Preview"
-      srcDoc={htmlContent}
-      className="w-full h-full border-none"
-    />
-  );
-};
-
 const Dashboard = () => {
   const { user, job, deleteJob } = useAuth();
   const token = localStorage.getItem("token");
@@ -220,7 +192,43 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [uploadingResume, setUploadingResume] = useState(false);
 
+  const handleResumeUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)) {
+      toast.error('Only PDF and Word documents are allowed');
+      return;
+    }
+
+    setUploadingResume(true);
+    const formData = new FormData();
+    formData.append('resume', file);
+
+    try {
+      // Assuming uploadResumeApi is imported from api.js
+      const { uploadResumeApi } = await import('../api/api.js');
+      const response = await axios.post(uploadResumeApi, formData, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.data.success) {
+        toast.success('Resume uploaded successfully!');
+        // Update user context with new resume link if possible, or reload
+        window.location.reload(); 
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to upload resume. Please try again.');
+    } finally {
+      setUploadingResume(false);
+    }
+  };
   const handleResumeSearch = useCallback(async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) {
@@ -507,40 +515,108 @@ const Dashboard = () => {
                 </div>
 
                 {user?.role === 'seeker' && (
-                  <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] text-left space-y-4">
-                    <div>
-                      <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm flex items-center gap-1.5">
-                        <span>✨ Share Your Profile (Embeddable Badge)</span>
-                      </h3>
-                      <p className="text-slate-500 text-xs mt-1">Embed a live, interactive profile card showing your verified skills and certifications directly on your portfolio website or personal blog.</p>
+                  <div className="space-y-6 text-left">
+                    {/* Resume Upload Section */}
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-4">
+                      <div>
+                        <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm flex items-center gap-1.5">
+                          <span>📄 Resume Document</span>
+                        </h3>
+                        <p className="text-slate-500 text-xs mt-1">Upload your latest resume (PDF or DOC) to stand out to employers.</p>
+                      </div>
+                      
+                      <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 border border-slate-200/60 p-4 rounded-xl">
+                        {user.resumeLink ? (
+                          <div className="flex-1 w-full text-sm font-semibold text-purple-700 underline truncate">
+                            <a href={user.resumeLink} target="_blank" rel="noopener noreferrer">
+                              View Current Resume
+                            </a>
+                          </div>
+                        ) : (
+                          <div className="flex-1 w-full text-xs text-slate-400 font-semibold">No resume uploaded yet.</div>
+                        )}
+                        <label className="shrink-0 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-4 py-2 rounded-full cursor-pointer transition-all shadow-sm flex items-center gap-2 text-xs">
+                          {uploadingResume ? 'Uploading...' : 'Upload New Resume'}
+                          <input 
+                            type="file" 
+                            accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+                            className="hidden" 
+                            onChange={handleResumeUpload}
+                            disabled={uploadingResume}
+                          />
+                        </label>
+                      </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row gap-6 items-start">
-                      <div className="w-full md:w-[360px] aspect-[360/220] rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm bg-slate-50 shrink-0">
-                        {user?._id ? (
-                          <BadgePreviewFrame apiBase={apiBase} userId={user._id} />
+                    {/* Bio & Skills */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-3">
+                        <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm">Bio</h3>
+                        <p className="text-slate-600 text-xs leading-relaxed">{user.bio || 'No bio provided yet. Update your profile to add a professional summary.'}</p>
+                      </div>
+                      <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-3">
+                        <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm">Skills</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {user.skills?.length > 0 ? (
+                            user.skills.map((skill, idx) => {
+                              const isVerified = user.verifiedSkills?.some(vs => vs.skillName.toLowerCase() === skill.toLowerCase());
+                              return (
+                                <span key={idx} className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 ${isVerified ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-slate-100 text-slate-600 border border-slate-200'}`}>
+                                  {skill} {isVerified && '✓'}
+                                </span>
+                              );
+                            })
+                          ) : (
+                            <span className="text-xs text-slate-400">No skills added.</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Experience Section */}
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-4">
+                      <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm">Professional Experience</h3>
+                      <div className="space-y-4">
+                        {user.experience?.length > 0 ? (
+                          user.experience.map((exp, idx) => (
+                            <div key={idx} className="border-l-2 border-purple-200 pl-4 py-1">
+                              <h4 className="text-sm font-bold text-slate-800">{exp.role || 'Role Title'}</h4>
+                              <p className="text-xs font-semibold text-purple-700 mt-0.5">{exp.company || 'Company'} • <span className="text-slate-500 font-normal">{exp.duration || 'Duration'}</span></p>
+                              {exp.description && <p className="text-xs text-slate-600 mt-2 leading-relaxed">{exp.description}</p>}
+                            </div>
+                          ))
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">Loading badge...</div>
+                          <div className="text-xs text-slate-400">No experience listed.</div>
                         )}
                       </div>
+                    </div>
 
-                      <div className="flex-1 space-y-3 w-full">
-                        <label className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider">Embed HTML Snippet</label>
-                        <textarea
-                          readOnly
-                          value={`<iframe src="${apiBase}/api/user/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`}
-                          rows="3"
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200/70 text-slate-700 rounded-full text-xs outline-none focus:border-purple-450 focus:ring-1 focus:ring-purple-450 transition-all font-mono"
-                        />
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(`<iframe src="${apiBase}/api/user/portfolio-badge/${user._id}" width="360" height="220" style="border:none; border-radius:16px;"></iframe>`);
-                            toast.success("Embed snippet copied to clipboard!");
-                          }}
-                          className="bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-250/60 text-xs font-bold px-4 py-2 rounded-full transition-all"
-                        >
-                          📋 Copy Embed Code
-                        </button>
+                    {/* Projects Section */}
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),_0_2px_12px_rgba(0,0,0,0.03)] space-y-4">
+                      <h3 className="font-bold font-tall uppercase tracking-wider text-slate-900 text-sm">Projects</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {user.projects?.length > 0 ? (
+                          user.projects.map((proj, idx) => (
+                            <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-200/60">
+                              <div className="flex justify-between items-start mb-2">
+                                <h4 className="text-sm font-bold text-slate-800">{proj.title || 'Project Title'}</h4>
+                                {proj.link && (
+                                  <a href={proj.link} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-purple-600 hover:underline">View</a>
+                                )}
+                              </div>
+                              {proj.description && <p className="text-xs text-slate-600 leading-relaxed mb-3">{proj.description}</p>}
+                              {proj.technologies?.length > 0 && (
+                                <div className="flex flex-wrap gap-1">
+                                  {proj.technologies.map((tech, tIdx) => (
+                                    <span key={tIdx} className="text-[9px] bg-white border border-slate-200 text-slate-500 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">{tech}</span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-xs text-slate-400 col-span-2">No projects listed.</div>
+                        )}
                       </div>
                     </div>
                   </div>
