@@ -16,7 +16,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'job_portal_resumes',
     allowed_formats: ['pdf', 'doc', 'docx'],
-    resource_type: 'raw', // Use raw for non-image files like PDFs
+    resource_type: 'auto', // Using auto allows Cloudinary to handle PDFs and retain their format
   },
 });
 
