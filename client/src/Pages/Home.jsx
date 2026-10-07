@@ -104,11 +104,24 @@ const Home = () => {
         <div 
           className="absolute inset-0 pointer-events-none [mask-image:radial-gradient(ellipse_70%_65%_at_50%_25%,#000_50%,transparent_100%)]"
           style={{
-            backgroundImage: `repeating-linear-gradient(45deg, rgba(148, 163, 184, 0.22) 0, rgba(148, 163, 184, 0.22) 1px, transparent 1px, transparent 18px)`,
+            backgroundImage: `repeating-linear-gradient(45deg, rgba(148, 163, 184, 0.22) 0, rgba(148, 163, 184, 0.22) 0.1px, transparent 1px, transparent 18px)`,
           }}
           aria-hidden="true"
         />
-
+ <div 
+          className="absolute inset-0 pointer-events-none [mask-image:radial-gradient(ellipse_70%_65%_at_50%_25%,#000_50%,transparent_100%)]"
+          style={{
+            backgroundImage: `repeating-linear-gradient(-45deg, rgba(148, 163, 184, 0.22) 0, rgba(148, 163, 184, 0.22) 0.1px, transparent 1px, transparent 18px)`,
+          }}
+          aria-hidden="true"
+        />
+         <div 
+          className="absolute inset-0 pointer-events-none [mask-image:radial-gradient(ellipse_70%_65%_at_50%_25%,#000_50%,transparent_100%)]"
+          style={{
+            backgroundImage: `repeating-linear-gradient(90deg, rgba(148, 163, 184, 0.22) 0, rgba(148, 163, 184, 0.22) 0.1px, transparent 1px, transparent 18px)`,
+          }}
+          aria-hidden="true"
+        />
         <div className="relative z-10 max-w-[1200px] mx-auto px-6">
           
           <div className="max-w-3xl mx-auto text-center mb-10">
