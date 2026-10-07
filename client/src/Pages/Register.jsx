@@ -6,12 +6,12 @@ import { ArrowRight, Mail, Lock, User } from "lucide-react";
 import toast from "react-hot-toast";
 
 const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon }) => (
-  <div className="mb-4">
-    <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-1.5">
+  <div className="mb-4 text-left">
+    <label htmlFor={id} className="block text-xs font-medium text-slate-700 mb-1.5">
       {label}
     </label>
     <div className="relative">
-      {Icon && <Icon className="absolute left-4 top-2.5 text-slate-400 w-4 h-4" />}
+      {Icon && <Icon className="absolute left-3.5 top-2.5 text-slate-400 w-4 h-4" />}
       <input
         type={type}
         id={id}
@@ -19,7 +19,7 @@ const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon }) =>
         value={value}
         onChange={onChange}
         required
-        className={`w-full ${Icon ? 'pl-10' : 'pl-4'} pr-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white text-slate-900 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-400 outline-none transition-all placeholder:text-slate-400 text-sm`}
+        className={`w-full ${Icon ? 'pl-10' : 'pl-3.5'} pr-3.5 py-2 rounded-[4px] border border-slate-200 bg-white text-slate-900 focus:border-[#00a151] focus:ring-1 focus:ring-[#00a151] outline-none transition-all placeholder:text-slate-400 text-xs`}
         placeholder={`Enter your ${label.toLowerCase()}`}
       />
     </div>
@@ -56,69 +56,74 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-start mt-20 justify-center bg-slate-50 p-4 sm:p-8">
-      <div className="w-full max-w-5xl flex bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden min-h-[650px] border border-slate-100/60">
+    <div className="min-h-screen w-full flex items-center justify-center bg-slate-50 p-4 sm:p-6 pt-24 pb-16">
+      <div className="w-full max-w-4xl flex bg-white rounded-[8px] shadow-sm overflow-hidden border border-slate-200 min-h-[550px]">
         
-        {/* Left Column - Visual/Brand */}
-        <div className="hidden lg:flex w-1/2 relative flex-col justify-between  p-12 bg-gradient-to-br from-purple-500 via-purple-700 to-black text-white overflow-hidden">
-          {/* Abstract background shapes */}
-          <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-400/30 blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-500/20 blur-[120px] pointer-events-none" />
-          
-          <div className="z-10 mt-auto max-w-sm flex flex-col gap-6">
-            <div className="flex items-center gap-2">
-              <img src="/images/logo.png" alt="WayHyre Logo" className="w-12 h-12 rounded-xl object-cover bg-white/10 backdrop-blur-md border border-white/20" />
-              <h1 className="font-medium text-2xl text-white uppercase tracking-tight">WAYHYRE</h1>
-            </div>
-            <div>
-              <p className="text-purple-100 text-sm mb-3 font-medium tracking-wide">Unlock your potential</p>
-              <h1 className="text-4xl font-medium font-bold leading-tight mb-4 text-white">
-                Discover top opportunities and connect with world-class companies
-              </h1>
-            </div>
+        {/* Left Column - Visual/Editorial Brand */}
+        <div className="hidden lg:flex w-1/2 relative flex-col justify-between p-10 bg-slate-950 text-white border-r border-slate-900 text-left">
+          <div className="flex items-center gap-2.5">
+            <img src="/images/logo.png" alt="WayHyre Logo" className="w-9 h-9 rounded-[4px] object-cover bg-white/10 border border-white/10" />
+            <span className="font-semibold text-lg text-white tracking-tight">Wayhyre</span>
+          </div>
+
+          <div className="max-w-sm flex flex-col gap-3">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] bg-[#e6f6ee]/10 text-[#00a151] border border-[#00a151]/20 text-[11px] font-medium w-fit">
+              Talent & Hiring Platform
+            </span>
+            <h1 className="text-2xl font-semibold tracking-[-0.03em] leading-tight text-white">
+              Create an account to benchmark skills and access curated tech roles.
+            </h1>
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Join thousands of engineers, designers, and tech leaders hiring with precision.
+            </p>
+          </div>
+
+          <div className="text-[11px] text-slate-500">
+            © {new Date().getFullYear()} Wayhyre Inc. All rights reserved.
           </div>
         </div>
 
         {/* Right Column - Form */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 relative z-10">
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-10 relative z-10">
            <motion.div 
-             initial={{ opacity: 0, x: 20 }}
-             animate={{ opacity: 1, x: 0 }}
+             initial={{ opacity: 0, y: 10 }}
+             animate={{ opacity: 1, y: 0 }}
              className="w-full max-w-sm"
            >
             {/* Mobile Logo */}
-            <div className="lg:hidden flex items-center gap-2 mb-8">
-              <img src="/images/logo.png" alt="WayHyre Logo" className="w-10 h-10 rounded-xl object-cover bg-slate-900 border border-slate-800" />
+            <div className="lg:hidden flex items-center gap-2 mb-6">
+              <img src="/images/logo.png" alt="WayHyre Logo" className="w-8 h-8 rounded-[4px] object-cover bg-slate-900 border border-slate-800" />
+              <span className="font-semibold text-base text-slate-950 tracking-tight">Wayhyre</span>
             </div>
 
-            <div className="mb-6">
-              <h2 className="text-3xl font-mukta font-bold text-slate-900 mb-2">Create an account</h2>
-              <p className="text-slate-500 text-sm leading-relaxed">
-                Access your tasks, notes, and projects anytime, anywhere - and keep everything flowing in one place.
+            <div className="mb-6 text-left">
+              <h2 className="text-2xl font-semibold tracking-[-0.02em] text-slate-950 mb-1">Create an account</h2>
+              <p className="text-slate-500 text-xs leading-relaxed">
+                Choose your profile type to customize your onboarding experience.
               </p>
             </div>
 
             <form onSubmit={handleSubmit}>
               <FormInput label="Full Name" id="name" value={form.name} onChange={handleChange} icon={User} />
-              <FormInput label="Your email" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} />
+              <FormInput label="Email address" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} />
               <FormInput label="Password" id="password" type="password" value={form.password} onChange={handleChange} icon={Lock} />
               
-              <div className="mb-5">
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+              <div className="mb-5 text-left">
+                <label className="block text-xs font-medium text-slate-700 mb-1.5">
                   I want to register as:
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2.5">
                   <button
                     type="button"
                     onClick={() => setForm(prev => ({ ...prev, role: 'seeker' }))}
-                    className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all ${form.role === 'seeker' ? 'border-purple-500 bg-purple-50 text-purple-700 ring-1 ring-purple-500/20' : 'border-slate-200 bg-slate-50 text-slate-650 hover:bg-slate-100'}`}
+                    className={`py-2 px-3 rounded-[4px] border text-xs font-medium transition-all ${form.role === 'seeker' ? 'border-[#00a151] bg-[#e6f6ee] text-[#00a151] ring-1 ring-[#00a151]/20' : 'border-slate-200 bg-white text-slate-650 hover:bg-slate-50'}`}
                   >
                      Job Seeker
                   </button>
                   <button
                     type="button"
                     onClick={() => setForm(prev => ({ ...prev, role: 'employer' }))}
-                    className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all ${form.role === 'employer' ? 'border-purple-500 bg-purple-50 text-purple-700 ring-1 ring-purple-500/20' : 'border-slate-200 bg-slate-50 text-slate-650 hover:bg-slate-100'}`}
+                    className={`py-2 px-3 rounded-[4px] border text-xs font-medium transition-all ${form.role === 'employer' ? 'border-[#00a151] bg-[#e6f6ee] text-[#00a151] ring-1 ring-[#00a151]/20' : 'border-slate-200 bg-white text-slate-650 hover:bg-slate-50'}`}
                   >
                      HR / Employer
                   </button>
@@ -128,23 +133,21 @@ const Register = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
+                className="w-full mt-2 bg-[#00a151] hover:bg-[#008c46] text-white font-medium py-2 rounded-[4px] transition-colors shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-70 text-xs"
               >
                 {loading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 ) : (
-                  <>Get Started</>
+                  <>Create Account <ArrowRight className="w-3.5 h-3.5" /></>
                 )}
               </button>
             </form>
-
             
-            
-            <div className="mt-6 text-center">
-              <p className="text-sm text-slate-500">
+            <div className="mt-6 text-center border-t border-slate-100 pt-4">
+              <p className="text-xs text-slate-500">
                 Already have an account?{" "}
-                <Link to="/login" className="font-semibold text-purple-600 hover:text-purple-700">
-                  Log in
+                <Link to="/login" className="font-medium text-[#00a151] hover:underline">
+                  Sign in
                 </Link>
               </p>
             </div>
