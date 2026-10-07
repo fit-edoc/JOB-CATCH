@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, User, LogOut, Briefcase } from "lucide-react";
+import { 
+  Briefcase, 
+  User as UserIcon, 
+  SignOut, 
+  List, 
+  X,
+  Plus
+} from "@phosphor-icons/react";
 import toast from "react-hot-toast";
 
 const Nav = () => {
@@ -14,7 +21,7 @@ const Nav = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -27,7 +34,7 @@ const Nav = () => {
       navigate("/login");
       return;
     }
-    if (user.role === 'seeker') {
+    if (user.role === "seeker") {
       toast.error("Only Company HR / Employers can post jobs.");
       return;
     }
@@ -35,80 +42,102 @@ const Nav = () => {
   };
 
   return (
-    <header className={`fixed top-5 left-0 right-0 mx-auto w-[85%] h-[60px] z-50 rounded-full flex items-center transition-all duration-300 shadow-[0_0_5px_0_rgba(0,0,0,0.1),0_0_1px_0_rgba(0,0,0,0.1)] ${isScrolled ? 'bg-white/90 backdrop-blur-md' : 'bg-white/50 backdrop-blur-sm'}`}>
-      <div className="w-full mx-auto px-6 flex items-center justify-between">
-        {/* Logo matching the image */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <img 
-            src="/images/logo.png" 
-            alt="WayHyre Logo" 
-            className="w-10 h-10 rounded-xl shadow-md border border-slate-800 group-hover:scale-105 transition-transform object-cover bg-slate-900"
-          />
-          <div className="flex leading-none text-slate-900 select-none">
-            <span className="font-display font-bold text-lg tracking-tight">WAYHYRE</span>
+    <header 
+      className={`fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isScrolled 
+          ? "top-3 sm:top-4 w-[92%] sm:w-[84%] lg:w-[78%] rounded-[8px] bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-sm" 
+          : "top-0 w-full rounded-none bg-white/80 backdrop-blur-sm border-b border-slate-200/60 border-t-transparent border-x-transparent shadow-none"
+      }`}
+    >
+      <div className={`w-full max-w-[1200px] mx-auto px-5 sm:px-6 flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isScrolled ? "h-14 sm:h-15" : "h-16"
+      }`}>
+        {/* Brand / Logo */}
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 rounded-[6px] bg-slate-950 flex items-center justify-center p-1 border border-slate-900 shadow-sm group-hover:bg-slate-900 transition-colors">
+            <img 
+              src="/images/logo.png" 
+              alt="WayHyre" 
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-semibold text-[17px] tracking-[-0.02em] text-slate-950 leading-none">
+              WayHyre
+            </span>
+            <span className="text-[10px] tracking-normal text-slate-500 font-normal leading-none mt-0.5">
+              Verified Hiring Network
+            </span>
           </div>
         </Link>
 
-        {/* Desktop Nav - Translucent Glassmorphic Capsule */}
-        <div className="hidden md:flex items-center bg-white backdrop-blur-md border border-slate-200/60 px-6 py-2 rounded-full shadow-sm">
-          <nav className="flex items-center gap-8 mr-6">
-            <Link
-              to="/alljobs"
-              className={`text-sm font-medium transition-colors hover:text-slate-900 ${
-                location.pathname === "/alljobs" ? "text-black font-semibold" : "text-slate-600"
-              }`}
-            >
-              Find jobs
-            </Link>
-            <Link
-              to="/about"
-              className={`text-sm font-medium transition-colors hover:text-slate-900 ${
-                location.pathname === "/about" ? "text-black font-semibold" : "text-slate-600"
-              }`}
-            >
-              About Us
-            </Link>
-          </nav>
-
-          {/* Create Job Capsule Button */}
-          {(!user || user.role !== 'seeker') && (
+        {/* Desktop Navigation Links */}
+        <nav className="hidden md:flex items-center gap-7">
+          <Link
+            to="/alljobs"
+            className={`text-sm font-medium transition-colors tracking-[-0.01em] ${
+              location.pathname === "/alljobs" 
+                ? "text-slate-950" 
+                : "text-slate-600 hover:text-slate-950"
+            }`}
+          >
+            Find Jobs
+          </Link>
+          <Link
+            to="/about"
+            className={`text-sm font-medium transition-colors tracking-[-0.01em] ${
+              location.pathname === "/about" 
+                ? "text-slate-950" 
+                : "text-slate-600 hover:text-slate-950"
+            }`}
+          >
+            About
+          </Link>
+          {(!user || user.role !== "seeker") && (
             <button
               onClick={handleCreateJobClick}
-              className="bg-lime-300 text-black border-t-2 border-black text-xs font-semibold px-4 py-2 rounded-full hover:bg-purple-200 transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
+              className="text-sm font-medium text-slate-600 hover:text-slate-950 transition-colors flex items-center gap-1.5"
             >
-              <Briefcase size={12} />
-              create job
+              Post a Role
             </button>
           )}
-        </div>
+        </nav>
 
-        {/* Right Action Button - Light theme Capsule */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* Right CTA Actions */}
+        <div className="hidden md:flex items-center gap-3">
           {user ? (
-            <div className="flex items-center gap-3 bg-slate-100/80 backdrop-blur-md border border-slate-200/60 p-1.5 rounded-full shadow-sm">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center rounded-[2px] bg-slate-100 px-2 py-[2px] text-xs font-medium text-slate-700 capitalize">
+                {user.role || "Member"}
+              </span>
               <Link
                 to="/dashboard"
-                className="flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-full transition-all shadow-sm"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 px-3 py-1.5 rounded-[4px] transition-colors shadow-sm"
               >
-                <User size={13} />
+                <UserIcon size={14} weight="regular" />
                 Dashboard
               </Link>
               <button
                 onClick={logout}
-                className="flex items-center justify-center p-2 text-red-650 hover:text-red-550 hover:bg-slate-200 rounded-full transition-all"
-                title="Logout"
+                className="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-[4px] transition-colors"
+                title="Sign out"
               >
-                <LogOut size={16} />
+                <SignOut size={16} weight="regular" />
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
-              
+            <div className="flex items-center gap-2.5">
               <Link
                 to="/login"
-                className="bg-purple-600 text-white border-t-2 border-black text-sm font-semibold px-6 py-2 rounded-full hover:bg-purple-700 transition-all shadow-sm"
+                className="text-xs font-medium text-slate-700 hover:text-slate-950 px-3 py-1.5 transition-colors"
               >
-                sign in
+                Sign in
+              </Link>
+              <Link
+                to="/register"
+                className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#00a151] hover:bg-[#008c46] text-white px-3.5 py-1.5 text-xs font-medium transition-colors shadow-sm"
+              >
+                <span>Get Started</span>
               </Link>
             </div>
           )}
@@ -116,82 +145,84 @@ const Nav = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-slate-900 bg-slate-150 p-2 rounded-full border border-slate-200 backdrop-blur-md"
+          className="md:hidden p-2 text-slate-700 hover:text-slate-950 rounded-[4px] border border-slate-200"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle navigation menu"
         >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Dropdown Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-slate-200 overflow-hidden absolute top-full left-0 right-0 shadow-xl"
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 overflow-hidden rounded-b-[8px]"
           >
-            <div className="px-6 py-5 flex flex-col gap-4">
+            <div className="max-w-[1200px] mx-auto px-6 py-4 flex flex-col gap-3">
               <Link
                 to="/alljobs"
-                className="text-slate-650 font-medium py-2 hover:text-slate-900"
+                className="text-sm font-medium text-slate-700 py-1.5 hover:text-slate-950"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Find Jobs
               </Link>
               <Link
                 to="/about"
-                className="text-slate-650 font-medium py-2 hover:text-slate-900"
+                className="text-sm font-medium text-slate-700 py-1.5 hover:text-slate-950"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                About Us
+                About
               </Link>
-              {(!user || user.role !== 'seeker') && (
+              {(!user || user.role !== "seeker") && (
                 <button
                   onClick={(e) => {
-                     handleCreateJobClick(e);
-                     setIsMobileMenuOpen(false);
+                    handleCreateJobClick(e);
+                    setIsMobileMenuOpen(false);
                   }}
-                  className="w-full text-left text-slate-650 font-medium py-2 hover:text-slate-900 flex items-center gap-2"
+                  className="text-left text-sm font-medium text-slate-700 py-1.5 hover:text-slate-950 flex items-center gap-2"
                 >
-                  <Briefcase size={16} /> Create Job
+                  <Briefcase size={16} /> Post a Role
                 </button>
               )}
               {user ? (
-                <>
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                   <Link
                     to="/dashboard"
-                    className="text-slate-650 font-medium py-2 hover:text-slate-900 flex items-center gap-2"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-slate-900"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <User size={16} /> Dashboard
+                    <UserIcon size={16} /> Dashboard
                   </Link>
                   <button
                     onClick={() => {
                       logout();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="text-left text-red-600 font-medium py-2 flex items-center gap-2"
+                    className="text-xs font-medium text-rose-600 flex items-center gap-1.5"
                   >
-                    <LogOut size={16} /> Logout
+                    <SignOut size={14} /> Sign out
                   </button>
-                </>
+                </div>
               ) : (
-                <div className="flex flex-col gap-3 mt-2 pt-4 border-t border-slate-200">
+                <div className="pt-3 border-t border-slate-100 flex items-center gap-3">
                   <Link
                     to="/login"
-                    className="w-full text-center py-2 rounded-full border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 transition-colors"
+                    className="flex-1 text-center py-2 text-xs font-medium text-slate-700 border border-slate-200 rounded-[4px]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Log in
+                    Sign in
                   </Link>
                   <Link
                     to="/register"
-                    className="w-full text-center py-2 rounded-full bg-purple-600 text-white font-semibold shadow-sm hover:bg-purple-700 transition-colors"
+                    className="flex-1 text-center py-2 text-xs font-medium text-white bg-[#00a151] hover:bg-[#008c46] rounded-[4px]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Sign up
+                    Get Started
                   </Link>
                 </div>
               )}
