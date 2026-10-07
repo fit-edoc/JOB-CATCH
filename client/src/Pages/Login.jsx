@@ -6,12 +6,12 @@ import { ArrowRight, Mail } from "lucide-react";
 import toast from "react-hot-toast";
 
 const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon, disabled = false }) => (
-  <div className="mb-5">
-    <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-2">
+  <div className="mb-4 text-left">
+    <label htmlFor={id} className="block text-xs font-medium text-slate-700 mb-1.5">
       {label}
     </label>
     <div className="relative">
-      {Icon && <Icon className="absolute left-4 top-2.5 text-slate-400 w-4 h-4" />}
+      {Icon && <Icon className="absolute left-3.5 top-2.5 text-slate-400 w-4 h-4" />}
       <input
         type={type}
         id={id}
@@ -20,7 +20,7 @@ const FormInput = ({ label, id, type = 'text', value, onChange, icon: Icon, disa
         onChange={onChange}
         required
         disabled={disabled}
-        className={`w-full ${Icon ? 'pl-10' : 'pl-4'} pr-4 py-2.5 rounded-xl border border-slate-200 ${disabled ? 'bg-slate-100 text-slate-500' : 'bg-slate-50/50 focus:bg-white text-slate-900'} focus:ring-2 focus:ring-purple-500/20 focus:border-purple-400 outline-none transition-all placeholder:text-slate-400 text-sm`}
+        className={`w-full ${Icon ? 'pl-10' : 'pl-3.5'} pr-3.5 py-2 rounded-[4px] border border-slate-200 ${disabled ? 'bg-slate-100 text-slate-500' : 'bg-white focus:bg-white text-slate-900'} focus:border-[#00a151] focus:ring-1 focus:ring-[#00a151] outline-none transition-all placeholder:text-slate-400 text-xs`}
         placeholder={`Enter your ${label.toLowerCase()}`}
       />
     </div>
@@ -53,9 +53,9 @@ const OtpInput = ({ otp, onChange }) => {
   const otpArray = otp.split("").concat(Array(6).fill("")).slice(0, 6);
 
   return (
-    <div className="mb-6">
-      <label className="block text-sm font-medium text-slate-700 mb-3">
-        Enter 6-digit OTP
+    <div className="mb-5 text-left">
+      <label className="block text-xs font-medium text-slate-700 mb-2">
+        Enter 6-digit verification code
       </label>
       <div className="flex gap-2 justify-between">
         {otpArray.map((digit, index) => (
@@ -67,7 +67,7 @@ const OtpInput = ({ otp, onChange }) => {
             value={digit}
             onChange={(e) => handleChange(e, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
-            className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white text-slate-900 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-400 outline-none transition-all"
+            className="w-10 h-11 text-center text-lg font-semibold rounded-[4px] border border-slate-200 bg-white text-slate-900 focus:border-[#00a151] focus:ring-1 focus:ring-[#00a151] outline-none transition-all"
           />
         ))}
       </div>
@@ -131,74 +131,79 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-start mt-20 justify-center bg-slate-50 p-4 sm:p-8">
-      <div className="w-full max-w-5xl flex bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden min-h-[500px] border border-slate-100/60">
-        {/* Left Column - Visual/Brand */}
-        <div className="hidden lg:flex w-1/2 relative flex-col justify-between p-12 bg-gradient-to-br from-purple-500 via-purple-700 to-black text-white overflow-hidden">
-          {/* Abstract background shapes */}
-          <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-400/30 blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-500/20 blur-[120px] pointer-events-none" />
-          
-          <div className="z-10 mt-auto max-w-sm flex flex-col gap-6">
-            <div className="flex items-center gap-2">
-              <img src="/images/logo.png" alt="WayHyre Logo" className="w-12 h-12 rounded-xl object-cover bg-white/10 backdrop-blur-md border border-white/20" />
-              <h1 className="font-medium text-2xl text-white uppercase tracking-tight">WAYHYRE</h1>
-            </div>
-            <div>
-              <p className="text-purple-100 text-sm mb-3 font-medium tracking-wide">Unlock your potential</p>
-              <h1 className="text-4xl font-medium font-bold leading-tight mb-4 text-white">
-                Discover top opportunities and connect with world-class companies
-              </h1>
-            </div>
+    <div className="min-h-screen w-full flex items-center justify-center bg-slate-50 p-4 sm:p-6 pt-24 pb-16">
+      <div className="w-full max-w-4xl flex bg-white rounded-[8px] shadow-sm overflow-hidden border border-slate-200 min-h-[500px]">
+        {/* Left Column - Visual/Editorial Brand */}
+        <div className="hidden lg:flex w-1/2 relative flex-col justify-between p-10 bg-slate-950 text-white border-r border-slate-900 text-left">
+          <div className="flex items-center gap-2.5">
+            <img src="/images/logo.png" alt="WayHyre Logo" className="w-9 h-9 rounded-[4px] object-cover bg-white/10 border border-white/10" />
+            <span className="font-semibold text-lg text-white tracking-tight">Wayhyre</span>
+          </div>
+
+          <div className="max-w-sm flex flex-col gap-3">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] bg-[#e6f6ee]/10 text-[#00a151] border border-[#00a151]/20 text-[11px] font-medium w-fit">
+              Verified Candidate Matching
+            </span>
+            <h1 className="text-2xl font-semibold tracking-[-0.03em] leading-tight text-white">
+              Connect directly with high-growth technology organizations.
+            </h1>
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Objective skill benchmarking, transparent compensation packages, and zero recruiting noise.
+            </p>
+          </div>
+
+          <div className="text-[11px] text-slate-500">
+            © {new Date().getFullYear()} Wayhyre Inc. All rights reserved.
           </div>
         </div>
 
         {/* Right Column - Form */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 relative z-10">
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-10 relative z-10">
            <motion.div 
-             initial={{ opacity: 0, x: 20 }}
-             animate={{ opacity: 1, x: 0 }}
+             initial={{ opacity: 0, y: 10 }}
+             animate={{ opacity: 1, y: 0 }}
              className="w-full max-w-sm"
            >
             {/* Mobile Logo */}
-            <div className="lg:hidden flex items-center gap-2 mb-8">
-              <img src="/images/logo.png" alt="WayHyre Logo" className="w-10 h-10 rounded-xl object-cover bg-slate-900 border border-slate-800" />
+            <div className="lg:hidden flex items-center gap-2 mb-6">
+              <img src="/images/logo.png" alt="WayHyre Logo" className="w-8 h-8 rounded-[4px] object-cover bg-slate-900 border border-slate-800" />
+              <span className="font-semibold text-base text-slate-950 tracking-tight">Wayhyre</span>
             </div>
 
-            <div className="mb-8">
-              <h2 className="text-3xl font-mukta font-bold text-slate-900 mb-3">Welcome back</h2>
-              <p className="text-slate-500 text-sm leading-relaxed">
-                Access your tasks, notes, and projects anytime, anywhere - and keep everything flowing in one place.
+            <div className="mb-6 text-left">
+              <h2 className="text-2xl font-semibold tracking-[-0.02em] text-slate-950 mb-1">Welcome back</h2>
+              <p className="text-slate-500 text-xs leading-relaxed">
+                Sign in to manage your active listings, mock interviews, and applicant pipelines.
               </p>
             </div>
 
             {step === 1 ? (
               <form onSubmit={handleSendOtp}>
-                <FormInput label="Your email" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} />
+                <FormInput label="Email address" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} />
                 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
+                  className="w-full mt-2 bg-[#00a151] hover:bg-[#008c46] text-white font-medium py-2 rounded-[4px] transition-colors shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-70 text-xs"
                 >
                   {loading ? (
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   ) : (
-                    <>Get Started</>
+                    <>Send Verification Code</>
                   )}
                 </button>
               </form>
             ) : (
               <form onSubmit={handleVerifyOtp}>
-                <FormInput label="Your email" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} disabled={true} />
+                <FormInput label="Email address" id="email" type="email" value={form.email} onChange={handleChange} icon={Mail} disabled={true} />
                 
                 <OtpInput otp={form.otp} onChange={handleOtpChange} />
                 
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between mb-5">
                   <button 
                     type="button" 
                     onClick={() => setStep(1)} 
-                    className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors"
+                    className="text-xs font-medium text-slate-500 hover:text-slate-700 transition-colors"
                   >
                     Change Email
                   </button>
@@ -206,30 +211,30 @@ const LoginForm = () => {
                     type="button" 
                     onClick={handleSendOtp} 
                     disabled={loading}
-                    className="text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors"
+                    className="text-xs font-medium text-[#00a151] hover:text-[#008c46] transition-colors"
                   >
-                    Resend OTP
+                    Resend Code
                   </button>
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading || form.otp.length < 6}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 border border-transparent"
+                  className="w-full bg-[#00a151] hover:bg-[#008c46] text-white font-medium py-2 rounded-[4px] transition-colors shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-70 text-xs"
                 >
                   {loading ? (
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   ) : (
-                    <>Verify & Sign In <ArrowRight className="w-4 h-4" /></>
+                    <>Verify & Sign In <ArrowRight className="w-3.5 h-3.5" /></>
                   )}
                 </button>
               </form>
             )}
         
-            <div className="mt-10 text-center">
-              <p className="text-sm text-slate-500">
+            <div className="mt-6 text-center border-t border-slate-100 pt-4">
+              <p className="text-xs text-slate-500">
                 Don't have an account?{" "}
-                <Link to="/register" className="font-semibold text-purple-600 hover:text-purple-700">
+                <Link to="/register" className="font-medium text-[#00a151] hover:underline">
                   Sign up
                 </Link>
               </p>
