@@ -1,6 +1,10 @@
 import userModel from "../model/userModel.js";
 import applicationModel from "../model/applicationModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import { generateJSON } from "../utils/gemini.js";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const pdfParse = require("pdf-parse");
 console.log("working importing");
 
 
@@ -918,11 +922,54 @@ export const uploadResumeController = async (req, res) => {
 
     // req.file.path is the Cloudinary URL because of multer-storage-cloudinary
     user.resumeLink = req.file.path;
+
+    let extractionError = null;
+    try {
+      // 1. Fetch the PDF from Cloudinary URL
+      const response = await fetch(req.file.path);
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      // 2. Parse the PDF text
+      const pdfData = await pdfParse(buffer);
+      const resumeText = pdfData.text;
+
+      // 3. Prompt Gemini to extract bio and skills
+      const prompt = `You are an expert HR assistant. I will provide you with the text extracted from a candidate's resume.
+Your task is to extract a professional bio and a list of skills.
+Rules:
+1. The bio should be a well-written professional summary (2-3 sentences) describing their overall profile and experience.
+2. The skills should be a flat list of technical and professional skills (e.g. ["JavaScript", "React", "Project Management"]).
+3. Return ONLY a JSON object (no wrapping formatting or markdown codeblocks) with exactly two keys: "bio" (string) and "skills" (array of strings).
+
+Resume Text:
+"""
+${resumeText.substring(0, 10000)}
+"""`;
+
+      const aiResult = await generateJSON(prompt);
+      
+      if (aiResult) {
+        if (aiResult.bio) user.bio = aiResult.bio;
+        if (aiResult.skills && Array.isArray(aiResult.skills)) {
+          // Merge with existing skills without duplicates
+          const currentSkills = user.skills || [];
+          const newSkills = aiResult.skills;
+          user.skills = [...new Set([...currentSkills, ...newSkills])];
+        }
+      }
+    } catch (parseError) {
+      console.error("Error parsing PDF or calling Gemini:", parseError);
+      extractionError = parseError.message;
+      // We don't fail the upload if extraction fails
+    }
+
     await user.save();
 
     res.status(200).send({
       success: true,
       message: "Resume uploaded successfully",
+      extractionError,
       resumeLink: user.resumeLink,
       user
     });

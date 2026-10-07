@@ -17,6 +17,11 @@ const storage = new CloudinaryStorage({
     folder: 'job_portal_resumes',
     allowed_formats: ['pdf', 'doc', 'docx'],
     resource_type: 'auto', // Using auto allows Cloudinary to handle PDFs and retain their format
+    format: async (req, file) => {
+      // Extract the original extension so the Cloudinary URL ends in .pdf
+      const ext = file.originalname.split('.').pop();
+      return ext;
+    },
   },
 });
 
