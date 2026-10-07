@@ -30,6 +30,16 @@ export default {
         accent: {
           500: '#14b8a6', // Teal
           600: '#0d9488',
+        },
+        secondary: {
+          DEFAULT: '#00a151',
+          hover: '#008c46',
+          light: '#e6f6ee',
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          500: '#00a151',
+          600: '#008c46',
+          700: '#007339',
         }
       },
       backgroundImage: {
