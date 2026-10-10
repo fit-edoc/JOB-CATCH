@@ -11,18 +11,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'job_portal_resumes',
-    allowed_formats: ['pdf', 'doc', 'docx'],
-    resource_type: 'auto', // Using auto allows Cloudinary to handle PDFs and retain their format
-    format: async (req, file) => {
-      // Extract the original extension so the Cloudinary URL ends in .pdf
-      const ext = file.originalname.split('.').pop();
-      return ext;
-    },
-  },
+export const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB
 });
-
-export const upload = multer({ storage: storage });
