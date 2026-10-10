@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'motion/react';
 import { User, Mail, MapPin, Briefcase, FileText, Building, Check, X, ArrowLeft, Save } from 'lucide-react';
@@ -31,6 +31,31 @@ const Profile = () => {
     resumeText: user?.resumeText || '',
     videoIntroUrl: user?.videoIntroUrl || '',
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.name || '',
+        lastname: user.lastname || '',
+        email: user.email || '',
+        location: user.location || '',
+        role: user.role || 'seeker',
+        bio: user.bio || '',
+        skills: user.skills?.join(', ') || '',
+        resumeLink: user.resumeLink || '',
+        companyName: user.companyName || '',
+        companyDescription: user.companyDescription || '',
+        desiredSalary: user.desiredSalary || '',
+        experience: user.experience || [],
+        projects: user.projects || [],
+        education: user.education || [],
+        certifications: user.certifications || [],
+        resumeText: user.resumeText || '',
+        videoIntroUrl: user.videoIntroUrl || '',
+      }));
+    }
+  }, [user]);
 
   const [newExp, setNewExp] = useState({ role: '', company: '', duration: '', description: '' });
   const [newProj, setNewProj] = useState({ title: '', description: '', technologies: '', link: '' });
