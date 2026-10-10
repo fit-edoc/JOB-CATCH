@@ -10,9 +10,11 @@ import nodemailer from 'nodemailer';
  */
 export const sendEmail = async ({ to, subject, html, text }) => {
   const senderEmail = process.env.SENDER_EMAIL || process.env.SMTP_USER || 'no-reply@example.com';
+  const senderName = process.env.SENDER_NAME || 'Wayhyre';
+  const formattedSender = `"${senderName}" <${senderEmail}>`;
   const isGenericDomain = ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com"].some(d => senderEmail.toLowerCase().includes(d));
 
-  // 1. Try Resend HTTP API if configured and not using a generic domain (Resend rejects generic domains)
+  // 1. Try Resend HTTP API if configured and not using a generic domain
   if (process.env.RESEND_API_KEY && !isGenericDomain) {
     try {
       const response = await fetch('https://api.resend.com/emails', {
@@ -22,24 +24,24 @@ export const sendEmail = async ({ to, subject, html, text }) => {
           'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
         },
         body: JSON.stringify({
-          from: senderEmail,
+          from: formattedSender,
           to,
           subject,
           html,
-          text: text || html.replace(/<[^>]*>/g, '')
+          text: text || html.replace(/<[^>]*>/g, '').trim()
         })
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log(`Email sent via Resend API to ${to}. ID: ${data.id}`);
+        console.log(`[Resend] Email successfully delivered to ${to}. Message ID: ${data.id}`);
         return { success: true, provider: 'resend', id: data.id };
       } else {
         const errText = await response.text();
-        console.error("Resend API failed, response:", errText);
+        console.error("[Resend API Error]:", errText);
       }
     } catch (resendError) {
-      console.error("Resend sending failed, trying SMTP fallback...", resendError);
+      console.error("[Resend] Sending failed, attempting SMTP fallback...", resendError);
     }
   }
 
@@ -50,26 +52,31 @@ export const sendEmail = async ({ to, subject, html, text }) => {
         service: process.env.SMTP_SERVICE || 'gmail',
         host: process.env.SMTP_HOST || 'smtp.gmail.com',
         port: parseInt(process.env.SMTP_PORT || '465'),
-        secure: process.env.SMTP_SECURE !== 'false', // Default to true unless explicitly 'false'
+        secure: process.env.SMTP_SECURE !== 'false',
         auth: {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
         },
-        family: 4, // Force IPv4 to prevent ENETUNREACH errors on cloud hosts that do not support IPv6 outbound
+        family: 4, // Force IPv4
       });
 
       const info = await transporter.sendMail({
-        from: senderEmail,
+        from: formattedSender,
+        replyTo: senderEmail,
         to,
         subject,
-        text: text || html.replace(/<[^>]*>/g, ''),
+        text: text || html.replace(/<[^>]*>/g, '').trim(),
         html,
+        headers: {
+          'X-Entity-Ref-ID': Date.now().toString(),
+          'Precedence': 'bulk',
+        }
       });
 
-      console.log(`Email sent via SMTP to ${to}. Message ID: ${info.messageId}`);
+      console.log(`[SMTP] Email sent via SMTP to ${to}. Message ID: ${info.messageId}`);
       return { success: true, provider: 'smtp', messageId: info.messageId };
     } catch (smtpError) {
-      console.error("SMTP sending failed, error:", smtpError);
+      console.error("[SMTP Error] Sending failed:", smtpError);
       throw smtpError;
     }
   }
