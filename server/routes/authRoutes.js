@@ -1,5 +1,5 @@
 import express from 'express'
-import {loginController, registerController, updateUserController, saveJobController, getSavedJobsController, verifyPortfolioController, generateSkillAssessmentController, submitSkillAssessmentController, startAIInterviewController, evaluateAIInterviewController, verifyRecruiterController, recruiterResumeSearchController, extractSkillsController, getMyReferralsController, recruiterGenerateEmailController, getPortfolioBadgeController, sendOtpController, verifyOtpController, uploadResumeController}  from '../controller/userAuth.js'
+import {loginController, registerController, updateUserController, saveJobController, getSavedJobsController, verifyPortfolioController, generateSkillAssessmentController, submitSkillAssessmentController, startAIInterviewController, evaluateAIInterviewController, verifyRecruiterController, recruiterResumeSearchController, extractSkillsController, getMyReferralsController, recruiterGenerateEmailController, getPortfolioBadgeController, sendOtpController, verifyOtpController, uploadResumeController, getResumeController}  from '../controller/userAuth.js'
 import userAuth from '../middleware/authHandler.js'
 import { upload } from '../utils/cloudinary.js'
 
@@ -11,6 +11,7 @@ router.post("/send-otp",sendOtpController)
 router.post("/verify-otp",verifyOtpController)
 router.put("/update",userAuth,updateUserController)
 router.post("/upload-resume", userAuth, upload.single('resume'), uploadResumeController)
+router.get("/view-resume/:userId", getResumeController)
 router.post("/save-job", userAuth, saveJobController)
 router.get("/saved-jobs", userAuth, getSavedJobsController)
 router.post("/verify-portfolio", userAuth, verifyPortfolioController)
