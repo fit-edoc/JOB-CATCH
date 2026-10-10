@@ -88,6 +88,12 @@ app.use("/api/user/send-otp", authLimiter);
 app.use("/api/user/verify-otp", authLimiter);
 app.use("/api/user/register", authLimiter);
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/user",authRoutes)
 app.use("/api/job",jobRoutes)
 app.use("/api/application",applicationRoutes)
