@@ -105,6 +105,9 @@ const userSchema = new mongoose.Schema(
     referralPoints: { type: Number, default: 0 },
     referralCode: { type: String, unique: true, sparse: true },
     resumeText: { type: String, default: "" },
+    resumeData: { type: Buffer, select: false },
+    resumeContentType: { type: String, default: "application/pdf" },
+    resumeFileName: { type: String, default: "resume.pdf" },
     videoIntroUrl: { type: String, default: "" },
     videoIntroSummary: { type: String, default: "" },
     developerCard: {
