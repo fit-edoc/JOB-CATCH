@@ -1,3 +1,7 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { v2 as cloudinary } from "cloudinary";
 import userModel from "../model/userModel.js";
 import applicationModel from "../model/applicationModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
@@ -5,7 +9,9 @@ import { generateJSON } from "../utils/gemini.js";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const pdfParse = require("pdf-parse");
-console.log("working importing");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 export const registerController =  async(req,res)=>{
@@ -706,7 +712,10 @@ export const sendOtpController = async (req, res) => {
       return res.status(400).send({ message: "Email is required", success: false });
     }
 
-    const user = await userModel.findOne({ email });
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await userModel.findOne({ 
+      $or: [{ email: normalizedEmail }, { email: new RegExp(`^${normalizedEmail}$`, 'i') }] 
+    });
     if (!user) {
       return res.status(404).send({ message: "User not found. Please register first.", success: false });
     }
@@ -717,147 +726,117 @@ export const sendOtpController = async (req, res) => {
     await user.save();
 
     const emailHtml = `
-     <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WAYHYRE OTP</title>
+<title>Wayhyre Verification Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&display=swap');
+  * {
+    font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+</style>
 </head>
+<body style="margin:0;padding:48px 16px;background-color:#000000;font-family:'Bricolage Grotesque',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased;">
 
-<body style="margin:0;padding:40px 16px;background:#f4f4f5;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #1a1a1a;">
+  <!-- Monochrome Header -->
+  <tr>
+    <td style="background-color:#000000;padding:26px 32px;border-bottom:1px solid #222222;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td align="left" style="vertical-align:middle;">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background-color:#ffffff;width:28px;height:28px;text-align:center;vertical-align:middle;color:#000000;font-size:16px;font-weight:900;font-family:'Bricolage Grotesque',sans-serif;line-height:28px;">
+                  W
+                </td>
+                <td style="padding-left:12px;color:#ffffff;font-size:20px;font-weight:700;letter-spacing:-0.03em;font-family:'Bricolage Grotesque',sans-serif;">
+                  Wayhyre
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td align="right" style="vertical-align:middle;">
+            <span style="display:inline-block;padding:4px 10px;background-color:#000000;border:1px solid #ffffff;color:#ffffff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-family:'Bricolage Grotesque',sans-serif;">
+              SECURITY
+            </span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 
-<div style="
-max-width:600px;
-margin:auto;
-background:#ffffff;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 20px 50px rgba(15,23,42,.08);
-border:1px solid #ececec;
-font-family:Inter,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-">
+  <!-- Main Body -->
+  <tr>
+    <td style="padding:40px 32px 32px;background-color:#ffffff;">
+      <h1 style="margin:0 0 12px;color:#000000;font-size:24px;font-weight:800;letter-spacing:-0.03em;font-family:'Bricolage Grotesque',sans-serif;">
+        Hi ${user.name},
+      </h1>
+      <p style="margin:0 0 28px;color:#333333;font-size:14px;line-height:1.6;font-family:'Bricolage Grotesque',sans-serif;">
+        Use your 6-digit one-time code below to verify and sign in to your Wayhyre account.
+      </p>
 
-    <!-- Banner -->
-    <div style="margin:0;padding:0;line-height:0;">
-        <img
-            src="https://res.cloudinary.com/djn4mfeog/image/upload/v1785689678/wayone_itlcrd.png"
-            alt="WAYHYRE"
-            style="display:block;width:100%;height:auto;border:0;"
-        >
-    </div>
+      <!-- Black & White 6-Digit OTP Boxes -->
+      <table role="presentation" align="center" cellpadding="0" cellspacing="0" style="margin:28px auto 32px;">
+        <tr>
+          ${otp.split('').map(digit => `
+            <td style="padding:0 5px;">
+              <div style="width:46px;height:54px;line-height:54px;text-align:center;font-size:28px;font-weight:800;font-family:'Bricolage Grotesque',ui-monospace,monospace;background-color:#ffffff;color:#000000;border:2px solid #000000;">
+                ${digit}
+              </div>
+            </td>
+          `).join('')}
+        </tr>
+      </table>
 
-    <!-- Content -->
-    <div style="padding:52px 42px;text-align:center;">
+      <!-- Monochrome Expiry Banner -->
+      <div style="background-color:#ffffff;border:1px solid #000000;padding:14px 16px;margin:28px 0 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td style="color:#000000;font-size:12.5px;line-height:1.5;font-family:'Bricolage Grotesque',sans-serif;">
+              <strong>Expires in 10 minutes:</strong> Never share this verification code with anyone. Wayhyre representatives will never ask for your code.
+            </td>
+          </tr>
+        </table>
+      </div>
 
-        <h1 style="
-        margin:0;
-        color:#111827;
-        font-size:34px;
-        font-weight:700;
-        letter-spacing:-0.8px;
-        ">
-            Hi ${user.name},
-        </h1>
+      <p style="margin:16px 0 0;color:#666666;font-size:12px;line-height:1.5;text-align:center;font-family:'Bricolage Grotesque',sans-serif;">
+        If you didn't request this verification code, you can safely ignore this email.
+      </p>
+    </td>
+  </tr>
 
-        <p style="
-        margin:18px auto 38px;
-        max-width:420px;
-        color:#6b7280;
-        font-size:16px;
-        line-height:1.75;
-        ">
-            Use the verification code below to securely access your WAYHYRE account.
-        </p>
-
-        <!-- OTP -->
-        <div style="margin:40px 0;">
-
-            <div style="
-            display:inline-block;
-            background:linear-gradient(135deg,#7C3AED,#A855F7);
-            padding:20px 46px;
-            border-radius:18px;
-            box-shadow:0 14px 35px rgba(124,58,237,.25);
-            ">
-
-                <span style="
-                color:#ffffff;
-                font-size:42px;
-                font-weight:800;
-                letter-spacing:10px;
-                font-family:monospace;
-                ">
-                    ${otp}
-                </span>
-
-            </div>
-
-        </div>
-
-        <!-- Notice -->
-        <div style="
-        background:#faf7ff;
-        border:1px solid #ede9fe;
-        border-radius:14px;
-        padding:18px 20px;
-        margin-top:12px;
-        ">
-
-            <p style="
-            margin:0;
-            color:#5b21b6;
-            font-size:14px;
-            line-height:1.7;
-            ">
-                This verification code expires in
-                <strong>10 minutes</strong>.
-                Never share your OTP with anyone, including the WAYHYRE team.
-            </p>
-
-        </div>
-
-    </div>
-
-    <!-- Footer -->
-    <div style="
-    background:#fafafa;
-    border-top:1px solid #ececec;
-    padding:26px;
-    text-align:center;
-    ">
-
-        <p style="
-        margin:0;
-        color:#9ca3af;
-        font-size:13px;
-        line-height:1.7;
-        ">
-            If you didn't request this code, you can safely ignore this email.
-        </p>
-
-        <p style="
-        margin:14px 0 0;
-        color:#c0c4cc;
-        font-size:12px;
-        ">
-            © ${new Date().getFullYear()} <strong style="color:#6b7280;">WAYHYRE</strong>. All rights reserved.
-        </p>
-
-    </div>
-
-</div>
+  <!-- Monochrome Footer -->
+  <tr>
+    <td style="background-color:#000000;padding:24px 32px;text-align:center;border-top:1px solid #000000;">
+      <p style="margin:0 0 6px;color:#ffffff;font-size:12px;font-weight:700;letter-spacing:0.5px;font-family:'Bricolage Grotesque',sans-serif;">
+        WAYHYRE · TALENT & HIRING PLATFORM
+      </p>
+      <p style="margin:0;color:#888888;font-size:11px;font-family:'Bricolage Grotesque',sans-serif;">
+        © ${new Date().getFullYear()} Wayhyre Inc. All rights reserved.
+      </p>
+    </td>
+  </tr>
+</table>
 
 </body>
 </html>
     `;
 
+    const emailText = `Hi ${user.name},\n\nYour Wayhyre verification code is: ${otp}\n\nUse this code to securely access your WAYHYRE account. This code expires in 10 minutes.\nNever share your OTP with anyone.\n\nIf you did not request this code, you can safely ignore this email.\n\n© ${new Date().getFullYear()} Wayhyre. All rights reserved.`;
+
     try {
-      // Sending email asynchronously (without await) so the UI doesn't hang for 8 seconds
       sendEmail({
-        to: email,
-        subject: 'Your Login OTP - Wayhyre Job Platform',
-        html: emailHtml
+        to: user.email,
+        subject: `${otp} is your Wayhyre verification code`,
+        html: emailHtml,
+        text: emailText
       }).catch(err => console.error("Async email send failed:", err));
     } catch (emailError) {
       console.error("Failed to initiate OTP email:", emailError);
@@ -877,7 +856,10 @@ export const verifyOtpController = async (req, res) => {
       return res.status(400).send({ message: "Email and OTP are required", success: false });
     }
 
-    const user = await userModel.findOne({ email });
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await userModel.findOne({ 
+      $or: [{ email: normalizedEmail }, { email: new RegExp(`^${normalizedEmail}$`, 'i') }] 
+    });
     if (!user) {
       return res.status(404).send({ message: "User not found", success: false });
     }
@@ -909,10 +891,28 @@ export const verifyOtpController = async (req, res) => {
   }
 };
 
+const extractPdfText = async (buffer) => {
+  try {
+    if (typeof pdfParse === 'function') {
+      const data = await pdfParse(buffer);
+      return data.text || '';
+    }
+    if (pdfParse && pdfParse.PDFParse) {
+      const parser = new pdfParse.PDFParse({ data: buffer });
+      const res = await parser.getText();
+      return res.text || '';
+    }
+  } catch (err) {
+    console.error("PDF parser error:", err.message);
+  }
+  // Fallback plain string decoding
+  return buffer.toString('utf-8').replace(/[^\x20-\x7E\n]/g, ' ');
+};
+
 export const uploadResumeController = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).send({ success: false, message: "No file uploaded" });
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).send({ success: false, message: "No file uploaded or file is empty" });
     }
 
     const user = await userModel.findById(req.user.userId);
@@ -920,61 +920,195 @@ export const uploadResumeController = async (req, res) => {
       return res.status(404).send({ success: false, message: "User not found" });
     }
 
-    // req.file.path is the Cloudinary URL because of multer-storage-cloudinary
-    user.resumeLink = req.file.path;
+    const fileBuffer = req.file.buffer;
+    const originalName = req.file.originalname || "resume.pdf";
+    const mimeType = req.file.mimetype || "application/pdf";
 
+    // 1. Ensure local storage directory exists and save copy to disk
+    const resumesDir = path.join(__dirname, "../uploads/resumes");
+    if (!fs.existsSync(resumesDir)) {
+      fs.mkdirSync(resumesDir, { recursive: true });
+    }
+    const safeDiskName = `resume-${user._id}-${Date.now()}.pdf`;
+    const localFilePath = path.join(resumesDir, safeDiskName);
+    fs.writeFileSync(localFilePath, fileBuffer);
+
+    // 2. Save directly into MongoDB on the user document (immune to cloud host ephemeral restarts)
+    user.resumeData = fileBuffer;
+    user.resumeContentType = mimeType;
+    user.resumeFileName = originalName;
+
+    // Direct, 100% reliable resume viewing link served by our server
+    user.resumeLink = `/api/user/view-resume/${user._id}`;
+
+    // 3. Background Cloudinary backup (optional, does not block delivery)
+    if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY) {
+      try {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'job_portal_resumes',
+            resource_type: 'raw',
+            format: 'pdf',
+            public_id: `resume-${user._id}-${Date.now()}.pdf`
+          },
+          (err, result) => {
+            if (err) console.warn("Cloudinary backup upload notice:", err.message);
+            else console.log("Cloudinary backup upload success:", result.secure_url);
+          }
+        );
+        stream.end(fileBuffer);
+      } catch (cloudErr) {
+        console.warn("Cloudinary stream init error:", cloudErr.message);
+      }
+    }
+
+    // 4. Extract Text & Auto-Fill Profile Section using Gemini AI
     let extractionError = null;
     try {
-      // 1. Fetch the PDF from Cloudinary URL
-      const response = await fetch(req.file.path);
-      const arrayBuffer = await response.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
+      const resumeText = await extractPdfText(fileBuffer);
+      user.resumeText = resumeText;
 
-      // 2. Parse the PDF text
-      const pdfData = await pdfParse(buffer);
-      const resumeText = pdfData.text;
+      if (resumeText && resumeText.trim().length > 30) {
+        const prompt = `You are an expert HR assistant and resume parser.
+I will provide you with the text extracted from a candidate's resume.
+Extract the structured profile information accurately into a clean JSON object matching this exact schema:
 
-      // 3. Prompt Gemini to extract bio and skills
-      const prompt = `You are an expert HR assistant. I will provide you with the text extracted from a candidate's resume.
-Your task is to extract a professional bio and a list of skills.
-Rules:
-1. The bio should be a well-written professional summary (2-3 sentences) describing their overall profile and experience.
-2. The skills should be a flat list of technical and professional skills (e.g. ["JavaScript", "React", "Project Management"]).
-3. Return ONLY a JSON object (no wrapping formatting or markdown codeblocks) with exactly two keys: "bio" (string) and "skills" (array of strings).
+{
+  "name": "Candidate first name (if found, otherwise empty string)",
+  "lastname": "Candidate last name (if found, otherwise empty string)",
+  "location": "City, State, or Country (if found, otherwise empty string)",
+  "bio": "A well-written 2-3 sentence professional summary highlighting their core expertise and background",
+  "skills": ["Array of technical and professional skills, e.g. React, Node.js, Python, TypeScript, Docker"],
+  "experience": [
+    {
+      "role": "Job title or role",
+      "company": "Company or organization name",
+      "duration": "Dates/Duration, e.g. Jan 2022 - Present",
+      "description": "Summary of responsibilities and key achievements"
+    }
+  ],
+  "education": [
+    {
+      "school": "Institution or university name",
+      "degree": "Degree name, e.g. B.Tech, B.S., Master",
+      "fieldOfStudy": "Major or field of study, e.g. Computer Science",
+      "year": "Graduation year or date range, e.g. 2024"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Project name",
+      "description": "Brief description of the project and its impact",
+      "technologies": ["List of technologies used"],
+      "link": "Project URL or GitHub repository if present"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Certification title",
+      "issuingOrganization": "Issuer or organization, e.g. AWS, Coursera",
+      "issueDate": "Date or year"
+    }
+  ]
+}
 
 Resume Text:
 """
-${resumeText.substring(0, 10000)}
+${resumeText.substring(0, 14000)}
 """`;
 
-      const aiResult = await generateJSON(prompt);
-      
-      if (aiResult) {
-        if (aiResult.bio) user.bio = aiResult.bio;
-        if (aiResult.skills && Array.isArray(aiResult.skills)) {
-          // Merge with existing skills without duplicates
-          const currentSkills = user.skills || [];
-          const newSkills = aiResult.skills;
-          user.skills = [...new Set([...currentSkills, ...newSkills])];
+        const aiResult = await generateJSON(prompt);
+        if (aiResult) {
+          if (aiResult.bio) user.bio = aiResult.bio;
+          if (aiResult.skills && Array.isArray(aiResult.skills)) {
+            user.skills = [...new Set([...(user.skills || []), ...aiResult.skills])];
+          }
+          if (aiResult.experience && Array.isArray(aiResult.experience) && aiResult.experience.length > 0) {
+            user.experience = aiResult.experience;
+          }
+          if (aiResult.education && Array.isArray(aiResult.education) && aiResult.education.length > 0) {
+            user.education = aiResult.education;
+          }
+          if (aiResult.projects && Array.isArray(aiResult.projects) && aiResult.projects.length > 0) {
+            user.projects = aiResult.projects;
+          }
+          if (aiResult.certifications && Array.isArray(aiResult.certifications) && aiResult.certifications.length > 0) {
+            user.certifications = aiResult.certifications;
+          }
+          if (aiResult.location && (!user.location || user.location === "India")) {
+            user.location = aiResult.location;
+          }
+          if (aiResult.name && (!user.name || user.name.trim() === "")) {
+            user.name = aiResult.name;
+          }
+          if (aiResult.lastname && (!user.lastname || user.lastname.trim() === "")) {
+            user.lastname = aiResult.lastname;
+          }
         }
       }
     } catch (parseError) {
-      console.error("Error parsing PDF or calling Gemini:", parseError);
+      console.error("Resume AI extraction error:", parseError);
       extractionError = parseError.message;
-      // We don't fail the upload if extraction fails
     }
 
     await user.save();
 
+    // Remove resumeData buffer from the JSON response to keep response lightweight
+    const safeUser = user.toObject();
+    delete safeUser.resumeData;
+    delete safeUser.password;
+
     res.status(200).send({
       success: true,
-      message: "Resume uploaded successfully",
+      message: "Resume uploaded and profile auto-filled successfully!",
       extractionError,
       resumeLink: user.resumeLink,
-      user
+      user: safeUser
     });
   } catch (error) {
     console.error("uploadResumeController error:", error);
     res.status(500).send({ success: false, message: "Error uploading resume" });
+  }
+};
+
+export const getResumeController = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await userModel.findById(userId).select("+resumeData");
+    if (!user) {
+      return res.status(404).send({ success: false, message: "User not found" });
+    }
+
+    // 1. Serve from MongoDB binary buffer if available
+    if (user.resumeData && user.resumeData.length > 0) {
+      res.set("Content-Type", user.resumeContentType || "application/pdf");
+      res.set("Content-Disposition", `inline; filename="${user.resumeFileName || 'resume.pdf'}"`);
+      return res.send(user.resumeData);
+    }
+
+    // 2. Serve from disk if stored locally
+    const resumesDir = path.join(__dirname, "../uploads/resumes");
+    if (fs.existsSync(resumesDir)) {
+      const files = fs.readdirSync(resumesDir);
+      const matched = files.find(f => f.startsWith(`resume-${userId}`));
+      if (matched) {
+        return res.sendFile(path.join(resumesDir, matched), {
+          headers: {
+            "Content-Type": "application/pdf",
+            "Content-Disposition": "inline"
+          }
+        });
+      }
+    }
+
+    // 3. Fallback: If resumeLink is an external URL, redirect to it
+    if (user.resumeLink && user.resumeLink.startsWith("http")) {
+      return res.redirect(user.resumeLink);
+    }
+
+    return res.status(404).send({ success: false, message: "Resume file not found" });
+  } catch (error) {
+    console.error("getResumeController error:", error);
+    res.status(500).send({ success: false, message: "Error loading resume" });
   }
 };
