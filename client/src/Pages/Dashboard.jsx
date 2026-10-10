@@ -185,7 +185,7 @@ const InterviewSimulator = React.memo(() => {
 });
 
 const Dashboard = () => {
-  const { user, job, deleteJob } = useAuth();
+  const { user, setUser, job, deleteJob } = useAuth();
   const token = localStorage.getItem("token");
   const apiBase = API_BASE_URL;
 
@@ -225,11 +225,16 @@ const Dashboard = () => {
       });
 
       if (response.data.success) {
-        toast.success('Resume uploaded successfully!');
+        toast.success('Resume uploaded & profile auto-filled successfully!');
         
+        if (response.data.user) {
+          setUser(response.data.user);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+        }
+
         // If there was an AI extraction error, show it
         if (response.data.extractionError) {
-          toast.error('AI Extraction failed: ' + response.data.extractionError);
+          toast.error('AI Extraction notice: ' + response.data.extractionError);
         }
         
         console.log("Upload response:", response.data);
@@ -543,7 +548,11 @@ const Dashboard = () => {
                       <div className="flex flex-col sm:flex-row items-center gap-3 bg-slate-50 border border-slate-200 p-3.5 rounded-[6px]">
                         {user.resumeLink ? (
                           <div className="flex-1 w-full text-xs font-medium text-[#00a151] underline truncate">
-                            <a href={user.resumeLink} target="_blank" rel="noopener noreferrer">
+                            <a 
+                              href={user.resumeLink.startsWith('http') ? user.resumeLink : `${apiBase}${user.resumeLink.startsWith('/') ? '' : '/'}${user.resumeLink}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                            >
                               View Current Resume
                             </a>
                           </div>
